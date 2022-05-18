@@ -12,10 +12,10 @@ abstract class ApiInterface {
 
   //account
   /// try to login
-  Future<bool> login(String email, String password);
+  Future<void> login(String email, String password);
 
   ///try to register
-  Future<bool> register(
+  Future<void> register(
       String email, String password, String firstname, String lastname);
 
   ///logout

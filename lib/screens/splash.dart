@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moody/router/route_generator.dart';
+import 'package:moody/widgets/settings.dart';
 import 'package:moody/widgets/widgets.dart';
 
 class Splash extends StatefulWidget {
@@ -14,10 +15,12 @@ class _SplashState extends State<Splash> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
-      return Column(children: [
-        Widgets.getTextFieldH1("Test", constraints),
-        Widgets.getTextFieldH2("Test", constraints),
-      ],);
+      return Column(
+        children: [
+          Widgets.getTextFieldH1("Test", constraints),
+          Widgets.getTextFieldH2("Test", constraints),
+        ],
+      );
     })));
   }
 
@@ -31,6 +34,7 @@ class _SplashState extends State<Splash> {
     //TODO try to autologin here
     await Future.delayed(const Duration(seconds: 3), () {});
     //check for auto login
+    await Settings.setApi();
     Navigator.pushReplacementNamed(context, RouteGenerator.login);
   }
 }
