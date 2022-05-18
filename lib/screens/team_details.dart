@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moody/router/route_generator.dart';
 import 'package:moody/widgets/widgets.dart';
 
 class TeamDetails extends StatefulWidget {
@@ -23,7 +24,7 @@ class _TeamDetailsState extends State<TeamDetails> {
             children: [
               Widgets.getTextButtonStyle1("Back", _back, constraints),
               Widgets.getTextFieldH3C("Bugs Bunnys", constraints),
-              Widgets.getTextButtonStyle1("Profile", () => {}, constraints),
+              Widgets.getTextButtonStyle1("Profile", _goToProfile,constraints)
             ],
           ),
           Widgets.getTextFieldH1("Test", constraints),
@@ -40,5 +41,9 @@ class _TeamDetailsState extends State<TeamDetails> {
 
   void _back() {
     Navigator.pop(context);
+  }
+
+  void _goToProfile(){
+    Navigator.pushNamed(context, RouteGenerator.profileOverview);
   }
 }

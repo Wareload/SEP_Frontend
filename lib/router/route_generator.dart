@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moody/screens/login.dart';
+import 'package:moody/screens/profile_overview.dart';
 import 'package:moody/screens/register.dart';
 import 'package:moody/screens/splash.dart';
 import 'package:moody/screens/team_details.dart';
@@ -11,6 +12,7 @@ class RouteGenerator {
   static const String register = "/register";
   static const String teamOverview = "/teamOverview";
   static const String teamDetails = "/teamDetails";
+  static const String profileOverview = "/profileOverview";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -29,6 +31,9 @@ class RouteGenerator {
       case teamDetails:
         return MaterialPageRoute(
             settings: settings, builder: (_) => const TeamDetails());
+      case profileOverview:
+        return MaterialPageRoute(
+            settings: settings, builder: (_) => const ProfileOverview());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

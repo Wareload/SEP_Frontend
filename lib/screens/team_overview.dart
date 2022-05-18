@@ -12,7 +12,6 @@ class TeamOverview extends StatefulWidget {
 class _TeamOverviewState extends State<TeamOverview> {
   @override
   Widget build(BuildContext context) {
-    int size = 30;
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return Container(
@@ -25,7 +24,7 @@ class _TeamOverviewState extends State<TeamOverview> {
                 Widgets.getTextFieldH3C("Hallo David!", constraints),
                 const Spacer(),
                 //TODO fill in here profile
-                Widgets.getTextFieldH3C("Hallo David", constraints)
+                Widgets.getTextButtonStyle1("Profile", _goToProfile,constraints)
               ],
             ),
             Widgets.getTextFieldH2("Deine Teams", constraints),
@@ -73,6 +72,9 @@ class _TeamOverviewState extends State<TeamOverview> {
 
   void _goToTeam() {
     Navigator.pushNamed(context, RouteGenerator.teamDetails);
+  }
+  void _goToProfile(){
+    Navigator.pushNamed(context, RouteGenerator.profileOverview);
   }
 
   @override

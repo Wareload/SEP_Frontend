@@ -3,6 +3,13 @@ import 'package:moody/structs/profile.dart';
 import 'package:moody/structs/team.dart';
 
 abstract class ApiInterface {
+
+  ApiInterface._();
+
+  static getInstance(){
+    
+  }
+
   //account
   /// try to login
   Future<bool> login(String email, String password);
