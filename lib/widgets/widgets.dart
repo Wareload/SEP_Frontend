@@ -4,29 +4,48 @@ import 'package:moody/widgets/settings.dart';
 class Widgets {
   Widgets._();
 
-  static Widget getTextFieldH1(String display) {
+  static Widget getTextFieldH1(String display, BoxConstraints constraints) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(0, 30, 0, 30),
+      padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
       child: Text(
         display,
+        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
       ),
     );
   }
 
-  static Widget getTextFieldH2(String display) {
+  static Widget getTextFieldH2(String display, BoxConstraints constraints) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-      child: Text(display),
+      padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+      child: Text(
+        display,
+        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+      ),
     );
   }
 
-  static Widget getTextFieldP1(String display) {
+  static Widget getTextFieldH3(String display, BoxConstraints constraints) {
     return Container(
-      child: Text(display),
+      padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+      child: Text(
+        display,
+        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+      ),
     );
   }
 
-  static Widget getTextFieldE1(String display) {
+  static Widget getTextFieldH3C(String display, BoxConstraints constraints) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+      child: Text(display, style: const TextStyle(color: Colors.blueAccent),),
+    );
+  }
+
+  static Widget getTextFieldP1(String display, BoxConstraints constraints) {
+    return Text(display);
+  }
+
+  static Widget getTextFieldE1(String display, BoxConstraints constraints) {
     return Container(
       padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
       child: Text(
@@ -36,8 +55,8 @@ class Widgets {
     );
   }
 
-  static Widget getInputFieldStyle1(
-      TextEditingController ctr, TextInputType type, bool hidden) {
+  static Widget getInputFieldStyle1(TextEditingController ctr,
+      TextInputType type, bool hidden, BoxConstraints constraints) {
     return TextField(
       textAlign: TextAlign.center,
       obscureText: hidden,
@@ -46,14 +65,16 @@ class Widgets {
     );
   }
 
-  static Widget getButtonStyle1(String display, VoidCallback func) {
+  static Widget getButtonStyle1(
+      String display, VoidCallback func, BoxConstraints constraints) {
     return ElevatedButton(
       onPressed: func,
       child: Text(display),
     );
   }
 
-  static Widget getTextButtonStyle1(String display, VoidCallback func) {
+  static Widget getTextButtonStyle1(
+      String display, VoidCallback func, BoxConstraints constraints) {
     return TextButton(
         onPressed: func,
         child: Text(
@@ -63,5 +84,27 @@ class Widgets {
             decoration: TextDecoration.underline,
           ),
         ));
+  }
+
+  static Widget getProjectWidget(
+      String display, VoidCallback func, BoxConstraints constraints) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        primary: Colors.blue
+      ),
+      onPressed: func,
+      child: Text(display, style: const TextStyle(fontWeight: FontWeight.bold),),
+    );
+  }
+
+  static Widget getProjectAddWidget(
+      String display, VoidCallback func, BoxConstraints constraints) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+          primary: Colors.grey
+      ),
+      onPressed: func,
+      child: Text(display, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),),
+    );
   }
 }

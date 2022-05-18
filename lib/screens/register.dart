@@ -22,20 +22,21 @@ class _RegisterState extends State<Register> {
           alignment: Alignment.center,
           child: Column(
             children: [
-              Widgets.getTextFieldH1("Registrieren"),
-              Widgets.getTextFieldH2("E-Mail"),
+              Container(height: 20,),
+              Widgets.getTextFieldH1("Registrieren", constraints),
+              Widgets.getTextFieldH3("E-Mail", constraints),
               Widgets.getInputFieldStyle1(
-                  emailController, TextInputType.emailAddress, false),
-              Widgets.getTextFieldH2("Password"),
+                  emailController, TextInputType.emailAddress, false, constraints),
+              Widgets.getTextFieldH3("Password", constraints),
               Widgets.getInputFieldStyle1(
-                  emailController, TextInputType.text, true),
-              Widgets.getTextFieldE1(_errorText),
-              Widgets.getButtonStyle1("Konto erstellen", _register),
+                  emailController, TextInputType.text, true, constraints),
+              Widgets.getTextFieldE1(_errorText, constraints),
+              Widgets.getButtonStyle1("Konto erstellen", _register, constraints),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Widgets.getTextFieldP1("Bereits einen Account?"),
-                  Widgets.getTextButtonStyle1("Jetzt einloggen!", _toLogin)
+                  Widgets.getTextFieldP1("Bereits einen Account?", constraints),
+                  Widgets.getTextButtonStyle1("Jetzt einloggen!", _toLogin, constraints)
                 ],
               )
             ],

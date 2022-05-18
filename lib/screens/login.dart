@@ -22,20 +22,22 @@ class _LoginState extends State<Login> {
           alignment: Alignment.center,
           child: Column(
             children: [
-              Widgets.getTextFieldH1("Login"),
-              Widgets.getTextFieldH2("E-Mail"),
+              Container(height: 20,),
+              Widgets.getTextFieldH1("Login", constraints),
+              Widgets.getTextFieldH3("E-Mail", constraints),
+              Widgets.getInputFieldStyle1(emailController,
+                  TextInputType.emailAddress, false, constraints),
+              Widgets.getTextFieldH3("Password", constraints),
               Widgets.getInputFieldStyle1(
-                  emailController, TextInputType.emailAddress, false),
-              Widgets.getTextFieldH2("Password"),
-              Widgets.getInputFieldStyle1(
-                  emailController, TextInputType.text, true),
-              Widgets.getTextFieldE1(_errorText),
-              Widgets.getButtonStyle1("Einloggen", _login),
+                  emailController, TextInputType.text, true, constraints),
+              Widgets.getTextFieldE1(_errorText, constraints),
+              Widgets.getButtonStyle1("Einloggen", _login, constraints),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Widgets.getTextFieldP1("Noch keinen Account?"),
-                  Widgets.getTextButtonStyle1("Jetzt registrieren!", _toRegister)
+                  Widgets.getTextFieldP1("Noch keinen Account?", constraints),
+                  Widgets.getTextButtonStyle1(
+                      "Jetzt registrieren!", _toRegister, constraints)
                 ],
               )
             ],

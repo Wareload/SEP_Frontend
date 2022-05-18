@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moody/router/route_generator.dart';
+import 'package:moody/widgets/widgets.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
@@ -13,8 +14,11 @@ class _SplashState extends State<Splash> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
-          return const Text("Splash Screen");
-        })));
+      return Column(children: [
+        Widgets.getTextFieldH1("Test", constraints),
+        Widgets.getTextFieldH2("Test", constraints),
+      ],);
+    })));
   }
 
   @override
