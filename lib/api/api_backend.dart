@@ -102,9 +102,17 @@ class ApiBackend implements ApiInterface {
   }
 
   @override
-  Future<void> isLoggedIn() {
-    // TODO: implement isLoggedIn
-    throw UnimplementedError();
+  Future<bool> isLoggedIn() async {
+    try {
+      http.Response response = await http
+          .post(Uri.parse(pathUrl + pathAccountIsLoggedIn), headers: _headers)
+          .timeout(Duration(seconds: timeout));
+      if (response.statusCode == 200) {
+        return true;
+      }
+    } catch(e) {}
+      return false;
+
   }
 
   @override

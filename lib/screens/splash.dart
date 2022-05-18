@@ -15,7 +15,7 @@ class _SplashState extends State<Splash> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
-          //TODO add splash screen here
+      //TODO add splash screen here
       return Column(
         children: [
           Widgets.getTextFieldH1("Test", constraints),
@@ -33,8 +33,11 @@ class _SplashState extends State<Splash> {
 
   void init() async {
     await Future.delayed(const Duration(seconds: 3), () {});
-    //TODO check for auto login
     await Settings.setApi();
-    Navigator.pushReplacementNamed(context, RouteGenerator.login);
+    if (await Settings.api.isLoggedIn()) {
+      Navigator.pushReplacementNamed(context, RouteGenerator.teamOverview);
+    }else{
+      Navigator.pushReplacementNamed(context, RouteGenerator.login);
+    }
   }
 }

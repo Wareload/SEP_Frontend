@@ -22,7 +22,7 @@ abstract class ApiInterface {
   Future<void> logout();
 
   ///check if currently logged in
-  Future<void> isLoggedIn();
+  Future<bool> isLoggedIn();
 
   //profile
   ///get profile of current user
