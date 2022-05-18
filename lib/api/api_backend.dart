@@ -120,30 +120,30 @@ class ApiBackend implements ApiInterface {
     }
     http.Response response;
     try {
-      response = await http.post(
-          Uri.parse(pathUrl + pathAccountLogin),
+      response = await http.post(Uri.parse(pathUrl + pathAccountLogin),
           headers: _headers,
-          body: {"email": email, "password": password});
+          body: {
+            "email": email,
+            "password": password
+          }).timeout(Duration(seconds: timeout));
     } catch (e) {
       throw UserFeedbackException("Server error");
     }
-      switch (response.statusCode) {
-        case 200:
-          await updateCookie(response);
-          return;
-        case 400:
-          throw UserFeedbackException("Ungültige E-Mail oder Passwort");
-        case 401:
-          throw UserFeedbackException("E-Mail oder Passwort ist falsch");
-        case 500:
-          throw UserFeedbackException("Server Error");
-        default:
-          throw UserFeedbackException("0");
-      }
+    switch (response.statusCode) {
+      case 200:
+        await updateCookie(response);
+        return;
+      case 400:
+        throw UserFeedbackException("Ungültige E-Mail oder Passwort");
+      case 401:
+        throw UserFeedbackException("E-Mail oder Passwort ist falsch");
+      default:
+        throw UserFeedbackException("Server Fehler");
+    }
   }
 
   @override
-  Future<void> logout()async {
+  Future<void> logout() async {
     try {
       http
           .post(Uri.parse(pathUrl + pathAccountLogout), headers: _headers)
@@ -163,9 +163,42 @@ class ApiBackend implements ApiInterface {
 
   @override
   Future<void> register(
-      String email, String password, String firstname, String lastname) {
-    // TODO: implement register
-    throw UnimplementedError();
+      String email, String password, String firstname, String lastname) async {
+    //TODO need to specify invalid params
+    if (!Validator.isEmail(email)) {
+      throw UserFeedbackException("Ungültige E-Mail");
+    } else if (!Validator.isPassword(password)) {
+      throw UserFeedbackException("Ungültiges Passwort");
+    } else if (!Validator.isText45(firstname)) {
+      throw UserFeedbackException("Ungültiger Vorname");
+    } else if (!Validator.isText45(lastname)) {
+      throw UserFeedbackException("Ungültiger Nachname");
+    }
+    http.Response response;
+    try {
+      response = await http
+          .post(Uri.parse(pathUrl + pathAccountRegister),
+              body: {
+                "email": email,
+                "password": password,
+                "firstname": firstname,
+                "lastname": lastname
+              },
+              headers: _headers)
+          .timeout(Duration(seconds: timeout));
+    } catch (e) {
+      throw UserFeedbackException("Server Error");
+    }
+    switch (response.statusCode) {
+      case 200:
+        updateCookie(response);
+        return;
+      case 400:
+        throw UserFeedbackException("Invalid request form");
+      case 409:
+        throw UserFeedbackException("E-Mail exestiert bereits");
+    }
+    throw UserFeedbackException("Server Fehler");
   }
 
   @override

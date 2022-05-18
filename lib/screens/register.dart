@@ -31,7 +31,7 @@ class _RegisterState extends State<Register> {
                   emailController, TextInputType.emailAddress, false, constraints),
               Widgets.getTextFieldH3("Password", constraints),
               Widgets.getInputFieldStyle1(
-                  emailController, TextInputType.text, true, constraints),
+                  passwordController, TextInputType.text, true, constraints),
               Widgets.getTextFieldE1(_errorText, constraints),
               Widgets.getButtonStyle1("Konto erstellen", _register, constraints),
               Row(
@@ -48,7 +48,7 @@ class _RegisterState extends State<Register> {
 
   void _register() async{
     try {
-      await Settings.api.register(emailController.text, passwordController.text, "", "");
+      await Settings.api.register(emailController.text, passwordController.text, "Rainer", "Zufall");
       Navigator.pushReplacementNamed(context, RouteGenerator.teamOverview);
     } catch (e) {
       setState(() {
