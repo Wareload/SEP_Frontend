@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:moody/api/exception/user_feedback.dart';
 import 'package:moody/router/route_generator.dart';
+import 'package:moody/widgets/settings.dart';
 import 'package:moody/widgets/widgets.dart';
 
 class Register extends StatefulWidget {
@@ -44,9 +46,17 @@ class _RegisterState extends State<Register> {
     })));
   }
 
-  void _register() {
-    //TODO use api here
-    Navigator.pushReplacementNamed(context, RouteGenerator.teamOverview);
+  void _register() async{
+    try {
+      await Settings.api.register(emailController.text, passwordController.text, "", "");
+      Navigator.pushReplacementNamed(context, RouteGenerator.teamOverview);
+    } catch (e) {
+      setState(() {
+        if (e.runtimeType == UserFeedbackException) {
+          _errorText = e.toString();
+        }
+      });
+    }
   }
 
   void _toLogin() {

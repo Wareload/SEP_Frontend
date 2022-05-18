@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:moody/api/api_backend.dart';
 import 'package:moody/api/exception/user_feedback.dart';
 import 'package:moody/router/route_generator.dart';
 import 'package:moody/widgets/settings.dart';

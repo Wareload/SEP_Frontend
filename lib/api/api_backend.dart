@@ -143,9 +143,16 @@ class ApiBackend implements ApiInterface {
   }
 
   @override
-  Future<void> logout() {
-    // TODO: implement logout
-    throw UnimplementedError();
+  Future<void> logout()async {
+    try {
+      http
+          .post(Uri.parse(pathUrl + pathAccountLogout), headers: _headers)
+          .timeout(Duration(seconds: timeout));
+    } finally {
+      _headers['cookie'] = "";
+      const storage = FlutterSecureStorage();
+      await storage.write(key: "cookie", value: _headers['cookie']);
+    }
   }
 
   @override
