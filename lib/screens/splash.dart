@@ -16,12 +16,15 @@ class _SplashState extends State<Splash> {
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       //TODO add splash screen here
-      return Column(
-        children: [
-          Widgets.getTextFieldH1("Test", constraints),
-          Widgets.getTextFieldH2("Test", constraints),
-        ],
-      );
+      return Container(
+          padding: EdgeInsets.fromLTRB(0, 0, 0, 0.5 * constraints.maxHeight),
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Colors.blue, Colors.deepPurpleAccent ])),
+          alignment: Alignment.center,
+          child: Widgets.getTextFieldH1("Moody", constraints));
     })));
   }
 
@@ -34,7 +37,7 @@ class _SplashState extends State<Splash> {
   void init() async {
     await Future.delayed(const Duration(seconds: 3), () {});
     await Settings.setApi();
-    //await Settings.api.logout();use to force clear flutter secure storage at start
+    await Settings.api.logout();//use to force clear flutter secure storage at start
     if (await Settings.api.isLoggedIn()) {
       Navigator.pushReplacementNamed(context, RouteGenerator.teamOverview);
     } else {
