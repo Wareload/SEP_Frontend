@@ -22,6 +22,7 @@ class ApiBackend implements ApiInterface {
   //http data
   final int timeout = 5; //in seconds
 
+  //only for testing purpose
   final bool allowBadCertificate = true;
 
   //session header
@@ -47,79 +48,7 @@ class ApiBackend implements ApiInterface {
         });
   }
 
-  @override
-  Future<void> acceptInvitation(int teamId) {
-    // TODO: implement acceptInvitation
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> addTeamMember(int teamId, String email) {
-    // TODO: implement addTeamMember
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Profile> adjustProfile(Profile profile) {
-    // TODO: implement adjustProfile
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Team> createTeam(String name) {
-    // TODO: implement createTeam
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> deleteTeam(int id) {
-    // TODO: implement deleteTeam
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<List<Invitation>> getInvitations() {
-    // TODO: implement getInvitations
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Profile> getProfile() {
-    // TODO: implement getProfile
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Team> getTeam(int id) {
-    // TODO: implement getTeam
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<List<Team>> getTeams() {
-    // TODO: implement getTeams
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool> isLoggedIn() async {
-    try {
-      http.Response response = await http
-          .post(Uri.parse(pathUrl + pathAccountIsLoggedIn), headers: _headers)
-          .timeout(Duration(seconds: timeout));
-      if (response.statusCode == 200) {
-        return true;
-      }
-    } catch(e) {}
-      return false;
-
-  }
-
-  @override
-  Future<void> leaveTeam(int teamId) {
-    // TODO: implement leaveTeam
-    throw UnimplementedError();
-  }
+  //Account
 
   @override
   Future<void> login(String email, String password) async {
@@ -148,25 +77,6 @@ class ApiBackend implements ApiInterface {
       default:
         throw UserFeedbackException("Server Fehler");
     }
-  }
-
-  @override
-  Future<void> logout() async {
-    try {
-      http
-          .post(Uri.parse(pathUrl + pathAccountLogout), headers: _headers)
-          .timeout(Duration(seconds: timeout));
-    } finally {
-      _headers['cookie'] = "";
-      const storage = FlutterSecureStorage();
-      await storage.write(key: "cookie", value: _headers['cookie']);
-    }
-  }
-
-  @override
-  Future<void> promoteTeamLeader(int teamId, int userId) {
-    // TODO: implement promoteTeamLeader
-    throw UnimplementedError();
   }
 
   @override
@@ -210,11 +120,111 @@ class ApiBackend implements ApiInterface {
   }
 
   @override
+  Future<bool> isLoggedIn() async {
+    try {
+      http.Response response = await http
+          .post(Uri.parse(pathUrl + pathAccountIsLoggedIn), headers: _headers)
+          .timeout(Duration(seconds: timeout));
+      if (response.statusCode == 200) {
+        return true;
+      }
+    } catch (e) {}
+    return false;
+  }
+
+  @override
+  Future<void> logout() async {
+    try {
+      http
+          .post(Uri.parse(pathUrl + pathAccountLogout), headers: _headers)
+          .timeout(Duration(seconds: timeout));
+    } finally {
+      _headers['cookie'] = "";
+      const storage = FlutterSecureStorage();
+      await storage.write(key: "cookie", value: _headers['cookie']);
+    }
+  }
+
+  //Profile
+
+  @override
+  Future<Profile> adjustProfile(Profile profile) {
+    // TODO: implement adjustProfile
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Profile> getProfile() {
+    // TODO: implement getProfile
+    throw UnimplementedError();
+  }
+
+  //Team
+
+  @override
   Future<void> removeTeamMember(int teamId, int userId) {
     // TODO: implement removeTeamMember
     throw UnimplementedError();
   }
 
+  @override
+  Future<Team> getTeam(int id) {
+    // TODO: implement getTeam
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<Team>> getTeams() {
+    // TODO: implement getTeams
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> acceptInvitation(int teamId) {
+    // TODO: implement acceptInvitation
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> addTeamMember(int teamId, String email) {
+    // TODO: implement addTeamMember
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Team> createTeam(String name) {
+    // TODO: implement createTeam
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deleteTeam(int id) {
+    // TODO: implement deleteTeam
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<Invitation>> getInvitations() {
+    // TODO: implement getInvitations
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> promoteTeamLeader(int teamId, int userId) {
+    // TODO: implement promoteTeamLeader
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> leaveTeam(int teamId) {
+    // TODO: implement leaveTeam
+    throw UnimplementedError();
+  }
+
+  //Mood
+
+  //general helper
+  ///update cookie persistent
   Future<void> updateCookie(http.Response response) async {
     var rawCookie = response.headers['set-cookie'];
     if (rawCookie != null) {
