@@ -20,32 +20,32 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
-      return Container(
-          alignment: Alignment.center,
+      return SingleChildScrollView(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            height: 20,
+          ),
+          Widgets.getTextFieldH1("Login", constraints),
+          Widgets.getTextFieldH3("E-Mail", constraints),
+          Widgets.getInputFieldStyle1(emailController,
+              TextInputType.emailAddress, false, constraints),
+          Widgets.getTextFieldH3("Password", constraints),
+          Widgets.getInputFieldStyle1(
+              passwordController, TextInputType.text, true, constraints),
+          Widgets.getTextFieldE1(_errorText, constraints),
+          Widgets.getButtonStyle1("Einloggen", _login, constraints),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                height: 20,
-              ),
-              Widgets.getTextFieldH1("Login", constraints),
-              Widgets.getTextFieldH3("E-Mail", constraints),
-              Widgets.getInputFieldStyle1(emailController,
-                  TextInputType.emailAddress, false, constraints),
-              Widgets.getTextFieldH3("Password", constraints),
-              Widgets.getInputFieldStyle1(
-                  passwordController, TextInputType.text, true, constraints),
-              Widgets.getTextFieldE1(_errorText, constraints),
-              Widgets.getButtonStyle1("Einloggen", _login, constraints),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Widgets.getTextFieldP1("Noch keinen Account?", constraints),
-                  Widgets.getTextButtonStyle1(
-                      "Jetzt registrieren!", _toRegister, constraints)
-                ],
-              )
+              Widgets.getTextFieldP1("Noch keinen Account?", constraints),
+              Widgets.getTextButtonStyle1(
+                  "Jetzt registrieren!", _toRegister, constraints)
             ],
-          ));
+          )
+        ],
+      ));
     })));
   }
 

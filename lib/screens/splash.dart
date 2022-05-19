@@ -34,9 +34,10 @@ class _SplashState extends State<Splash> {
   void init() async {
     await Future.delayed(const Duration(seconds: 3), () {});
     await Settings.setApi();
+    //await Settings.api.logout();use to force clear flutter secure storage at start
     if (await Settings.api.isLoggedIn()) {
       Navigator.pushReplacementNamed(context, RouteGenerator.teamOverview);
-    }else{
+    } else {
       Navigator.pushReplacementNamed(context, RouteGenerator.login);
     }
   }
