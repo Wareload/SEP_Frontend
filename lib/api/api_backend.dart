@@ -11,7 +11,7 @@ import 'package:moody/structs/validator.dart';
 
 class ApiBackend implements ApiInterface {
   //api path
-  final String pathUrl = "http://10.0.1.10:3000";
+  final String pathUrl = "https://api.bugsbunnies.de";
 
   //account routes
   final String pathAccountLogin = "/account/login";
@@ -20,10 +20,10 @@ class ApiBackend implements ApiInterface {
   final String pathAccountIsLoggedIn = "/account/isLoggedIn";
 
   //http data
-  final int timeout = 5; //in seconds
+  final int timeout = 3; //in seconds
 
   //only for testing purpose
-  final bool allowBadCertificate = true;
+  final bool allowBadCertificate = false;
 
   //session header
   final Map<String, String> _headers = {};

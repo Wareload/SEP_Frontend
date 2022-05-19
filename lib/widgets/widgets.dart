@@ -37,7 +37,10 @@ class Widgets {
   static Widget getTextFieldH3C(String display, BoxConstraints constraints) {
     return Container(
       padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-      child: Text(display, style: const TextStyle(color: Colors.blueAccent),),
+      child: Text(
+        display,
+        style: const TextStyle(color: Colors.blueAccent),
+      ),
     );
   }
 
@@ -88,23 +91,35 @@ class Widgets {
 
   static Widget getProjectWidget(
       String display, VoidCallback func, BoxConstraints constraints) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        primary: Colors.blue
-      ),
-      onPressed: func,
-      child: Text(display, style: const TextStyle(fontWeight: FontWeight.bold),),
-    );
+    return SizedBox(
+        width: constraints.maxWidth * 0.8,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: Colors.blue,
+          ),
+          onPressed: func,
+          child: Container(
+              padding: const EdgeInsets.fromLTRB(0, 9, 0, 9),
+              child: Text(
+                display,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              )),
+        ));
   }
 
   static Widget getProjectAddWidget(
       String display, VoidCallback func, BoxConstraints constraints) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-          primary: Colors.grey
-      ),
-      onPressed: func,
-      child: Text(display, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),),
-    );
+    return SizedBox(
+        width: constraints.maxWidth * 0.8,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(primary: Colors.grey),
+          onPressed: func,
+          child: Text(
+            display,
+            style: const TextStyle(
+                fontSize: 30, fontWeight: FontWeight.bold, color: Colors.blue),
+          ),
+        ));
   }
 }
