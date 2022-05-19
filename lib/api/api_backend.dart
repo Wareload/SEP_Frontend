@@ -112,7 +112,7 @@ class ApiBackend implements ApiInterface {
         updateCookie(response);
         return;
       case 400:
-        throw UserFeedbackException("Invalid request form");
+        throw UserFeedbackException("Ungültige Eingaben");
       case 409:
         throw UserFeedbackException("E-Mail exestiert bereits");
     }

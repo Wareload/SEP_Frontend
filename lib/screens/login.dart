@@ -22,15 +22,15 @@ class _LoginState extends State<Login> {
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            height: 20,
+            height: constraints.maxHeight * 0.05,
           ),
           Widgets.getTextFieldH1("Login", constraints),
           Widgets.getTextFieldH3("E-Mail", constraints),
-          Widgets.getInputFieldStyle1(emailController,
-              TextInputType.emailAddress, false, constraints),
+          Widgets.getInputFieldStyle1(
+              emailController, TextInputType.emailAddress, false, constraints),
           Widgets.getTextFieldH3("Password", constraints),
           Widgets.getInputFieldStyle1(
               passwordController, TextInputType.text, true, constraints),

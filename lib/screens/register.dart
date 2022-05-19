@@ -25,7 +25,7 @@ class _RegisterState extends State<Register> {
       return SingleChildScrollView(child: Column(mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            height: 20,
+            height: constraints.maxHeight*0.05,
           ),
           Widgets.getTextFieldH1("Registrieren", constraints),
           Widgets.getTextFieldH3("E-Mail", constraints),
