@@ -15,14 +15,25 @@ class _SplashState extends State<Splash> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
-      //TODO add splash screen here
       return Container(
           padding: EdgeInsets.fromLTRB(0, 0, 0, 0.5 * constraints.maxHeight),
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Colors.lightBlueAccent, Colors.deepPurple])),
+          decoration: BoxDecoration(
+              gradient: Gradient.lerp(
+                  const LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.blue,
+                        Colors.purple
+                      ]),
+                  const LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      colors: [
+                        Colors.green,
+                        Colors.redAccent
+                      ]),
+                 0.3)),
           alignment: Alignment.center,
           child: Widgets.getTextFieldH1("Moody", constraints));
     })));
