@@ -13,7 +13,8 @@ class _ProfileOverviewState extends State<ProfileOverview> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
-          return Column(
+          return Column(mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Container(
                 height: 10,
@@ -26,6 +27,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                   Widgets.getTextButtonStyle1("Einstellungen", () => {}, constraints),
                 ],
               ),
+
             ],
           );
     })));

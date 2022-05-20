@@ -99,7 +99,7 @@ class Widgets {
           ),
           onPressed: func,
           child: Container(
-              padding: const EdgeInsets.fromLTRB(0, 9, 0, 9),
+              margin: const EdgeInsets.fromLTRB(0, 9, 0, 9),
               child: Text(
                 display,
                 style:
