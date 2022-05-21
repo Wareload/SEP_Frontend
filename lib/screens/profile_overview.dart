@@ -18,21 +18,22 @@ class _ProfileOverviewState extends State<ProfileOverview> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            height: constraints.maxWidth*0.05,
+            height: constraints.maxWidth * 0.05,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
                   onPressed: _back,
-                  icon: const Icon(Icons.chevron_left,
-                      color: Colors.blue, size: 48.0)),
-              Widgets.getTextFieldH3C("Dein Profil", constraints),
-              IconButton(
-                padding: EdgeInsets.only(right: 0.08*constraints.maxWidth),
-                  onPressed: () => {},
-                  icon: const Icon(Icons.settings,
-                      color: Colors.blue, size: 48.0)),
+                  icon: Icon(Icons.arrow_back,
+                      color: Colors.blue, size: constraints.maxWidth * 0.15)),
+              Container(
+                margin: EdgeInsets.only(right: constraints.maxWidth * 0.05),
+                child: IconButton(
+                    onPressed: () => {},
+                    icon: Icon(Icons.settings,
+                        color: Colors.blue, size: constraints.maxWidth * 0.15)),
+              )
             ],
           ),
           Widgets.getProfileImage(
@@ -41,7 +42,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
           Widgets.getTextFieldH3("david.neus@gmx.de", constraints),
           _getTags(constraints),
           Container(
-              margin: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+              margin: EdgeInsets.only(left: constraints.maxWidth * 0.05),
               child: Align(
                   child: Widgets.getTextFieldH3("Deine Teams:", constraints),
                   alignment: Alignment.centerLeft)),

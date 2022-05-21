@@ -39,7 +39,7 @@ class Widgets {
       padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
       child: Text(
         display,
-        style: const TextStyle(color: Colors.blueAccent),
+        style: const TextStyle(color: Settings.blue),
       ),
     );
   }
@@ -53,7 +53,7 @@ class Widgets {
       padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
       child: Text(
         display,
-        style: const TextStyle(color: Settings.errorColor),
+        style: const TextStyle(color: Settings.red),
       ),
     );
   }
@@ -91,36 +91,56 @@ class Widgets {
 
   static Widget getProjectWidget(
       String display, VoidCallback func, BoxConstraints constraints) {
-    return SizedBox(
-        width: constraints.maxWidth * 0.8,
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            primary: Colors.blue,
-          ),
-          onPressed: func,
+    return Container(
+      width: constraints.maxWidth * 0.9,
+      margin: EdgeInsets.only(bottom: constraints.maxWidth * 0.03),
+      child: Material(
+        color: Settings.blue,
+        borderRadius: BorderRadius.circular(50),
+        child: InkWell(
+          onTap: func,
+          borderRadius: BorderRadius.circular(50),
           child: Container(
-              margin: const EdgeInsets.fromLTRB(0, 9, 0, 9),
-              child: Text(
-                display,
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              )),
-        ));
+            height: constraints.maxWidth * 0.15,
+            alignment: Alignment.center,
+            child: Text(
+              display,
+              style: const TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  color: Settings.white),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   static Widget getProjectAddWidget(
       String display, VoidCallback func, BoxConstraints constraints) {
-    return SizedBox(
-        width: constraints.maxWidth * 0.8,
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(primary: Colors.grey),
-          onPressed: func,
-          child: Text(
-            display,
-            style: const TextStyle(
-                fontSize: 30, fontWeight: FontWeight.bold, color: Colors.blue),
+    return Container(
+      width: constraints.maxWidth * 0.9,
+      margin: EdgeInsets.only(bottom: constraints.maxWidth * 0.03),
+      child: Material(
+        color: Settings.grey,
+        borderRadius: BorderRadius.circular(50),
+        child: InkWell(
+          onTap: func,
+          borderRadius: BorderRadius.circular(50),
+          child: Container(
+            height: constraints.maxWidth * 0.15,
+            alignment: Alignment.center,
+            child: Text(
+              display,
+              style: const TextStyle(
+                  fontSize: 50.0,
+                  fontWeight: FontWeight.bold,
+                  color: Settings.blue),
+            ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   static Widget getProfileImage(String link, BoxConstraints constraints) {
@@ -129,7 +149,7 @@ class Widgets {
       width: constraints.maxWidth * 0.5,
       height: constraints.maxWidth * 0.5,
       decoration: BoxDecoration(
-          color: Colors.blue,
+          color: Settings.blue,
           shape: BoxShape.circle,
           image: DecorationImage(
               fit: BoxFit.fitHeight, image: NetworkImage(link))),
@@ -148,13 +168,15 @@ class Widgets {
         child: Text(
           text,
           style: const TextStyle(
-              fontSize: 14.0, fontWeight: FontWeight.bold, color: Colors.white),
+              fontSize: 14.0,
+              fontWeight: FontWeight.bold,
+              color: Settings.white),
         ),
       ),
       decoration: BoxDecoration(
-          color: Colors.orange,
+          color: Settings.orange,
           border: Border.all(
-            color: Colors.deepOrangeAccent,
+            color: Settings.orangeAccent,
           ),
           borderRadius: const BorderRadius.all(Radius.circular(20))),
     );
@@ -170,7 +192,7 @@ class Widgets {
               width: constraints.maxWidth * 0.75,
               margin: EdgeInsets.only(left: constraints.maxWidth * 0.05),
               child: Material(
-                color: Colors.blue,
+                color: Settings.blue,
                 borderRadius: BorderRadius.circular(50),
                 child: InkWell(
                   onTap: click,
@@ -183,7 +205,7 @@ class Widgets {
                       style: const TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white),
+                          color: Settings.white),
                     ),
                   ),
                 ),
@@ -193,7 +215,7 @@ class Widgets {
                 margin: EdgeInsets.only(left: constraints.maxWidth * 0.02),
                 child: Center(
                   child: Material(
-                    color: Colors.grey,
+                    color: Settings.grey,
                     borderRadius: BorderRadius.circular(50),
                     child: InkWell(
                       onTap: leave,
@@ -205,7 +227,7 @@ class Widgets {
                         child: const Text(
                           "-",
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 40, color: Colors.blue),
+                          style: TextStyle(fontSize: 40, color: Settings.blue),
                         ),
                       ),
                     ),

@@ -14,66 +14,48 @@ class _TeamOverviewState extends State<TeamOverview> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
-      return Container(
-        alignment: Alignment.center,
-        child: SingleChildScrollView(child: Column(
-          children: [
-            Container(padding: const EdgeInsets.fromLTRB(0, 0, 0, 20)),
-            Row(
+      return SingleChildScrollView(
+            child: Column(
               children: [
-                Widgets.getTextFieldH3C("Hallo David!", constraints),
-                const Spacer(),
-                //TODO fill in here profile
-                Widgets.getTextButtonStyle1("Profile", _goToProfile,constraints)
+                Container(padding: EdgeInsets.only(top: constraints.maxWidth*0.03 )),
+                Row(
+                  children: [
+                    Widgets.getTextFieldH3C("Hallo David!", constraints),
+                    const Spacer(),
+                    //TODO fill in here profile
+                    Container(margin: EdgeInsets.only(right: constraints.maxWidth*0.08),
+                      child:
+                    IconButton(
+                      onPressed: _goToProfile,
+                      icon: Icon(Icons.account_circle,
+                          color: Colors.blueGrey, size: constraints.maxWidth * 0.15),
+                    ),)
+                  ],
+                ),
+                Container(height: constraints.maxWidth*0.2,),
+                Widgets.getTextFieldH2("Deine Teams", constraints),
+                Widgets.getProjectWidget(
+                    "Bugs Bunnies", _goToTeam, constraints),
+                Widgets.getProjectWidget(
+                    "Go Live or Go Home", _goToTeam, constraints),
+                Widgets.getProjectWidget(
+                    "Go Live or Go Home", _goToTeam, constraints),
+                Widgets.getProjectWidget(
+                    "Go Live or Go Home", _goToTeam, constraints),
+                Widgets.getProjectWidget(
+                    "Go Live or Go Home", _goToTeam, constraints),
+                Widgets.getProjectAddWidget("+", () {}, constraints),
               ],
             ),
-            Widgets.getTextFieldH2("Deine Teams", constraints),
-            Widgets.getProjectWidget("Bugs Bunnies", _goToTeam, constraints),
-            Widgets.getProjectWidget(
-                "Go Live or Go Home", _goToTeam, constraints),
-            Widgets.getProjectWidget(
-                "Work Smart and Hard", _goToTeam, constraints),
-            Widgets.getProjectWidget("Bugs Bunnies", _goToTeam, constraints),
-            Widgets.getProjectWidget(
-                "Go Live or Go Home", _goToTeam, constraints),
-            Widgets.getProjectWidget(
-                "Work Smart and Hard", _goToTeam, constraints),
-            Widgets.getProjectWidget("Bugs Bunnies", _goToTeam, constraints),
-            Widgets.getProjectWidget(
-                "Go Live or Go Home", _goToTeam, constraints),
-            Widgets.getProjectWidget(
-                "Work Smart and Hard", _goToTeam, constraints),
-            Widgets.getProjectWidget("Bugs Bunnies", _goToTeam, constraints),
-            Widgets.getProjectWidget(
-                "Go Live or Go Home", _goToTeam, constraints),
-            Widgets.getProjectWidget(
-                "Work Smart and Hard", _goToTeam, constraints),
-            Widgets.getProjectWidget("Bugs Bunnies", _goToTeam, constraints),
-            Widgets.getProjectWidget(
-                "Go Live or Go Home", _goToTeam, constraints),
-            Widgets.getProjectWidget(
-                "Work Smart and Hard", _goToTeam, constraints),
-            Widgets.getProjectWidget("Bugs Bunnies", _goToTeam, constraints),
-            Widgets.getProjectWidget(
-                "Go Live or Go Home", _goToTeam, constraints),
-            Widgets.getProjectWidget(
-                "Work Smart and Hard", _goToTeam, constraints),
-            Widgets.getProjectWidget("Bugs Bunnies", _goToTeam, constraints),
-            Widgets.getProjectWidget(
-                "Go Live or Go Home", _goToTeam, constraints),
-            Widgets.getProjectWidget(
-                "Work Smart and Hard", _goToTeam, constraints),
-            Widgets.getProjectAddWidget("+", () {}, constraints),
-          ],
-        ),)
-      );
+          );
     })));
   }
 
   void _goToTeam() {
     Navigator.pushNamed(context, RouteGenerator.teamDetails);
   }
-  void _goToProfile(){
+
+  void _goToProfile() {
     Navigator.pushNamed(context, RouteGenerator.profileOverview);
   }
 
