@@ -27,6 +27,7 @@ class _TeamDetailsState extends State<TeamDetails> {
               Widgets.getTextButtonStyle1("Profile", _goToProfile,constraints)
             ],
           ),
+          Widgets.getMoodEmojis("Wie geht es dir heute?", () { }, () { }, constraints),
           Widgets.getTextFieldH1("Test", constraints),
           Widgets.getTextFieldH2("Test", constraints),
         ],

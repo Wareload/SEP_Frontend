@@ -236,4 +236,126 @@ class Widgets {
           ],
         ));
   }
+  //Chris
+  static Widget getMoodEmojis(display, VoidCallback click, VoidCallback leave,
+      BoxConstraints constraints) {
+    return Column(
+      children: [
+        Container(
+            margin: EdgeInsets.only(bottom: constraints.maxWidth * 0.02),
+            child: Container(
+                padding: const EdgeInsets.all(10),
+
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: const BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.elliptical(20.0,20),
+                            topRight: Radius.elliptical(20.0,20),
+
+                          )
+                      ),
+                      child: Center(child: getTextFieldH2(display, constraints)),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black12),
+                          color: Colors.white,
+                          borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.elliptical(20.0,20),
+                            bottomRight: Radius.elliptical(20.0,20),
+                          )
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              displayEmoji("gl"),
+                              displayEmoji("mo"),
+                              displayEmoji("fr"),
+                              displayEmoji("ne"),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              displayEmoji("gel"),
+                              displayEmoji("gef"),
+                              displayEmoji("an"),
+                            ],
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                )
+            )
+            ),
+        displayEmojiLegende(),
+      ],
+    );
+  }
+
+  //Displays a single emoji icon in the mood selection view
+  static displayEmoji(String s) {
+    return Container(
+      padding: const EdgeInsets.only(left: 2,right: 2),
+      margin: const EdgeInsets.only(left: 5,right: 5),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey, width: 5),
+      ),
+      child: Text(s),
+    );
+  }
+
+  static displayEmojiLegende() {
+    return Container(
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              displaySingeMood("glücklich", Colors.lightGreen),
+              displaySingeMood("motiviert", Colors.orange),
+              displaySingeMood("frustriert", Colors.blue),
+              displaySingeMood("neutral", Colors.grey),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              displaySingeMood("gelangweilt", Colors.yellow),
+              displaySingeMood("gefordert", Colors.red),
+              displaySingeMood("antriebslos", Colors.blueGrey),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  static displaySingeMood(String mood, MaterialColor color) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 3,right: 3),
+      child: Row(
+        children: [
+          Text("■",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: color,
+                fontSize: 20
+            ),
+          ),
+          Text(mood),
+        ],
+      ),
+    );
+  }
 }
