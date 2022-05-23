@@ -4,7 +4,8 @@ import 'dart:io';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:moody/api/api_interface.dart';
-import 'package:moody/api/exception/user_feedback.dart';
+import 'package:moody/api/exception/invalid_permission_exception.dart';
+import 'package:moody/api/exception/user_feedback_exception.dart';
 import 'package:moody/structs/invitation.dart';
 import 'package:moody/structs/profile.dart';
 import 'package:moody/structs/team.dart';
@@ -22,6 +23,7 @@ class ApiBackend implements ApiInterface {
 
   //team routes
   final String pathTeamGetTeams = "/team/getTeams";
+  final String pathTeamCreateTeam = "/team/createTeam";
 
   //http data
   final int timeout = 3; //in seconds
@@ -192,9 +194,10 @@ class ApiBackend implements ApiInterface {
         var body = json.decode(response.body);
         teams = Team.getSimpleTeams(body["teams"]);
         await updateCookie(response);
+        teams.sort((b, a) => a.name.compareTo(b.name));
         return teams;
       case 401:
-        throw UserFeedbackException("Unauthorized");
+        throw InvalidPermissionException("Unauthorized");
       default:
         throw UserFeedbackException("Server Fehler");
     }
@@ -213,9 +216,35 @@ class ApiBackend implements ApiInterface {
   }
 
   @override
-  Future<Team> createTeam(String name) {
-    // TODO: implement createTeam
-    throw UnimplementedError();
+  Future<void> createTeam(String name) async{
+    //TODO need to specify invalid params
+    if (!Validator.isText45(name)) {
+    throw UserFeedbackException("Ungültiger Teamname");
+    }
+    http.Response response;
+    try {
+    response = await http
+        .post(Uri.parse(pathUrl + pathTeamCreateTeam),
+    body: {
+    "teamname": name
+    },
+    headers: _headers)
+        .timeout(Duration(seconds: timeout));
+    } catch (e) {
+    throw UserFeedbackException("Server Error");
+    }
+    switch (response.statusCode) {
+    case 200:
+    updateCookie(response);
+    return;
+    case 400:
+    throw UserFeedbackException("Ungültige Eingaben");
+    case 401:
+    throw InvalidPermissionException("Keine Berechtigung");
+    case 409:
+    throw UserFeedbackException("E-Mail exestiert bereits");
+    }
+    throw UserFeedbackException("Server Fehler");
   }
 
   @override

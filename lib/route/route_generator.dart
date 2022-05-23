@@ -3,6 +3,7 @@ import 'package:moody/screens/login.dart';
 import 'package:moody/screens/profile_overview.dart';
 import 'package:moody/screens/register.dart';
 import 'package:moody/screens/splash.dart';
+import 'package:moody/screens/team_create.dart';
 import 'package:moody/screens/team_details.dart';
 import 'package:moody/screens/team_overview.dart';
 
@@ -13,6 +14,13 @@ class RouteGenerator {
   static const String teamOverview = "/teamOverview";
   static const String teamDetails = "/teamDetails";
   static const String profileOverview = "/profileOverview";
+  static const String teamCreate = "/teamCreate";
+
+  static void reset(context){
+    Navigator.pushNamedAndRemoveUntil(context, RouteGenerator.splash, (route) => false);
+  }
+
+  RouteGenerator._();
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -34,13 +42,12 @@ class RouteGenerator {
       case profileOverview:
         return MaterialPageRoute(
             settings: settings, builder: (_) => const ProfileOverview());
+      case teamCreate:
+        return MaterialPageRoute(
+            settings: settings, builder: (_) => const TeamCreate());
       default:
         return MaterialPageRoute(
-            builder: (_) => Scaffold(
-                  body: Center(
-                      child: Text(
-                          'Es ist keine Route fuer ${settings.name} definiert !')),
-                ));
+            settings: settings, builder: (_) => const Splash());
     }
   }
 }

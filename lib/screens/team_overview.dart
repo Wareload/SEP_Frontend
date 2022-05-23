@@ -3,6 +3,8 @@ import 'package:moody/api/api.dart';
 import 'package:moody/route/route_generator.dart';
 import 'package:moody/widgets/widgets.dart';
 
+import '../api/exception/invalid_permission_exception.dart';
+import '../api/exception/user_feedback_exception.dart';
 import '../route/route_generator.dart';
 import '../structs/team.dart';
 
@@ -20,34 +22,30 @@ class _TeamOverviewState extends State<TeamOverview> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
-      return SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-                padding: EdgeInsets.only(top: constraints.maxWidth * 0.03)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Widgets.getTextFieldH3C("Hallo David!", constraints),
-                Container(
-                  margin: EdgeInsets.only(right: constraints.maxWidth * 0.08),
-                  child: IconButton(
-                    onPressed: _goToProfile,
-                    icon: Icon(Icons.account_circle,
-                        color: Colors.blueGrey,
-                        size: constraints.maxWidth * 0.15),
-                  ),
-                )
-              ],
-            ),
-            Container(
-              height: constraints.maxWidth * 0.2,
-            ),
-            Widgets.getTextFieldH2("Deine Teams", constraints),
-            getTeams(constraints),
-            Widgets.getProjectAddWidget("+", () {}, constraints),
-          ],
-        ),
+      return Column(
+        children: [
+          Container(padding: EdgeInsets.only(top: constraints.maxWidth * 0.03)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Widgets.getTextFieldH3C("Hallo David!", constraints),
+              Container(
+                margin: EdgeInsets.only(right: constraints.maxWidth * 0.08),
+                child: IconButton(
+                  onPressed: _goToProfile,
+                  icon: Icon(Icons.account_circle,
+                      color: Colors.blueGrey,
+                      size: constraints.maxWidth * 0.15),
+                ),
+              )
+            ],
+          ),
+          Container(
+            height: constraints.maxWidth * 0.2,
+          ),
+          Widgets.getTextFieldH2("Deine Teams", constraints),
+          Expanded(child: SingleChildScrollView(child: getTeams(constraints))),
+        ],
       );
     })));
   }
@@ -58,14 +56,23 @@ class _TeamOverviewState extends State<TeamOverview> {
       widgets.add(Widgets.getProjectWidget(
           element.name, () => _goToTeam(element), constraints));
     }
+    widgets.add(Widgets.getProjectAddWidget("+", _onCreateTeam, constraints));
     return Column(
       children: widgets,
     );
   }
 
   void _loadTeams() async {
-    teams = await Api.api.getTeams();
-    setState(() {});
+    try {
+      teams = await Api.api.getTeams();
+      setState(() {});
+    } catch (e) {
+      if (e.runtimeType == UserFeedbackException) {
+        //TODO handle exception here
+      } else if (e.runtimeType == InvalidPermissionException) {
+        RouteGenerator.reset(context);
+      }
+    }
   }
 
   void _goToTeam(Team team) {
@@ -82,5 +89,10 @@ class _TeamOverviewState extends State<TeamOverview> {
   void initState() {
     super.initState();
     _loadTeams();
+  }
+
+  void _onCreateTeam() {
+    Navigator.pushNamed(context, RouteGenerator.teamCreate)
+        .then((value) => {_loadTeams()});
   }
 }

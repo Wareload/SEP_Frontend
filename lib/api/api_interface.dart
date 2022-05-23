@@ -33,7 +33,7 @@ abstract class ApiInterface {
 
   //team
   ///create new team by name
-  Future<Team> createTeam(String name);
+  Future<void> createTeam(String name);
 
   ///delete existing team by id
   Future<void> deleteTeam(int id);

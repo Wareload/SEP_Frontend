@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moody/api/api.dart';
-import 'package:moody/api/exception/user_feedback.dart';
+import 'package:moody/api/exception/user_feedback_exception.dart';
 import 'package:moody/route/route_generator.dart';
 import 'package:moody/widgets/settings.dart';
 import 'package:moody/widgets/widgets.dart';
