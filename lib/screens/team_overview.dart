@@ -45,6 +45,7 @@ class _TeamOverviewState extends State<TeamOverview> {
           ),
           Widgets.getTextFieldH2("Deine Teams", constraints),
           Expanded(child: SingleChildScrollView(child: getTeams(constraints))),
+          Container(height: 10,)
         ],
       );
     })));

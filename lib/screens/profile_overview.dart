@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:moody/widgets/widgets.dart';
 
+import '../api/api.dart';
+import '../api/exception/invalid_permission_exception.dart';
+import '../api/exception/user_feedback_exception.dart';
+import '../route/route_generator.dart';
+import '../structs/team.dart';
+
 class ProfileOverview extends StatefulWidget {
   const ProfileOverview({Key? key}) : super(key: key);
 
@@ -9,6 +15,8 @@ class ProfileOverview extends StatefulWidget {
 }
 
 class _ProfileOverviewState extends State<ProfileOverview> {
+  List<Team> teams = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,36 +56,25 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                   alignment: Alignment.centerLeft)),
           Expanded(
               child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Widgets.getProfileTeam(
-                    "Team1", () => {}, () => {}, constraints),
-                Widgets.getProfileTeam(
-                    "Team2", () => {}, () => {}, constraints),
-                Widgets.getProfileTeam(
-                    "Team3", () => {}, () => {}, constraints),
-                Widgets.getProfileTeam(
-                    "Team4", () => {}, () => {}, constraints),
-                Widgets.getProfileTeam(
-                    "Team4", () => {}, () => {}, constraints),
-                Widgets.getProfileTeam(
-                    "Team4", () => {}, () => {}, constraints),
-                Widgets.getProfileTeam(
-                    "Team6", () => {}, () => {}, constraints),
-                Widgets.getProfileTeam(
-                    "Team7", () => {}, () => {}, constraints),
-                Widgets.getProfileTeam(
-                    "Team8", () => {}, () => {}, constraints),
-                Widgets.getProfileTeam(
-                    "Team9", () => {}, () => {}, constraints),
-                Widgets.getProfileTeam(
-                    "Team10", () => {}, () => {}, constraints),
-              ],
-            ),
+            child: _getTeams(constraints),
           ))
         ],
       );
     })));
+  }
+
+  Widget _getTeams(constraints) {
+    List<Widget> widgets = [];
+    for (var element in teams) {
+      widgets.add(Widgets.getProfileTeam(element.name, () {
+        _goToTeam(element);
+      }, () {
+        _deleteTeam(element);
+      }, constraints));
+    }
+    return Column(
+      children: widgets,
+    );
   }
 
   Widget _getTags(BoxConstraints constraints) {
@@ -105,8 +102,40 @@ class _ProfileOverviewState extends State<ProfileOverview> {
     Navigator.pop(context);
   }
 
+  void _loadTeams() async {
+    try {
+      teams = await Api.api.getTeams();
+      setState(() {});
+    } catch (e) {
+      if (e.runtimeType == UserFeedbackException) {
+        //TODO handle exception here
+      } else if (e.runtimeType == InvalidPermissionException) {
+        RouteGenerator.reset(context);
+      }
+    }
+  }
+
+  void _deleteTeam(Team team) async{
+    try {
+      //TODO change delete team to leave team
+      await Api.api.deleteTeam(team.id);
+      teams.remove(team);
+      setState(() {
+      });
+    } catch (e) {
+      //TODO handle errors
+    }
+  }
+
+  void _goToTeam(Team team) {
+    //TODO add team specific functionality
+    Navigator.pushNamed(context, RouteGenerator.teamDetails)
+        .then((value) => {_loadTeams()});
+  }
+
   @override
   void initState() {
     super.initState();
+    _loadTeams();
   }
 }

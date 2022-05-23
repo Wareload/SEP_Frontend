@@ -24,6 +24,7 @@ class ApiBackend implements ApiInterface {
   //team routes
   final String pathTeamGetTeams = "/team/getTeams";
   final String pathTeamCreateTeam = "/team/createTeam";
+  final String pathTeamDeleteTeam = "/team/deleteTeam";
 
   //http data
   final int timeout = 3; //in seconds
@@ -194,7 +195,7 @@ class ApiBackend implements ApiInterface {
         var body = json.decode(response.body);
         teams = Team.getSimpleTeams(body["teams"]);
         await updateCookie(response);
-        teams.sort((b, a) => a.name.compareTo(b.name));
+        teams.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
         return teams;
       case 401:
         throw InvalidPermissionException("Unauthorized");
@@ -241,16 +242,34 @@ class ApiBackend implements ApiInterface {
     throw UserFeedbackException("Ungültige Eingaben");
     case 401:
     throw InvalidPermissionException("Keine Berechtigung");
-    case 409:
-    throw UserFeedbackException("E-Mail exestiert bereits");
     }
     throw UserFeedbackException("Server Fehler");
   }
 
   @override
-  Future<void> deleteTeam(int id) {
-    // TODO: implement deleteTeam
-    throw UnimplementedError();
+  Future<void> deleteTeam(int id) async{
+    http.Response response;
+    try {
+      response = await http
+          .post(Uri.parse(pathUrl + pathTeamDeleteTeam),
+          body: {
+            "teamid": id.toString()
+          },
+          headers: _headers)
+          .timeout(Duration(seconds: timeout));
+    } catch (e) {
+      throw UserFeedbackException("Server Error");
+    }
+    switch (response.statusCode) {
+      case 200:
+        updateCookie(response);
+        return;
+      case 400:
+        throw UserFeedbackException("Ungültige Eingaben");
+      case 401:
+        throw InvalidPermissionException("Keine Berechtigung");
+    }
+    throw UserFeedbackException("Server Fehler");
   }
 
   @override
