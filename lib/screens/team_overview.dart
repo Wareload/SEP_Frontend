@@ -22,33 +22,39 @@ class _TeamOverviewState extends State<TeamOverview> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
-      return Column(
-        children: [
-          Container(padding: EdgeInsets.only(top: constraints.maxWidth * 0.03)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          return Column(
             children: [
-              Widgets.getTextFieldH3C("Hallo David!", constraints),
               Container(
-                margin: EdgeInsets.only(right: constraints.maxWidth * 0.08),
-                child: IconButton(
-                  onPressed: _goToProfile,
-                  icon: Icon(Icons.account_circle,
-                      color: Colors.blueGrey,
-                      size: constraints.maxWidth * 0.15),
-                ),
-              )
+                  padding: EdgeInsets.only(top: constraints.maxWidth * 0.03)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Widgets.getTextFieldH3C("Hallo David!", constraints),
+                  Container(
+                    margin: EdgeInsets.only(right: constraints.maxWidth * 0.08),
+                    child: IconButton(
+                      onPressed: _goToProfile,
+                      icon: Icon(Icons.account_circle,
+                          color: Colors.blueGrey,
+                          size: constraints.maxWidth * 0.15),
+                    ),
+                  )
+                ],
+              ),
+              Align(alignment: Alignment.centerLeft, child: Widgets.getTextButtonStyle1("Ausloggen", () async {
+                await Api.api.logout();
+                Navigator.pushReplacementNamed(context, RouteGenerator.login);
+              }, constraints)),
+              Container(
+                height: constraints.maxWidth * 0.2,
+              ),
+              Widgets.getTextFieldH2("Deine Teams", constraints),
+              Expanded(
+                  child: SingleChildScrollView(child: getTeams(constraints))),
+              Container(height: 10,)
             ],
-          ),
-          Container(
-            height: constraints.maxWidth * 0.2,
-          ),
-          Widgets.getTextFieldH2("Deine Teams", constraints),
-          Expanded(child: SingleChildScrollView(child: getTeams(constraints))),
-          Container(height: 10,)
-        ],
-      );
-    })));
+          );
+        })));
   }
 
   Widget getTeams(BoxConstraints constraints) {
