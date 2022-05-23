@@ -26,10 +26,9 @@ class _TeamOverviewState extends State<TeamOverview> {
             Container(
                 padding: EdgeInsets.only(top: constraints.maxWidth * 0.03)),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Widgets.getTextFieldH3C("Hallo David!", constraints),
-                const Spacer(),
-                //TODO fill in here profile
                 Container(
                   margin: EdgeInsets.only(right: constraints.maxWidth * 0.08),
                   child: IconButton(
@@ -45,13 +44,7 @@ class _TeamOverviewState extends State<TeamOverview> {
               height: constraints.maxWidth * 0.2,
             ),
             Widgets.getTextFieldH2("Deine Teams", constraints),
-            Widgets.getProjectWidget("Bugs Bunnies", _goToTeam, constraints),
-            Widgets.getProjectWidget(
-                "Go Live or Go Home", _goToTeam, constraints),
-            Widgets.getProjectWidget(
-                "Go Live or Go Home", _goToTeam, constraints),
-            Widgets.getProjectWidget(
-                "Go Live or Go Home", _goToTeam, constraints),
+            getTeams(constraints),
             Widgets.getProjectAddWidget("+", () {}, constraints),
           ],
         ),
@@ -59,13 +52,23 @@ class _TeamOverviewState extends State<TeamOverview> {
     })));
   }
 
-  void _loadTeams() async{
-    teams = await Api.api.getTeams();
-    setState(() {
-    });
+  Widget getTeams(BoxConstraints constraints) {
+    List<Widget> widgets = [];
+    for (var element in teams) {
+      widgets.add(Widgets.getProjectWidget(
+          element.name, () => _goToTeam(element), constraints));
+    }
+    return Column(
+      children: widgets,
+    );
   }
 
-  void _goToTeam() {
+  void _loadTeams() async {
+    teams = await Api.api.getTeams();
+    setState(() {});
+  }
+
+  void _goToTeam(Team team) {
     Navigator.pushNamed(context, RouteGenerator.teamDetails)
         .then((value) => {_loadTeams()});
   }

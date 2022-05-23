@@ -188,7 +188,6 @@ class ApiBackend implements ApiInterface {
     }
     switch (response.statusCode) {
       case 200:
-        print("task2");
         var teams = <Team>[];
         var body = json.decode(response.body);
         teams = Team.getSimpleTeams(body["teams"]);

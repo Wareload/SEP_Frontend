@@ -93,6 +93,7 @@ class Widgets {
       String display, VoidCallback func, BoxConstraints constraints) {
     return Container(
       width: constraints.maxWidth * 0.9,
+      height: 50,
       margin: EdgeInsets.only(bottom: constraints.maxWidth * 0.03),
       child: Material(
         color: Settings.blue,
@@ -122,6 +123,7 @@ class Widgets {
       String display, VoidCallback func, BoxConstraints constraints) {
     return Container(
       width: constraints.maxWidth * 0.9,
+      height: 50,
       margin: EdgeInsets.only(bottom: constraints.maxWidth * 0.03),
       child: Material(
         color: Settings.grey,
