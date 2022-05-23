@@ -5,11 +5,6 @@ class Settings {
 //TODO define colors, fonts, etc here
   Settings._();
 
-  static late ApiBackend api;
-
-  static Future<void> setApi() async {
-    api = await ApiBackend.instance();
-  }
 
   //colors
   static const red = Colors.red;

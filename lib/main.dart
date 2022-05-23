@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'router/route_generator.dart';
+import 'route/route_generator.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

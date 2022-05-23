@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:moody/api/api.dart';
 import 'package:moody/api/exception/user_feedback.dart';
-import 'package:moody/router/route_generator.dart';
+import 'package:moody/route/route_generator.dart';
 import 'package:moody/widgets/settings.dart';
 import 'package:moody/widgets/widgets.dart';
 
@@ -51,7 +52,7 @@ class _LoginState extends State<Login> {
 
   void _login() async {
     try {
-      await Settings.api.login(emailController.text, passwordController.text);
+      await Api.api.login(emailController.text, passwordController.text);
       Navigator.pushReplacementNamed(context, RouteGenerator.teamOverview);
     } catch (e) {
       setState(() {

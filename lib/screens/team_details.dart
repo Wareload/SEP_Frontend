@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moody/router/route_generator.dart';
+import 'package:moody/route/route_generator.dart';
 import 'package:moody/widgets/widgets.dart';
 
 class TeamDetails extends StatefulWidget {

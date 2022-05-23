@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -7,7 +8,7 @@ import 'package:moody/api/exception/user_feedback.dart';
 import 'package:moody/structs/invitation.dart';
 import 'package:moody/structs/profile.dart';
 import 'package:moody/structs/team.dart';
-import 'package:moody/structs/validator.dart';
+import 'package:moody/validator/validator.dart';
 
 class ApiBackend implements ApiInterface {
   //api path
@@ -18,6 +19,9 @@ class ApiBackend implements ApiInterface {
   final String pathAccountRegister = "/account/register";
   final String pathAccountLogout = "/account/logout";
   final String pathAccountIsLoggedIn = "/account/isLoggedIn";
+
+  //team routes
+  final String pathTeamGetTeams = "/team/getTeams";
 
   //http data
   final int timeout = 3; //in seconds
@@ -174,9 +178,27 @@ class ApiBackend implements ApiInterface {
   }
 
   @override
-  Future<List<Team>> getTeams() {
-    // TODO: implement getTeams
-    throw UnimplementedError();
+  Future<List<Team>> getTeams() async {
+    http.Response response;
+    try {
+      response = await http.post(Uri.parse(pathUrl + pathTeamGetTeams),
+          headers: _headers, body: {}).timeout(Duration(seconds: timeout));
+    } catch (e) {
+      throw UserFeedbackException("Server error");
+    }
+    switch (response.statusCode) {
+      case 200:
+        print("task2");
+        var teams = <Team>[];
+        var body = json.decode(response.body);
+        teams = Team.getSimpleTeams(body["teams"]);
+        await updateCookie(response);
+        return teams;
+      case 401:
+        throw UserFeedbackException("Unauthorized");
+      default:
+        throw UserFeedbackException("Server Fehler");
+    }
   }
 
   @override

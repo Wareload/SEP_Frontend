@@ -101,10 +101,12 @@ class Widgets {
           onTap: func,
           borderRadius: BorderRadius.circular(50),
           child: Container(
-            height: constraints.maxWidth * 0.15,
+            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
             alignment: Alignment.center,
             child: Text(
               display,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
@@ -236,6 +238,7 @@ class Widgets {
           ],
         ));
   }
+
   //Chris
   static Widget getMoodEmojis(display, VoidCallback click, VoidCallback leave,
       BoxConstraints constraints) {
@@ -245,7 +248,6 @@ class Widgets {
             margin: EdgeInsets.only(bottom: constraints.maxWidth * 0.02),
             child: Container(
                 padding: const EdgeInsets.all(10),
-
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -254,12 +256,11 @@ class Widgets {
                       decoration: const BoxDecoration(
                           color: Colors.blue,
                           borderRadius: BorderRadius.only(
-                            topLeft: Radius.elliptical(20.0,20),
-                            topRight: Radius.elliptical(20.0,20),
-
-                          )
-                      ),
-                      child: Center(child: getTextFieldH2(display, constraints)),
+                            topLeft: Radius.elliptical(20.0, 20),
+                            topRight: Radius.elliptical(20.0, 20),
+                          )),
+                      child:
+                          Center(child: getTextFieldH2(display, constraints)),
                     ),
                     Container(
                       padding: const EdgeInsets.all(10),
@@ -268,10 +269,9 @@ class Widgets {
                           border: Border.all(color: Colors.black12),
                           color: Colors.white,
                           borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.elliptical(20.0,20),
-                            bottomRight: Radius.elliptical(20.0,20),
-                          )
-                      ),
+                            bottomLeft: Radius.elliptical(20.0, 20),
+                            bottomRight: Radius.elliptical(20.0, 20),
+                          )),
                       child: Column(
                         children: [
                           Row(
@@ -295,9 +295,7 @@ class Widgets {
                       ),
                     )
                   ],
-                )
-            )
-            ),
+                ))),
         displayEmojiLegende(),
       ],
     );
@@ -306,8 +304,8 @@ class Widgets {
   //Displays a single emoji icon in the mood selection view
   static displayEmoji(String s) {
     return Container(
-      padding: const EdgeInsets.only(left: 2,right: 2),
-      margin: const EdgeInsets.only(left: 5,right: 5),
+      padding: const EdgeInsets.only(left: 2, right: 2),
+      margin: const EdgeInsets.only(left: 5, right: 5),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey, width: 5),
       ),
@@ -343,15 +341,13 @@ class Widgets {
 
   static displaySingeMood(String mood, MaterialColor color) {
     return Padding(
-      padding: const EdgeInsets.only(left: 3,right: 3),
+      padding: const EdgeInsets.only(left: 3, right: 3),
       child: Row(
         children: [
-          Text("■",
+          Text(
+            "■",
             textAlign: TextAlign.center,
-            style: TextStyle(
-                color: color,
-                fontSize: 20
-            ),
+            style: TextStyle(color: color, fontSize: 20),
           ),
           Text(mood),
         ],

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:moody/router/route_generator.dart';
+import 'package:moody/route/route_generator.dart';
 import 'package:moody/widgets/settings.dart';
 import 'package:moody/widgets/widgets.dart';
+
+import '../api/api.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
@@ -71,9 +73,9 @@ class _SplashState extends State<Splash> {
 
   void init() {
     Future.delayed(const Duration(seconds: 3), () async {
-      await Settings.setApi();
+      await Api.setApi();
       //await Settings.api.logout(); //use to force clear flutter secure storage at start
-      if (await Settings.api.isLoggedIn()) {
+      if (await Api.api.isLoggedIn()) {
            Navigator.pushReplacementNamed(context, RouteGenerator.teamOverview);
       } else {
            Navigator.pushReplacementNamed(context, RouteGenerator.login);

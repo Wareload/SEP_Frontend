@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:moody/api/exception/user_feedback.dart';
-import 'package:moody/router/route_generator.dart';
+import 'package:moody/route/route_generator.dart';
 import 'package:moody/widgets/settings.dart';
 import 'package:moody/widgets/widgets.dart';
+
+import '../api/api.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -58,7 +60,7 @@ class _RegisterState extends State<Register> {
 
   void _register() async {
     try {
-      await Settings.api.register(
+      await Api.api.register(
           emailController.text, passwordController.text, "Rainer", "Zufall");
       Navigator.pushReplacementNamed(context, RouteGenerator.teamOverview);
     } catch (e) {
