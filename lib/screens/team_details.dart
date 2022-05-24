@@ -32,8 +32,19 @@ class _TeamDetailsState extends State<TeamDetails> {
             children: [
               Widgets.getTextButtonStyle1("Back", _back, constraints),
               Widgets.getTextFieldH3C(_team.name, constraints),
-              Widgets.getTextButtonStyle1("Profile", _goToProfile, constraints)
+              Container(
+                margin: EdgeInsets.only(right: constraints.maxWidth * 0.08),
+                child: IconButton(
+                  onPressed: _goToProfile,
+                  icon: Icon(Icons.account_circle,
+                      color: Colors.blueGrey,
+                      size: constraints.maxWidth * 0.15),
+                ),
+              )
             ],
+          ),
+          Container(
+            height: 10,
           ),
           Widgets.getMoodEmojis(
               "Wie geht es dir heute?", () {}, () {}, constraints),
