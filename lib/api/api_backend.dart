@@ -26,11 +26,23 @@ class ApiBackend implements ApiInterface {
   final String pathTeamCreateTeam = "/team/createTeam";
   final String pathTeamDeleteTeam = "/team/deleteTeam";
   final String pathTeamGetTeam = "/team/getTeam";
+  final String pathTeamGetInvitations = "/team/getInvitations";//TODO need to implement
+  final String pathTeamLeaveTeam = "/team/leaveTeam";//TODO need to implement
+  final String pathTeamRemoveTeamMember = "/team/removeTeamMember";//TODO need to implement
+  final String pathTeamPromoteTeamMember = "/team/promoteTeamMember";//TODO need to implement
+  final String pathTeamAddTeamMember = "/team/addTeamMember";//TODO need to implement
+  final String pathTeamAcceptInvitationTeamMember = "/team/acceptInvitation";//TODO need to implement
+
+  //profile routes
+  final String pathProfileGetProfile = "/profile/getProfile";//TODO need to implement
+  final String pathProfileAdjustProfile = "/profile/adjustProfile";//TODO need to implement
+
+  //mood routes
 
   //http data
   final int timeout = 3; //in seconds
 
-  //only for testing purpose
+  //only for testing purpose if needed
   final bool allowBadCertificate = false;
 
   //session header
