@@ -25,6 +25,7 @@ class ApiBackend implements ApiInterface {
   final String pathTeamGetTeams = "/team/getTeams";
   final String pathTeamCreateTeam = "/team/createTeam";
   final String pathTeamDeleteTeam = "/team/deleteTeam";
+  final String pathTeamGetTeam = "/team/getTeam";
 
   //http data
   final int timeout = 3; //in seconds
@@ -175,9 +176,31 @@ class ApiBackend implements ApiInterface {
   }
 
   @override
-  Future<Team> getTeam(int id) {
-    // TODO: implement getTeam
-    throw UnimplementedError();
+  Future<Team> getTeam(int id)async {
+    http.Response response;
+    try {
+      response = await http
+          .post(Uri.parse(pathUrl + pathTeamGetTeam),
+          body: {
+            "teamid": id.toString()
+          },
+          headers: _headers)
+          .timeout(Duration(seconds: timeout));
+    } catch (e) {
+      throw UserFeedbackException("Server Error");
+    }
+    switch (response.statusCode) {
+      case 200:
+        var body = json.decode(response.body);
+        var team = Team.getFullTeam(body);
+        updateCookie(response);
+        return team;
+      case 400:
+        throw UserFeedbackException("Ungültige Eingaben");
+      case 401:
+        throw InvalidPermissionException("Keine Berechtigung");
+    }
+    throw UserFeedbackException("Server Fehler");
   }
 
   @override

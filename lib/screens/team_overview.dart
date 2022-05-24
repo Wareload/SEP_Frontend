@@ -60,7 +60,7 @@ class _TeamOverviewState extends State<TeamOverview> {
   Widget getTeams(BoxConstraints constraints) {
     List<Widget> widgets = [];
     for (var element in teams) {
-      widgets.add(Widgets.getProjectWidget(
+      widgets.add(Widgets.getButtonStyle2(
           element.name, () => _goToTeam(element), constraints));
     }
     widgets.add(Widgets.getProjectAddWidget("+", _onCreateTeam, constraints));
@@ -83,7 +83,7 @@ class _TeamOverviewState extends State<TeamOverview> {
   }
 
   void _goToTeam(Team team) {
-    Navigator.pushNamed(context, RouteGenerator.teamDetails)
+    Navigator.pushNamed(context, RouteGenerator.teamDetails, arguments: {"team":team})
         .then((value) => {_loadTeams()});
   }
 

@@ -76,20 +76,7 @@ class Widgets {
     );
   }
 
-  static Widget getTextButtonStyle1(
-      String display, VoidCallback func, BoxConstraints constraints) {
-    return TextButton(
-        onPressed: func,
-        child: Text(
-          display,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            decoration: TextDecoration.underline,
-          ),
-        ));
-  }
-
-  static Widget getProjectWidget(
+  static Widget getButtonStyle2(
       String display, VoidCallback func, BoxConstraints constraints) {
     return Container(
       width: constraints.maxWidth * 0.9,
@@ -117,6 +104,19 @@ class Widgets {
         ),
       ),
     );
+  }
+
+  static Widget getTextButtonStyle1(
+      String display, VoidCallback func, BoxConstraints constraints) {
+    return TextButton(
+        onPressed: func,
+        child: Text(
+          display,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            decoration: TextDecoration.underline,
+          ),
+        ));
   }
 
   static Widget getProjectAddWidget(
