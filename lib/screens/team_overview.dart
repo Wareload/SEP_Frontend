@@ -30,15 +30,7 @@ class _TeamOverviewState extends State<TeamOverview> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Widgets.getTextFieldH3C("Hallo David!", constraints),
-                  Container(
-                    margin: EdgeInsets.only(right: constraints.maxWidth * 0.08),
-                    child: IconButton(
-                      onPressed: _goToProfile,
-                      icon: Icon(Icons.account_circle,
-                          color: Colors.blueGrey,
-                          size: constraints.maxWidth * 0.15),
-                    ),
-                  )
+                  Widgets.getProfileIcon(constraints, _goToProfile),
                 ],
               ),
               Align(alignment: Alignment.centerLeft, child: Widgets.getTextButtonStyle1("Ausloggen", () async {

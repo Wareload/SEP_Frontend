@@ -356,4 +356,16 @@ class Widgets {
       ),
     );
   }
+
+  static Widget getProfileIcon(constraints, VoidCallback callback){
+    return Container(
+      margin: EdgeInsets.only(right: constraints.maxWidth * 0.08),
+      child: IconButton(
+        onPressed: callback,
+        icon: Icon(Icons.account_circle,
+            color: Colors.blueGrey,
+            size: constraints.maxWidth * 0.15),
+      ),
+    );
+  }
 }
