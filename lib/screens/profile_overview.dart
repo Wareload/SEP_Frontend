@@ -128,10 +128,10 @@ class _ProfileOverviewState extends State<ProfileOverview> {
   }
 
   void _goToTeam(Team team) {
-    //TODO add team specific functionality
-    Navigator.pushNamed(context, RouteGenerator.teamDetails)
+    Navigator.pushNamed(context, RouteGenerator.teamDetails, arguments: {"team":team})
         .then((value) => {_loadTeams()});
   }
+
 
   @override
   void initState() {
