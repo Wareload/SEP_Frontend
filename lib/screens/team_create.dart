@@ -31,10 +31,23 @@ class _TeamCreateState extends State<TeamCreate> {
               Widgets.getTextFieldH3C("Team erstellen", constraints),
             ],
           ),
-          Widgets.getTextFieldP1("Teamname", constraints),
-          Widgets.getInputFieldStyle1(teamNameController, TextInputType.text, false, constraints),
-          Widgets.getTextFieldE1(_errorText, constraints),
-          Widgets.getButtonStyle1("Erstellen", _onTeamCreate, constraints)
+          SizedBox(height: 30,),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Widgets.getInputFieldWithTitle(teamNameController,TextInputType.text,false,constraints,"Teamname","Teamname hier eintragen"),
+                Widgets.getButtonStyleOrange("Erstellen", _onTeamCreate, constraints,"Fertig"),
+              ],
+            ),
+          ),
+          SizedBox(height: 30,),
+
+          //Widgets.getTextFieldP1("Teamname", constraints),
+          //Widgets.getInputFieldStyle1(teamNameController, TextInputType.text, false, constraints),
+          //Widgets.getTextFieldE1(_errorText, constraints),
+          //Widgets.getButtonStyle1("Erstellen", _onTeamCreate, constraints)
         ],
       );
     })));

@@ -67,12 +67,88 @@ class Widgets {
       keyboardType: type,
     );
   }
+  //A InputField with a title(Top Blue and Bottom white)
+  static Widget getInputFieldWithTitle(TextEditingController ctr,
+      TextInputType type, bool hidden, BoxConstraints constraints, String title, String hint) {
+    return Container(
+        padding: const EdgeInsets.all(10),
+
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              padding: EdgeInsets.all(10),
+              decoration: const BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.elliptical(20.0,20),
+                    topRight: Radius.elliptical(20.0,20),
+
+                  )
+              ),
+              child: Center(child: Text(title,
+                style: const TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                    color: Settings.white),
+              )),
+            ),
+            Container(
+              padding: EdgeInsets.all(20),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black12),
+                  color: Colors.white,
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.elliptical(20.0,20),
+                    bottomRight: Radius.elliptical(20.0,20),
+                  )
+              ),
+              child: TextField(
+                textAlign: TextAlign.center,
+                obscureText: hidden,
+                controller: ctr,
+                keyboardType: type,
+                decoration: new InputDecoration.collapsed(
+                    hintText: hint,
+                ),
+              ),
+            )
+          ],
+        )
+    );
+  }
 
   static Widget getButtonStyle1(
       String display, VoidCallback func, BoxConstraints constraints) {
     return ElevatedButton(
       onPressed: func,
       child: Text(display),
+    );
+  }
+
+  static Widget getButtonStyleOrange(
+      String display, VoidCallback func, BoxConstraints constraints,String btnText) {
+    return Container(
+      margin: EdgeInsets.only(left: 10,right: 10),
+      child: Material(
+        color: Colors.orange,
+        borderRadius: BorderRadius.circular(50),
+        child: InkWell(
+          onTap: func,
+          borderRadius: BorderRadius.circular(50),
+          child: Container(
+            height: 60,
+            alignment: Alignment.center,
+            child: Text(btnText,
+              style: const TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  color: Settings.white),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
