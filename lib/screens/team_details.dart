@@ -50,7 +50,9 @@ class _TeamDetailsState extends State<TeamDetails> {
               Widgets.getButtonStyle2("Meditation", () {}, constraints),
               Widgets.getButtonStyle2("Atemübungen", () {}, constraints),
               Widgets.getButtonStyle2("Umfragen", () {}, constraints),
-              Widgets.getButtonStyle2("Team", () {}, constraints),
+              Widgets.getButtonStyle2("Team", () {
+                Navigator.pushNamed(context, RouteGenerator.teamManage);
+              }, constraints),
             ]),
           ))
         ],

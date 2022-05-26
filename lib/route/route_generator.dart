@@ -5,6 +5,7 @@ import 'package:moody/screens/register.dart';
 import 'package:moody/screens/splash.dart';
 import 'package:moody/screens/team_create.dart';
 import 'package:moody/screens/team_details.dart';
+import 'package:moody/screens/team_manage.dart';
 import 'package:moody/screens/team_overview.dart';
 
 class RouteGenerator {
@@ -15,6 +16,8 @@ class RouteGenerator {
   static const String teamDetails = "/teamDetails";
   static const String profileOverview = "/profileOverview";
   static const String teamCreate = "/teamCreate";
+  static const String teamManage = "/teamManage";
+
 
   static void reset(context){
     Navigator.pushNamedAndRemoveUntil(context, RouteGenerator.splash, (route) => false);
@@ -45,6 +48,9 @@ class RouteGenerator {
       case teamCreate:
         return MaterialPageRoute(
             settings: settings, builder: (_) => const TeamCreate());
+      case teamManage:
+        return MaterialPageRoute(
+            settings: settings, builder: (_) => const TeamManage());
       default:
         return MaterialPageRoute(
             settings: settings, builder: (_) => const Splash());
