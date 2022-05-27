@@ -4,6 +4,7 @@ import 'package:widget_collection/myapp.dart';
 import 'package:widget_collection/views/abfrage_view.dart';
 import 'package:widget_collection/views/atem_uebung_view.dart';
 import 'package:widget_collection/views/kalender_view.dart';
+import 'package:widget_collection/views/login_view1.dart';
 import 'package:widget_collection/views/profil_view.dart';
 import 'package:widget_collection/views/teamover_view.dart';
 
@@ -30,6 +31,7 @@ class _HomeViewState extends State<HomeView> {
           btnRedirect("Profilpage",ProfileView()),
           btnRedirect("Abrage Feelings",AbfrageView()),
           btnRedirect("BtnKalender",KalenderView()),
+          btnRedirect("Login",LoginView()),
           btnRedirect("TeamOverview",TeamOverView()),
           textInputField(),
 
