@@ -355,18 +355,18 @@ class Widgets {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              displayEmoji("gl"),
-                              displayEmoji("mo"),
-                              displayEmoji("fr"),
-                              displayEmoji("ne"),
+                              displayEmoji("assets/smile.png",Colors.green),
+                              displayEmoji("assets/happy.png",Colors.orange),
+                              displayEmoji("assets/steam.png",Colors.blue),
+                              displayEmoji("assets/neutral.png",Colors.grey),
                             ],
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              displayEmoji("gel"),
-                              displayEmoji("gef"),
-                              displayEmoji("an"),
+                              displayEmoji("assets/unamused.png",Colors.yellow),
+                              displayEmoji("assets/exhaling.png",Colors.red),
+                              displayEmoji("assets/sleeping.png",Colors.blueGrey),
                             ],
                           )
                         ],
@@ -380,14 +380,19 @@ class Widgets {
   }
 
   //Displays a single emoji icon in the mood selection view
-  static displayEmoji(String s) {
+  static displayEmoji(String s,MaterialColor color) {
     return Container(
-      padding: const EdgeInsets.only(left: 2, right: 2),
-      margin: const EdgeInsets.only(left: 5, right: 5),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey, width: 5),
+      padding: EdgeInsets.only(left: 5,right: 5),
+      child: CircleAvatar(
+        radius: 32,
+        backgroundColor: color,
+        child: CircleAvatar(
+          minRadius: 20,
+          maxRadius: 30,
+          backgroundImage: AssetImage(s),
+          backgroundColor: color,
+        ),
       ),
-      child: Text(s),
     );
   }
 
