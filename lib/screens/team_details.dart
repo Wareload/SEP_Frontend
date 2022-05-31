@@ -17,6 +17,8 @@ class _TeamDetailsState extends State<TeamDetails> {
 
   @override
   Widget build(BuildContext context) {
+    List feelingStatus = Widgets.getMoodList();
+
     var args = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
     _setTeam(args["team"]);
@@ -39,7 +41,9 @@ class _TeamDetailsState extends State<TeamDetails> {
             height: 10,
           ),
           Widgets.getMoodEmojis(
-              "Wie geht es dir heute?", () {}, () {}, constraints),
+              "Wie geht es dir heute?", () {}, () {
+                Navigator.pushNamed(context, RouteGenerator.moodSelect);
+          }, () {}, constraints,feelingStatus),
           Container(
             height: 30,
           ),

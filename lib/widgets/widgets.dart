@@ -58,6 +58,24 @@ class Widgets {
     );
   }
 
+  static Widget getTextWhiteH3(String text, BoxConstraints constraints){
+    return Text(text,
+      style: const TextStyle(
+          fontSize: 18.0,
+          fontWeight: FontWeight.bold,
+          color: Settings.white),
+    );
+  }
+
+  static Widget getNormalTextH3(String text, BoxConstraints constraints){
+    return Text(text,
+      style: const TextStyle(
+          fontSize: 15.0,
+          fontWeight: FontWeight.normal,
+          color: Colors.black),
+    );
+  }
+
   static Widget getInputFieldStyle1(TextEditingController ctr,
       TextInputType type, bool hidden, BoxConstraints constraints) {
     return TextField(
@@ -130,6 +148,7 @@ class Widgets {
   static Widget getButtonStyleOrange(
       String display, VoidCallback func, BoxConstraints constraints,String btnText) {
     return Container(
+      padding: EdgeInsets.all(10),
       margin: EdgeInsets.only(left: 10,right: 10),
       child: Material(
         color: Colors.orange,
@@ -317,9 +336,9 @@ class Widgets {
         ));
   }
 
-  //Chris
-  static Widget getMoodEmojis(display, VoidCallback click, VoidCallback leave,
-      BoxConstraints constraints) {
+  //create the choose menu for the teamview
+  static Widget getMoodEmojis(display, VoidCallback click, VoidCallback select1, VoidCallback leave,
+      BoxConstraints constraints, List feelingStatus) {
     return Column(
       children: [
         Container(
@@ -338,7 +357,7 @@ class Widgets {
                             topRight: Radius.elliptical(20.0, 20),
                           )),
                       child:
-                          Center(child: getTextFieldH2(display, constraints)),
+                          Center(child: getTextWhiteH3(display, constraints)),
                     ),
                     Container(
                       padding: const EdgeInsets.all(10),
@@ -355,18 +374,18 @@ class Widgets {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              displayEmoji("assets/smile.png",Colors.green),
-                              displayEmoji("assets/happy.png",Colors.orange),
-                              displayEmoji("assets/steam.png",Colors.blue),
-                              displayEmoji("assets/neutral.png",Colors.grey),
+                              displayEmoji("assets/smile.png",Colors.green, select1,feelingStatus,0),
+                              displayEmoji("assets/happy.png",Colors.orange, select1,feelingStatus,1),
+                              displayEmoji("assets/steam.png",Colors.blue, select1,feelingStatus,2),
+                              displayEmoji("assets/neutral.png",Colors.grey, select1,feelingStatus,3),
                             ],
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              displayEmoji("assets/unamused.png",Colors.yellow),
-                              displayEmoji("assets/exhaling.png",Colors.red),
-                              displayEmoji("assets/sleeping.png",Colors.blueGrey),
+                              displayEmoji("assets/unamused.png",Colors.yellow, select1,feelingStatus,4),
+                              displayEmoji("assets/exhaling.png",Colors.red, select1,feelingStatus,5),
+                              displayEmoji("assets/sleeping.png",Colors.blueGrey, select1,feelingStatus,6),
                             ],
                           )
                         ],
@@ -380,21 +399,58 @@ class Widgets {
   }
 
   //Displays a single emoji icon in the mood selection view
-  static displayEmoji(String s,MaterialColor color) {
+  static displayEmoji(String s,MaterialColor color, VoidCallback select1, List states, int id) {
     return Container(
-      padding: EdgeInsets.only(left: 5,right: 5),
-      child: CircleAvatar(
-        radius: 32,
-        backgroundColor: color,
+      //key: UniqueKey(),
+      padding: const EdgeInsets.only(left: 5,right: 5),
+      child: GestureDetector(
+        onTap: () {
+            Mood m = states[id];
+            print("N:$m.moodname");
+            m.setStatus(!m.status);
+            print("N:$m.moodname");
+            print(m.status);
+            print("set for ");
+            print(id);
+            select1();
+
+            setState(){
+            };
+        },
         child: CircleAvatar(
-          minRadius: 20,
-          maxRadius: 30,
-          backgroundImage: AssetImage(s),
+          radius: getRadiusByState(states[id]),
           backgroundColor: color,
+          child: CircleAvatar(
+            radius: getRadiusByState(states[id]),//getRadiusByState(states, id),
+            backgroundImage: AssetImage(s),
+            backgroundColor: Colors.white,
+          ),
         ),
       ),
     );
   }
+
+  static double getRadiusByState(stat) {
+    Mood m = stat;
+   // print(m.status);
+    if(m.status==true){
+      //print(30);
+      return 20;
+    }else {
+     // print(20);
+      return 30;
+    }
+  }
+
+ /* static double getRadiusByState(List states, int id) {
+    Mood m = states[id];
+    //print(m.status);
+    if(m.status==true){
+      return 20;
+    }else {
+      return 30;
+    }
+  }*/
 
   static displayEmojiLegende() {
     return Container(
@@ -438,6 +494,43 @@ class Widgets {
     );
   }
 
+  static Widget displayInfoBoxWithTitle(String title, String description, BoxConstraints constraints) {
+    return Container(
+        padding: const EdgeInsets.all(10),
+
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              padding: EdgeInsets.all(5),
+              decoration: const BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.elliptical(20.0,20),
+                    topRight: Radius.elliptical(20.0,20),
+
+                  )
+              ),
+              child: Center(child: getTextWhiteH3(title,constraints)),
+            ),
+            Container(
+              padding: EdgeInsets.all(10),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black12),
+                  color: Colors.white,
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.elliptical(20.0,20),
+                    bottomRight: Radius.elliptical(20.0,20),
+                  )
+              ),
+              child: getNormalTextH3(description,constraints),
+            )
+          ],
+        )
+    );
+  }
+
   static Widget getProfileIcon(constraints, VoidCallback callback){
     return Container(
       margin: EdgeInsets.only(right: constraints.maxWidth * 0.08),
@@ -448,5 +541,60 @@ class Widgets {
             size: constraints.maxWidth * 0.15),
       ),
     );
+  }
+
+  static Widget getInputField(TextEditingController noteController, TextInputType text, BoxConstraints constraints, String hint) {
+    return Container(
+      height: 150,
+      padding: EdgeInsets.all(5),
+      child: Center(
+        child: Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                  width: 1, color: Colors.white, style: BorderStyle.solid)),
+          child: TextField(
+            textAlign: TextAlign.center,
+            minLines: 10,
+            maxLines: 20,
+            decoration: const InputDecoration(
+                hintText: 'Anmerkungen',
+                contentPadding: EdgeInsets.all(15),
+                border: InputBorder.none),
+            onChanged: (value) {},
+          ),
+        ),
+      ),
+    );
+  }
+
+  static List getMoodList(){
+    List moodList = [];
+    moodList.add(Mood('glücklich', false));
+    moodList.add(Mood('motiviert', false));
+    moodList.add(Mood('frustriert', false));
+    moodList.add(Mood('neutral', false));
+    moodList.add(Mood('gelangweilt', false));
+    moodList.add(Mood('gefordert', true));
+    moodList.add(Mood('antriebslos', false));
+
+    return moodList;
+  }
+
+
+}
+
+class Mood {
+  String moodname;
+  bool status;
+  Mood(this.moodname, this.status);
+  @override
+  String toString() {
+    return '{ ${this.moodname}, ${this.status} }';
+  }
+
+  void setStatus(bool newState) {
+    status=newState;
   }
 }

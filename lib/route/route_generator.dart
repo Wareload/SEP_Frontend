@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moody/screens/login.dart';
+import 'package:moody/screens/mood_select.dart';
 import 'package:moody/screens/profile_overview.dart';
 import 'package:moody/screens/register.dart';
 import 'package:moody/screens/splash.dart';
@@ -17,6 +18,8 @@ class RouteGenerator {
   static const String profileOverview = "/profileOverview";
   static const String teamCreate = "/teamCreate";
   static const String teamManage = "/teamManage";
+  static const String moodSelect = "/moodSelect";
+
 
 
   static void reset(context){
@@ -51,6 +54,9 @@ class RouteGenerator {
       case teamManage:
         return MaterialPageRoute(
             settings: settings, builder: (_) => const TeamManage());
+      case moodSelect:
+        return MaterialPageRoute(
+            settings: settings, builder: (_) => const MoodSelect());
       default:
         return MaterialPageRoute(
             settings: settings, builder: (_) => const Splash());
