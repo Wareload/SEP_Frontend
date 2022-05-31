@@ -42,7 +42,9 @@ class _TeamDetailsState extends State<TeamDetails> {
           ),
           Widgets.getMoodEmojis(
               "Wie geht es dir heute?", () {}, () {
-                Navigator.pushNamed(context, RouteGenerator.moodSelect);
+            List<dynamic> map = [];
+            map.add("2");
+            Navigator.of(context).pushNamed(RouteGenerator.moodSelect, arguments: {"feelingState":feelingStatus});
           }, () {}, constraints,feelingStatus),
           Container(
             height: 30,

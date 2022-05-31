@@ -399,58 +399,46 @@ class Widgets {
   }
 
   //Displays a single emoji icon in the mood selection view
-  static displayEmoji(String s,MaterialColor color, VoidCallback select1, List states, int id) {
+  static displayEmoji(String s,MaterialColor color, VoidCallback callback, List states, int id) {
     return Container(
-      //key: UniqueKey(),
       padding: const EdgeInsets.only(left: 5,right: 5),
       child: GestureDetector(
         onTap: () {
             Mood m = states[id];
-            print("N:$m.moodname");
             m.setStatus(!m.status);
-            print("N:$m.moodname");
-            print(m.status);
-            print("set for ");
-            print(id);
-            select1();
-
-            setState(){
-            };
+            callback();
         },
         child: CircleAvatar(
-          radius: getRadiusByState(states[id]),
+          radius: 31,
           backgroundColor: color,
           child: CircleAvatar(
             radius: getRadiusByState(states[id]),//getRadiusByState(states, id),
             backgroundImage: AssetImage(s),
-            backgroundColor: Colors.white,
+            backgroundColor: getColorByState(states[id],color),
           ),
         ),
       ),
     );
   }
+  static Color getColorByState(Mood mood,MaterialColor color) {
+    if(mood.status){
+      return Colors.black;
 
+    }else {
+      return color;
+    }
+  }
+  
   static double getRadiusByState(stat) {
     Mood m = stat;
-   // print(m.status);
     if(m.status==true){
-      //print(30);
       return 20;
     }else {
      // print(20);
-      return 30;
+      return 29;
     }
   }
 
- /* static double getRadiusByState(List states, int id) {
-    Mood m = states[id];
-    //print(m.status);
-    if(m.status==true){
-      return 20;
-    }else {
-      return 30;
-    }
-  }*/
 
   static displayEmojiLegende() {
     return Container(
@@ -555,11 +543,12 @@ class Widgets {
               border: Border.all(
                   width: 1, color: Colors.white, style: BorderStyle.solid)),
           child: TextField(
+            controller: noteController,
             textAlign: TextAlign.center,
             minLines: 10,
             maxLines: 20,
             decoration: const InputDecoration(
-                hintText: 'Anmerkungen',
+                hintText: "Anmerkungen",
                 contentPadding: EdgeInsets.all(15),
                 border: InputBorder.none),
             onChanged: (value) {},
@@ -576,13 +565,12 @@ class Widgets {
     moodList.add(Mood('frustriert', false));
     moodList.add(Mood('neutral', false));
     moodList.add(Mood('gelangweilt', false));
-    moodList.add(Mood('gefordert', true));
+    moodList.add(Mood('gefordert', false));
     moodList.add(Mood('antriebslos', false));
 
     return moodList;
   }
-
-
+  
 }
 
 class Mood {

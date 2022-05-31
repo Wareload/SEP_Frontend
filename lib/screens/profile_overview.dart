@@ -90,9 +90,9 @@ class _ProfileOverviewState extends State<ProfileOverview> {
               Widgets.getContainerTag("Fans", constraints),
               Widgets.getContainerTag("Jokes", constraints),
               Widgets.getContainerTag("Javascript", constraints),
-              Widgets.getContainerTag("LGBTQ+HDTV_QHD", constraints),
-              Widgets.getContainerTag("LGBTQ+HDTV_QHD", constraints),
-              Widgets.getContainerTag("LGBTQ+HDTV_QHD", constraints),
+              Widgets.getContainerTag("Testing", constraints),
+              Widgets.getContainerTag("Spanish", constraints),
+              Widgets.getContainerTag("Tryouts", constraints),
             ],
           ),
         ));
