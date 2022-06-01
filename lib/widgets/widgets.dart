@@ -251,7 +251,7 @@ class Widgets {
           color: Settings.blue,
           shape: BoxShape.circle,
           image: DecorationImage(
-              fit: BoxFit.fitHeight, image: NetworkImage(link))),
+              fit: BoxFit.fitHeight, image: AssetImage("assets/pb_placeholderr.jpg"))), //Over networkimage image: NetworkImage(link)
       // child: Image.network(link),
     );
   }
@@ -521,13 +521,15 @@ class Widgets {
 
   static Widget getProfileIcon(constraints, VoidCallback callback){
     return Container(
-      margin: EdgeInsets.only(right: constraints.maxWidth * 0.08),
-      child: IconButton(
+      child: ElevatedButton(
         onPressed: callback,
-        icon: Icon(Icons.account_circle,
-            color: Colors.blueGrey,
-            size: constraints.maxWidth * 0.15),
-      ),
+        child: Icon(Icons.account_circle, color: Colors.grey,size: constraints.maxWidth * 0.15),
+        style: ElevatedButton.styleFrom(
+          shape: CircleBorder(),
+          primary: Colors.white, // <-- Button color
+          onPrimary: Colors.red,
+    )
+        ,),
     );
   }
 

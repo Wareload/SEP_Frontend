@@ -174,8 +174,32 @@ class ApiBackend implements ApiInterface {
   }
 
   @override
-  Future<Profile> getProfile() {
+  Future<Profile> getProfile() async {
     // TODO: implement getProfile
+    http.Response response;
+    try {
+      response = await http
+          .post(Uri.parse(pathUrl + pathProfileGetProfile),
+          headers: _headers, body: {}).timeout(Duration(seconds: timeout));
+    } catch (e) {
+      throw UserFeedbackException("Server error$e");
+    }
+    switch (response.statusCode) {
+      case 200:
+        //var teams = <Team>[];
+        var body = json.decode(response.body);
+        var email = body["email"];
+        var fistname = body["fistname"];
+        var lastname = body["lastname"];
+        var tags = body["tags"];
+        Profile profile = new Profile(email, fistname, lastname, tags);
+        await updateCookie(response);
+        return profile;
+      case 401:
+        throw InvalidPermissionException("Unauthorized");
+      default:
+        throw UserFeedbackException("Server Fehler");
+    }
     throw UnimplementedError();
   }
 

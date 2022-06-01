@@ -71,6 +71,7 @@ flutter:
     - assets/smile.png
     - assets/steam.png
     - assets/unamused.png
+    - assets/pb_placeholderr.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

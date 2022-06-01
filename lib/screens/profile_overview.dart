@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:moody/widgets/widgets.dart';
 
 import '../api/api.dart';
 import '../api/exception/invalid_permission_exception.dart';
 import '../api/exception/user_feedback_exception.dart';
 import '../route/route_generator.dart';
+import '../structs/profile.dart';
 import '../structs/team.dart';
 
 class ProfileOverview extends StatefulWidget {
   const ProfileOverview({Key? key}) : super(key: key);
-
   @override
   State<StatefulWidget> createState() => _ProfileOverviewState();
 }
 
 class _ProfileOverviewState extends State<ProfileOverview> {
   List<Team> teams = [];
+  Profile _profile = Profile.empty();
 
   @override
   Widget build(BuildContext context) {
+    _setProfile();
+
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return Column(
@@ -46,9 +50,9 @@ class _ProfileOverviewState extends State<ProfileOverview> {
           ),
           Widgets.getProfileImage(
               "https://bugsbunnies.de/images/logo.png", constraints),
-          Widgets.getTextFieldH2("David Neus", constraints),
-          Widgets.getTextFieldH3("david.neus@gmx.de", constraints),
-          _getTags(constraints),
+          Widgets.getTextFieldH2(_profile.getFullName(), constraints),
+          Widgets.getTextFieldH3(_profile.email, constraints),
+          displayTags(constraints),
           Container(
               margin: EdgeInsets.only(left: constraints.maxWidth * 0.05),
               child: Align(
@@ -62,6 +66,23 @@ class _ProfileOverviewState extends State<ProfileOverview> {
       );
     })));
   }
+
+  //Get Profile
+  void _setProfile() async {
+    if(_profile.email!="email"){
+
+    }else{
+      print("submiting request for the profile");
+      try {
+        _profile = await Api.api.getProfile();
+        setState(() {});
+      } catch (e) {
+        //no need to handle
+      }
+    }
+
+  }
+  //Teams
 
   Widget _getTeams(constraints) {
     List<Widget> widgets = [];
@@ -77,25 +98,22 @@ class _ProfileOverviewState extends State<ProfileOverview> {
     );
   }
 
-  Widget _getTags(BoxConstraints constraints) {
+  Widget displayTags(BoxConstraints constraints) {
+    print("running");
     return Container(
-        margin: const EdgeInsets.all(10),
-        height: 40,
-        child: Center(
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            shrinkWrap: true,
-            children: [
-              Widgets.getContainerTag("Only", constraints),
-              Widgets.getContainerTag("Fans", constraints),
-              Widgets.getContainerTag("Jokes", constraints),
-              Widgets.getContainerTag("Javascript", constraints),
-              Widgets.getContainerTag("Testing", constraints),
-              Widgets.getContainerTag("Spanish", constraints),
-              Widgets.getContainerTag("Tryouts", constraints),
-            ],
-          ),
-        ));
+      margin: const EdgeInsets.all(10),
+      height: 40,
+      child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          shrinkWrap: true,
+          separatorBuilder: (BuildContext context,int index) => const Divider(),
+          itemCount: _profile.tags.length,
+          itemBuilder: (context, int index) {
+            print(_profile.tags[index]);
+            return Widgets.getContainerTag(_profile.tags[index], constraints);
+          }
+      ),
+    );
   }
 
   void _back() {

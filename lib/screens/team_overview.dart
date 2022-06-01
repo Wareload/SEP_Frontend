@@ -6,6 +6,7 @@ import 'package:moody/widgets/widgets.dart';
 import '../api/exception/invalid_permission_exception.dart';
 import '../api/exception/user_feedback_exception.dart';
 import '../route/route_generator.dart';
+import '../structs/profile.dart';
 import '../structs/team.dart';
 
 class TeamOverview extends StatefulWidget {
@@ -17,19 +18,23 @@ class TeamOverview extends StatefulWidget {
 
 class _TeamOverviewState extends State<TeamOverview> {
   List<Team> teams = [];
+  Profile _profile = Profile.empty();
+
 
   @override
   Widget build(BuildContext context) {
+    _setProfile();
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
           return Column(
             children: [
+
               Container(
                   padding: EdgeInsets.only(top: constraints.maxWidth * 0.03)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Widgets.getTextFieldH3C("Hallo David!", constraints),
+                  Widgets.getTextFieldH3C("Hallo "+_profile.firstname+"!", constraints),
                   Widgets.getProfileIcon(constraints, _goToProfile),
                 ],
               ),
@@ -47,6 +52,22 @@ class _TeamOverviewState extends State<TeamOverview> {
             ],
           );
         })));
+  }
+
+  //Get Profile
+  void _setProfile() async {
+    if(_profile.email!="email"){
+
+    }else{
+      print("submiting request for the profile");
+      try {
+        _profile = await Api.api.getProfile();
+        setState(() {});
+      } catch (e) {
+        //no need to handle
+      }
+    }
+
   }
 
   Widget getTeams(BoxConstraints constraints) {

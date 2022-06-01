@@ -29,7 +29,6 @@ class RouteGenerator {
   RouteGenerator._();
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    //final args = settings.arguments;
     switch (settings.name) {
       case splash:
         return MaterialPageRoute(
