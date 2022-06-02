@@ -19,35 +19,51 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
-      return SingleChildScrollView(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            height: constraints.maxHeight * 0.05,
-          ),
-          Widgets.getTextFieldH1("Login", constraints),
-          Widgets.getTextFieldH3("E-Mail", constraints),
-          Widgets.getInputFieldStyle1(
-              emailController, TextInputType.emailAddress, false, constraints),
-          Widgets.getTextFieldH3("Password", constraints),
-          Widgets.getInputFieldStyle1(
-              passwordController, TextInputType.text, true, constraints),
-          Widgets.getTextFieldE1(_errorText, constraints),
-          Widgets.getButtonStyle1("Einloggen", _login, constraints),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Widgets.getTextFieldP1("Noch keinen Account?", constraints),
-              Widgets.getTextButtonStyle1(
-                  "Jetzt registrieren!", _toRegister, constraints)
-            ],
-          )
-        ],
-      ));
-    })));
+    return SafeArea(child: Scaffold(
+      resizeToAvoidBottomInset:false,
+      appBar: AppBar(
+          title: Text("Anmelden"),
+          centerTitle: true,
+        ),
+        body: Container(
+            child: LayoutBuilder(builder: (builder, constraints) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 20,),
+                  Widgets.getInputFieldLoginStyle("Email *", emailController, TextInputType.emailAddress),
+                  SizedBox(height: 20,),
+                  Widgets.getInputFieldLoginStyleObscured("Password *", passwordController, TextInputType.text),
+                  Container(
+                    margin: EdgeInsets.only(left: 30,top: 10),
+                    child: Text("* Pflichtangaben",
+                    style: TextStyle(
+                    color: Colors.grey[600]
+                      ),
+                    ),
+                  ),
+                Center(child: Widgets.getTextFieldE1(_errorText, constraints)),
+                  Expanded(
+                    child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Widgets.getButtonStyleOrange("",_login,constraints,"Einloggen"),
+                      SizedBox(height: 25,),
+                      Text("noch keinen Account?"),
+                      SizedBox(height: 5,),
+                      btnWithoutBackground("Jetzt registrieren",_toRegister),
+                      SizedBox(height: 15,),
+    ],
+    ),
+    ),
+    ],
+    );
+    },
+              ),
+              ),
+              ),
+    );
   }
 
   void _login() async {
@@ -71,4 +87,22 @@ class _LoginState extends State<Login> {
   void initState() {
     super.initState();
   }
+
+
+
+  Widget btnWithoutBackground(String text,VoidCallback func) {
+    return FlatButton(
+      //padding: EdgeInsets.only(bottom: 30),
+      child: Text(
+        text,
+        style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 20
+        ),
+      ),
+      onPressed: func,
+    );
+  }
+
 }

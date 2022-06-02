@@ -58,6 +58,7 @@ class Widgets {
     );
   }
 
+
   static Widget getTextWhiteH3(String text, BoxConstraints constraints){
     return Text(text,
       style: const TextStyle(
@@ -85,6 +86,48 @@ class Widgets {
       keyboardType: type,
     );
   }
+
+  static Widget getInputFieldLoginStyle(String hint, TextEditingController ctr,
+      TextInputType type) {
+    return Container(
+      margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
+      child: TextField(
+        keyboardType: type,
+        controller: ctr,
+        decoration: InputDecoration(
+            border: OutlineInputBorder(
+
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+            filled: true,
+            hintStyle: TextStyle(color: Colors.grey[800]),
+            hintText: hint,
+            fillColor: Colors.white70),
+      ),
+    );
+  }
+  static Widget getInputFieldLoginStyleObscured(String hint, TextEditingController ctr,
+      TextInputType type) {
+    return Container(
+      margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
+      child: TextField(
+        obscureText: true,
+        keyboardType: type,
+        controller: ctr,
+        decoration: InputDecoration(
+            border: OutlineInputBorder(
+
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+            filled: true,
+            hintStyle: TextStyle(color: Colors.grey[800]),
+            hintText: hint,
+            fillColor: Colors.white70),
+      ),
+    );
+  }
+
+
   //A InputField with a title(Top Blue and Bottom white)
   static Widget getInputFieldWithTitle(TextEditingController ctr,
       TextInputType type, bool hidden, BoxConstraints constraints, String title, String hint) {
