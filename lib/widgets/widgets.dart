@@ -390,16 +390,6 @@ class Widgets {
     );
   }
 
-/*  Row(
-  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  children: const [
-  Text("Sehr gut"),
-  Text("Gut"),
-  Text("Schlecht"),
-  Text("Sehr schlecht"),
-  ],
-  )*/
-
   static Color getColorByState(Mood mood, MaterialColor color) {
     if (mood.status) {
       return Colors.black;
