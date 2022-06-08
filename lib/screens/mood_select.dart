@@ -18,47 +18,38 @@ class _MoodSelectState extends State<MoodSelect> {
   List moodList = Widgets.getMoodList();
   bool isLoading = false;
 
-
-
   @override
   Widget build(BuildContext context) {
-
-    var args = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
+    var args = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
     moodList = args['feelingState'];
     print(args);
-    return Scaffold(
-        body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+    return Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text("Header"),
             Widgets.displayInfoBoxWithTitle("Motivational Quote", "Persistance powers passion.", constraints),
-            Widgets.getMoodEmojis("Wie geht es Dir heute?", () { }, _renderNew, () { }, constraints, moodList),
-            Widgets.getInputField(noteController,TextInputType.text,constraints,"Teamname"),
-            getButtonStyleOrangeWithAnimation(_submitMood, constraints,"Fertig",isLoading),
-
+            Widgets.getMoodEmojis("Wie geht es Dir heute?", () {}, _renderNew, () {}, constraints, moodList),
+            Widgets.getInputField(noteController, TextInputType.text, constraints, "Teamname"),
+            getButtonStyleOrangeWithAnimation(_submitMood, constraints, "Fertig", isLoading),
           ],
         ),
       );
     })));
   }
 
-  void _submitMood(){
-    isLoading=!isLoading;
+  void _submitMood() {
+    isLoading = !isLoading;
     print("TODO SEND MOOD TO BACKEND");
     print(moodList);
     print(noteController.text);
-    setState(() {
-    });
+    setState(() {});
   }
 
-  void _renderNew(){
-    setState(() {
-    });
+  void _renderNew() {
+    setState(() {});
   }
-
 
   @override
   void initState() {
@@ -83,10 +74,10 @@ class _MoodSelectState extends State<MoodSelect> {
   }
 
   //button with a circularbtn animation for sending the mood to our backend
-  static Widget getButtonStyleOrangeWithAnimation( VoidCallback func, BoxConstraints constraints,String btnText, bool isLoading) {
+  static Widget getButtonStyleOrangeWithAnimation(VoidCallback func, BoxConstraints constraints, String btnText, bool isLoading) {
     return Container(
       padding: EdgeInsets.all(10),
-      margin: EdgeInsets.only(left: 10,right: 10),
+      margin: EdgeInsets.only(left: 10, right: 10),
       child: Material(
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
@@ -97,26 +88,26 @@ class _MoodSelectState extends State<MoodSelect> {
           onPressed: func,
           //borderRadius: BorderRadius.circular(50),
           child: isLoading
-            ? Container(
-            height: 50,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircularProgressIndicator(color: Colors.white,),
-                  //animation/infotext?
-                ],
-              ),
-            )
+              ? Container(
+                  height: 50,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
+                      //animation/infotext?
+                    ],
+                  ),
+                )
               : Container(
-            height: 50,
-            alignment: Alignment.center,
-            child: Text(btnText,
-              style: const TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
-            ),
-          ),
+                  height: 50,
+                  alignment: Alignment.center,
+                  child: Text(
+                    btnText,
+                    style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                ),
         ),
       ),
     );

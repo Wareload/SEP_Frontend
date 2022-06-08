@@ -64,14 +64,17 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   assets:
-    - assets/exhaling.png
-    - assets/happy.png
-    - assets/neutral.png
-    - assets/sleeping.png
-    - assets/smile.png
-    - assets/steam.png
-    - assets/unamused.png
+    - assets/old/exhaling.png
+    - assets/old/neutral.png
+    - assets/old/sleeping.png
+    - assets/old/smile.png
+    - assets/old/steam.png
+    - assets/old/unamused.png
     - assets/pb_placeholderr.jpg
+    - assets/verygood.png
+    - assets/good.png
+    - assets/bad.png
+    - assets/verybad.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
