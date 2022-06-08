@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:moody/screens/login.dart';
+import 'package:moody/screens/meditation_end.dart';
+import 'package:moody/screens/meditation_home.dart';
+import 'package:moody/screens/meditation_info.dart';
+import 'package:moody/screens/meditation_start.dart';
+import 'package:moody/screens/meditation_timer.dart';
 import 'package:moody/screens/mood_select.dart';
 import 'package:moody/screens/profile_overview.dart';
 import 'package:moody/screens/register.dart';
@@ -19,11 +24,15 @@ class RouteGenerator {
   static const String teamCreate = "/teamCreate";
   static const String teamManage = "/teamManage";
   static const String moodSelect = "/moodSelect";
+  static const String meditationHome = "/meditationHome";
+  static const String meditationInfo = "/meditationInfo";
+  static const String meditationStart = "/meditationStart";
+  static const String meditationTimer = "/meditationTimer";
+  static const String meditationEnd = "/meditationEnd";
 
-
-
-  static void reset(context){
-    Navigator.pushNamedAndRemoveUntil(context, RouteGenerator.splash, (route) => false);
+  static void reset(context) {
+    Navigator.pushNamedAndRemoveUntil(
+        context, RouteGenerator.splash, (route) => false);
   }
 
   RouteGenerator._();
@@ -57,6 +66,21 @@ class RouteGenerator {
       case moodSelect:
         return MaterialPageRoute(
             settings: settings, builder: (_) => const MoodSelect());
+      case meditationHome:
+        return MaterialPageRoute(
+            settings: settings, builder: (_) => const MeditationHome());
+      case meditationInfo:
+        return MaterialPageRoute(
+            settings: settings, builder: (_) => const MeditationInfo());
+      case meditationStart:
+        return MaterialPageRoute(
+            settings: settings, builder: (_) => const MeditationStart());
+      case meditationTimer:
+        return MaterialPageRoute(
+            settings: settings, builder: (_) => const MeditationTimer());
+      case meditationEnd:
+        return MaterialPageRoute(
+            settings: settings, builder: (_) => const MeditationEnd());
       default:
         return MaterialPageRoute(
             settings: settings, builder: (_) => const Splash());
