@@ -53,7 +53,7 @@ class _TeamDetailsState extends State<TeamDetails> {
               child: SingleChildScrollView(
             child: Column(children: [
               Widgets.getButtonStyle2("Statistik", () {}, constraints),
-              Widgets.getButtonStyle2("Meditation", () {}, constraints),
+              Widgets.getButtonStyle2("Meditation", _goToMeditation, constraints),
               Widgets.getButtonStyle2("Atemübungen", () {}, constraints),
               Widgets.getButtonStyle2("Umfragen", () {}, constraints),
               Widgets.getButtonStyle2("Team", () {
@@ -86,5 +86,8 @@ class _TeamDetailsState extends State<TeamDetails> {
 
   void _goToProfile() {
     Navigator.pushNamed(context, RouteGenerator.profileOverview);
+  }
+  void _goToMeditation() {
+    Navigator.pushNamed(context, RouteGenerator.meditationHome);
   }
 }
