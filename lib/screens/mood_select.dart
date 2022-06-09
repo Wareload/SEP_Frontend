@@ -15,13 +15,15 @@ class MoodSelect extends StatefulWidget {
 class _MoodSelectState extends State<MoodSelect> {
   Team _team = Team.empty();
   TextEditingController noteController = TextEditingController();
-  int currentSelectedMood = -1;
+  Mood _currentSelectedMood = Mood();
+
   bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     var args = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
-    currentSelectedMood = args['selectedMood'];
+    _currentSelectedMood = args['selectedMood'];
+    print(_currentSelectedMood);
     print(args);
     return Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return SingleChildScrollView(
@@ -30,7 +32,7 @@ class _MoodSelectState extends State<MoodSelect> {
           children: [
             Text("Header"),
             Widgets.displayInfoBoxWithTitle("Motivational Quote", "Persistance powers passion.", constraints),
-            Widgets.getMoodEmojis("Wie geht es Dir heute?", () {}, _renderNew, () {}, constraints, currentSelectedMood),
+            Widgets.getMoodEmojis("Wie geht es Dir heute?", () {}, _renderNew, () {}, constraints, _currentSelectedMood),
             Widgets.getInputField(noteController, TextInputType.text, constraints, "Teamname"),
             getButtonStyleOrangeWithAnimation(_submitMood, constraints, "Fertig", isLoading),
           ],
@@ -42,7 +44,7 @@ class _MoodSelectState extends State<MoodSelect> {
   void _submitMood() {
     isLoading = !isLoading;
     print("TODO SEND MOOD TO BACKEND");
-    print(currentSelectedMood);
+    print(_currentSelectedMood.activeMood);
     print(noteController.text);
     setState(() {});
   }

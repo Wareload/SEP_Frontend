@@ -331,7 +331,7 @@ class Widgets {
         ));
   }
 
-  static Widget getMoodEmojis(display, VoidCallback click, VoidCallback select1, VoidCallback leave, BoxConstraints constraints, int selectedMood) {
+  static Widget getMoodEmojis(display, VoidCallback click, VoidCallback select1, VoidCallback leave, BoxConstraints constraints, Mood selectedMood) {
     return Column(
       children: [
         Container(
@@ -382,7 +382,7 @@ class Widgets {
   }
 
   //Displays a single emoji icon in the mood selection view
-  static displayEmoji(String s, MaterialColor color, VoidCallback callback, int selectedMood, int id) {
+  static displayEmoji(String s, MaterialColor color, VoidCallback callback, Mood selectedMood, int id) {
     List moodnames = <String>["Sehr gut", "Gut", "Schlecht", "Sehr schlecht"];
     return Container(
       padding: const EdgeInsets.only(left: 5, right: 5),
@@ -390,20 +390,20 @@ class Widgets {
         children: <Widget>[
           GestureDetector(
             onTap: () {
-              selectedMood = id;
+              selectedMood.setMood(id);
               callback();
             },
             child: CircleAvatar(
               radius: 31,
               backgroundColor: color,
               child: CircleAvatar(
-                radius: getRadiusByState(selectedMood, id), //getRadiusByState(states, id),
+                radius: getRadiusByState(selectedMood.activeMood == id), //getRadiusByState(states, id),
                 backgroundImage: AssetImage(s),
-                backgroundColor: getColorByState(selectedMood, id, color),
+                backgroundColor: getColorByState(selectedMood.activeMood == id, color),
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 2.0,
           ),
           Text(moodnames[id]),
@@ -412,16 +412,16 @@ class Widgets {
     );
   }
 
-  static Color getColorByState(int selectedMood, int id, MaterialColor color) {
-    if (selectedMood == id) {
+  static Color getColorByState(bool active, MaterialColor color) {
+    if (active) {
       return Colors.black;
     } else {
       return color;
     }
   }
 
-  static double getRadiusByState(int selectedMood, int id) {
-    if (selectedMood == id) {
+  static double getRadiusByState(bool active) {
+    if (active) {
       return 20;
     } else {
       // print(20);
@@ -556,16 +556,11 @@ class Widgets {
 }
 
 class Mood {
-  String moodname;
-  bool status;
-  Mood(this.moodname, this.status);
-  @override
-  String toString() {
-    return '{ ${this.moodname}, ${this.status} }';
-  }
+  int activeMood = -1;
+  Mood();
 
-  void setStatus(bool newState) {
-    status = newState;
+  void setMood(int moodId) {
+    activeMood = moodId;
   }
 }
 

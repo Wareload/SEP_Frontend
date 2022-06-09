@@ -14,11 +14,10 @@ class TeamDetails extends StatefulWidget {
 
 class _TeamDetailsState extends State<TeamDetails> {
   Team _team = Team.empty();
+  Mood _currentSelectedMood = Mood();
 
   @override
   Widget build(BuildContext context) {
-    int currentSelectedMood = -1;
-
     var args = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
     _setTeam(args["team"]);
     return Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
@@ -39,8 +38,8 @@ class _TeamDetailsState extends State<TeamDetails> {
             height: 10,
           ),
           Widgets.getMoodEmojis("Wie geht es dir heute?", () {}, () {
-            Navigator.of(context).pushNamed(RouteGenerator.moodSelect, arguments: {'selectedMood': currentSelectedMood});
-          }, () {}, constraints, currentSelectedMood),
+            Navigator.of(context).pushNamed(RouteGenerator.moodSelect, arguments: {'selectedMood': _currentSelectedMood});
+          }, () {}, constraints, _currentSelectedMood),
           Container(
             height: 30,
           ),
@@ -74,6 +73,10 @@ class _TeamDetailsState extends State<TeamDetails> {
       //no need to handle
     }
   }
+
+  /*void _setMood(int id) async {
+    _currentSelectedMood = 1;
+  }*/
 
   void _back() {
     Navigator.pop(context);
