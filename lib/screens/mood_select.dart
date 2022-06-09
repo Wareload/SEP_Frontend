@@ -21,20 +21,28 @@ class _MoodSelectState extends State<MoodSelect> {
 
   @override
   Widget build(BuildContext context) {
-    var args = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
+    var args = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
     _currentSelectedMood = args['selectedMood'];
-    print(_currentSelectedMood);
+    _setTeam(args["team"]);
+
     print(args);
-    return Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+    return Scaffold(
+        body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Header"),
-            Widgets.displayInfoBoxWithTitle("Motivational Quote", "Persistance powers passion.", constraints),
-            Widgets.getMoodEmojis("Wie geht es Dir heute?", () {}, _renderNew, () {}, constraints, _currentSelectedMood),
-            Widgets.getInputField(noteController, TextInputType.text, constraints, "Teamname"),
-            getButtonStyleOrangeWithAnimation(_submitMood, constraints, "Fertig", isLoading),
+            Widgets.getNavBar(
+                constraints, _back, "Wie geht es dir heute?", _goToProfile),
+            Widgets.displayInfoBoxWithTitle("Motivational Quote",
+                "Persistance powers passion.", constraints),
+            Widgets.getMoodEmojis("Wie geht es Dir heute?", () {}, _renderNew,
+                () {}, constraints, _currentSelectedMood),
+            Widgets.getInputField(
+                noteController, TextInputType.text, constraints, "Teamname"),
+            getButtonStyleOrangeWithAnimation(
+                _submitMood, constraints, "Fertig", isLoading),
           ],
         ),
       );
@@ -44,8 +52,9 @@ class _MoodSelectState extends State<MoodSelect> {
   void _submitMood() {
     isLoading = !isLoading;
     print("TODO SEND MOOD TO BACKEND");
-    print(_currentSelectedMood.activeMood);
-    print(noteController.text);
+    print("Team: ${_team.name}");
+    print("ActiveMood: ${_currentSelectedMood.activeMood}");
+    print("Anmerkung${noteController.text}");
     setState(() {});
   }
 
@@ -76,7 +85,8 @@ class _MoodSelectState extends State<MoodSelect> {
   }
 
   //button with a circularbtn animation for sending the mood to our backend
-  static Widget getButtonStyleOrangeWithAnimation(VoidCallback func, BoxConstraints constraints, String btnText, bool isLoading) {
+  static Widget getButtonStyleOrangeWithAnimation(VoidCallback func,
+      BoxConstraints constraints, String btnText, bool isLoading) {
     return Container(
       padding: EdgeInsets.all(10),
       margin: EdgeInsets.only(left: 10, right: 10),
@@ -107,7 +117,10 @@ class _MoodSelectState extends State<MoodSelect> {
                   alignment: Alignment.center,
                   child: Text(
                     btnText,
-                    style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.white),
+                    style: const TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   ),
                 ),
         ),

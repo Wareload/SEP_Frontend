@@ -18,9 +18,11 @@ class _TeamDetailsState extends State<TeamDetails> {
 
   @override
   Widget build(BuildContext context) {
-    var args = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
+    var args = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
     _setTeam(args["team"]);
-    return Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+    return Scaffold(
+        body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return Column(
         children: [
           Container(
@@ -38,7 +40,11 @@ class _TeamDetailsState extends State<TeamDetails> {
             height: 10,
           ),
           Widgets.getMoodEmojis("Wie geht es dir heute?", () {}, () {
-            Navigator.of(context).pushNamed(RouteGenerator.moodSelect, arguments: {'selectedMood': _currentSelectedMood});
+            Navigator.of(context).pushNamed(RouteGenerator.moodSelect,
+                arguments: {
+                  'selectedMood': _currentSelectedMood,
+                  "team": _team
+                });
           }, () {}, constraints, _currentSelectedMood),
           Container(
             height: 30,
@@ -47,7 +53,8 @@ class _TeamDetailsState extends State<TeamDetails> {
               child: SingleChildScrollView(
             child: Column(children: [
               Widgets.getButtonStyle2("Statistik", () {}, constraints),
-              Widgets.getButtonStyle2("Meditation", _goToMeditation, constraints),
+              Widgets.getButtonStyle2(
+                  "Meditation", _goToMeditation, constraints),
               Widgets.getButtonStyle2("Atemübungen", () {}, constraints),
               Widgets.getButtonStyle2("Umfragen", () {}, constraints),
               Widgets.getButtonStyle2("Team", () {
