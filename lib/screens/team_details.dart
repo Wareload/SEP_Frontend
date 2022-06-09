@@ -17,13 +17,11 @@ class _TeamDetailsState extends State<TeamDetails> {
 
   @override
   Widget build(BuildContext context) {
-    List feelingStatus = Widgets.getMoodList();
+    int currentSelectedMood = -1;
 
-    var args = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
+    var args = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
     _setTeam(args["team"]);
-    return Scaffold(
-        body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+    return Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return Column(
         children: [
           Container(
@@ -40,12 +38,9 @@ class _TeamDetailsState extends State<TeamDetails> {
           Container(
             height: 10,
           ),
-          Widgets.getMoodEmojis(
-              "Wie geht es dir heute?", () {}, () {
-            List<dynamic> map = [];
-            map.add("2");
-            Navigator.of(context).pushNamed(RouteGenerator.moodSelect, arguments: {"feelingState":feelingStatus});
-          }, () {}, constraints,feelingStatus),
+          Widgets.getMoodEmojis("Wie geht es dir heute?", () {}, () {
+            Navigator.of(context).pushNamed(RouteGenerator.moodSelect, arguments: {'selectedMood': currentSelectedMood});
+          }, () {}, constraints, currentSelectedMood),
           Container(
             height: 30,
           ),
@@ -87,6 +82,7 @@ class _TeamDetailsState extends State<TeamDetails> {
   void _goToProfile() {
     Navigator.pushNamed(context, RouteGenerator.profileOverview);
   }
+
   void _goToMeditation() {
     Navigator.pushNamed(context, RouteGenerator.meditationHome);
   }
