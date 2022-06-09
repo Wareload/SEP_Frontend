@@ -43,7 +43,6 @@ class _MeditationInfoState extends State<MeditationInfo> {
                           height: 100,
                         ),
                         textWidgetCentered("Setz dich gemütlich hin."),
-                        textWidgetCentered("Wie lange möchtest du meditieren?"),
                         textWidgetCentered("Nimm deinen Körper wahr."),
                         textWidgetCentered("Spüre deine Atmung."),
                         textWidgetCentered("Bemerke wenn deine"),
