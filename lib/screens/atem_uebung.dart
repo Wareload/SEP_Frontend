@@ -25,31 +25,24 @@ class _AtemuebungState extends State<Atemuebung> {
 
   @override
   Widget build(BuildContext context) {
-    var args = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
-    print(args);
+    var args = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
     _setTeam(args["team"]);
 
-    return Scaffold(
-        body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+    return Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return CustomScrollView(
         slivers: [
           SliverFillRemaining(
             hasScrollBody: false,
             child: Center(
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Widgets.getNavBarWithoutProfile(
-                        constraints, _back, "Atemübung"),
-                    textWidgetCentered(getCurrentActivity()),
-                    bubbleForSeconds(seconds),
-                    Widgets.getButtonStyleOrange(
-                        "Fertig", _goToTeamDetails, constraints, "Stopp"),
-                  ],
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Widgets.getNavBarWithoutProfile(constraints, _back, "Atemübung"),
+                  textWidgetCentered(getCurrentActivity()),
+                  bubbleForSeconds(seconds),
+                  Widgets.getButtonStyleOrange("Fertig", _goToTeamDetails, constraints, "Stopp"),
+                ],
               ),
             ),
           ),
@@ -79,15 +72,14 @@ class _AtemuebungState extends State<Atemuebung> {
   }
 
   void _goToTeamDetails() {
-    Navigator.of(context)
-        .pushNamed(RouteGenerator.teamDetails, arguments: {"team": _team});
+    Navigator.of(context).pushNamed(RouteGenerator.teamDetails, arguments: {"team": _team});
   }
 
   textWidgetCentered(String text) {
     return Center(
       child: Text(
         text,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 20,
           color: Colors.black,
           fontWeight: FontWeight.bold,
@@ -97,31 +89,34 @@ class _AtemuebungState extends State<Atemuebung> {
   }
 
   Widget bubbleForSeconds(int second) {
-    return Container(
+    return SizedBox(
       height: 400,
       width: 400,
       child: Center(
         child: Container(
-            height: heightBySecound(second),
-            width: heightBySecound(second),
-            decoration: BoxDecoration(
+            height: heightBySecond(second),
+            width: heightBySecond(second),
+            decoration: const BoxDecoration(
               color: Settings.blueAccent,
               shape: BoxShape.circle,
             ),
             child: Center(
                 child: Text(
               second.toString(),
-              style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
             ))),
       ),
     );
   }
 
-  double heightBySecound(int second) {
+  double heightBySecond(int second) {
     if (ausatmen == false && einatmen == false) {
-      return 200;
+      return 425;
+    } else if (einatmen) {
+      return (500 - (second + 1) * 75).toDouble();
+    } else {
+      return (65 + (second + 1) * 40).toDouble();
     }
-    return (150 + 20 * (second + 1)).toDouble();
   }
 
   void startTimer() {
@@ -154,7 +149,7 @@ class _AtemuebungState extends State<Atemuebung> {
 
   setAusatmen() {
     ausatmen = true;
-    seconds = 7;
+    seconds = 8;
   }
 
   String getCurrentActivity() {
