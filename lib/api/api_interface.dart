@@ -3,12 +3,9 @@ import 'package:moody/structs/profile.dart';
 import 'package:moody/structs/team.dart';
 
 abstract class ApiInterface {
-
   ApiInterface._();
 
-  static getInstance(){
-    
-  }
+  static getInstance() {}
 
   //account
   /// try to login
@@ -63,4 +60,9 @@ abstract class ApiInterface {
   Future<List<Invitation>> getInvitations();
 //mood
 
+  ///submit your current mood
+  Future<void> setMood(int teamId, int mood, String note);
+
+  ///returns your mood for this timeperiod
+  Future<void> getPersonalMood(int teamid, String startDate, String endDate);
 }

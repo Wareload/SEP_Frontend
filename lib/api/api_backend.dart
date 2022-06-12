@@ -26,18 +26,30 @@ class ApiBackend implements ApiInterface {
   final String pathTeamCreateTeam = "/team/createTeam";
   final String pathTeamDeleteTeam = "/team/deleteTeam";
   final String pathTeamGetTeam = "/team/getTeam";
-  final String pathTeamGetInvitations = "/team/getInvitations";//TODO need to implement
-  final String pathTeamLeaveTeam = "/team/leaveTeam";//TODO need to implement
-  final String pathTeamRemoveTeamMember = "/team/removeTeamMember";//TODO need to implement
-  final String pathTeamPromoteTeamMember = "/team/promoteTeamMember";//TODO need to implement
-  final String pathTeamAddTeamMember = "/team/addTeamMember";//TODO need to implement
-  final String pathTeamAcceptInvitationTeamMember = "/team/acceptInvitation";//TODO need to implement
+  final String pathTeamGetInvitations =
+      "/team/getInvitations"; //TODO need to implement
+  final String pathTeamLeaveTeam = "/team/leaveTeam"; //TODO need to implement
+  final String pathTeamRemoveTeamMember =
+      "/team/removeTeamMember"; //TODO need to implement
+  final String pathTeamPromoteTeamMember =
+      "/team/promoteTeamMember"; //TODO need to implement
+  final String pathTeamAddTeamMember =
+      "/team/addTeamMember"; //TODO need to implement
+  final String pathTeamAcceptInvitationTeamMember =
+      "/team/acceptInvitation"; //TODO need to implement
 
   //profile routes
-  final String pathProfileGetProfile = "/profile/getProfile";//TODO need to implement
-  final String pathProfileAdjustProfile = "/profile/adjustProfile";//TODO need to implement
+  final String pathProfileGetProfile =
+      "/profile/getProfile"; //TODO need to implement
+  final String pathProfileAdjustProfile =
+      "/profile/adjustProfile"; //TODO need to implement
 
   //mood routes
+  final String pathGetTimer = "/mood/getTimer"; //TODO need to implement
+  final String pathSetMood = "/mood/setMood"; //TODO need to implement
+  final String pathGetPersonalMood =
+      "/mood/getPersonalMood"; //TODO need to implement
+  final String pathGetTeamMood = "/mood/getTeamMood"; //TODO need to implement
 
   //http data
   final int timeout = 3; //in seconds
@@ -178,8 +190,7 @@ class ApiBackend implements ApiInterface {
     // TODO: implement getProfile
     http.Response response;
     try {
-      response = await http
-          .post(Uri.parse(pathUrl + pathProfileGetProfile),
+      response = await http.post(Uri.parse(pathUrl + pathProfileGetProfile),
           headers: _headers, body: {}).timeout(Duration(seconds: timeout));
     } catch (e) {
       throw UserFeedbackException("Server error$e");
@@ -212,15 +223,12 @@ class ApiBackend implements ApiInterface {
   }
 
   @override
-  Future<Team> getTeam(int id)async {
+  Future<Team> getTeam(int id) async {
     http.Response response;
     try {
       response = await http
           .post(Uri.parse(pathUrl + pathTeamGetTeam),
-          body: {
-            "teamid": id.toString()
-          },
-          headers: _headers)
+              body: {"teamid": id.toString()}, headers: _headers)
           .timeout(Duration(seconds: timeout));
     } catch (e) {
       throw UserFeedbackException("Server Error");
@@ -254,7 +262,8 @@ class ApiBackend implements ApiInterface {
         var body = json.decode(response.body);
         teams = Team.getSimpleTeams(body["teams"]);
         await updateCookie(response);
-        teams.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+        teams.sort(
+            (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
         return teams;
       case 401:
         throw InvalidPermissionException("Unauthorized");
@@ -276,45 +285,39 @@ class ApiBackend implements ApiInterface {
   }
 
   @override
-  Future<void> createTeam(String name) async{
+  Future<void> createTeam(String name) async {
     //TODO need to specify invalid params
     if (!Validator.isText45(name)) {
-    throw UserFeedbackException("Ungültiger Teamname");
+      throw UserFeedbackException("Ungültiger Teamname");
     }
     http.Response response;
     try {
-    response = await http
-        .post(Uri.parse(pathUrl + pathTeamCreateTeam),
-    body: {
-    "teamname": name
-    },
-    headers: _headers)
-        .timeout(Duration(seconds: timeout));
+      response = await http
+          .post(Uri.parse(pathUrl + pathTeamCreateTeam),
+              body: {"teamname": name}, headers: _headers)
+          .timeout(Duration(seconds: timeout));
     } catch (e) {
-    throw UserFeedbackException("Server Error");
+      throw UserFeedbackException("Server Error");
     }
     switch (response.statusCode) {
-    case 200:
-    updateCookie(response);
-    return;
-    case 400:
-    throw UserFeedbackException("Ungültige Eingaben");
-    case 401:
-    throw InvalidPermissionException("Keine Berechtigung");
+      case 200:
+        updateCookie(response);
+        return;
+      case 400:
+        throw UserFeedbackException("Ungültige Eingaben");
+      case 401:
+        throw InvalidPermissionException("Keine Berechtigung");
     }
     throw UserFeedbackException("Server Fehler");
   }
 
   @override
-  Future<void> deleteTeam(int id) async{
+  Future<void> deleteTeam(int id) async {
     http.Response response;
     try {
       response = await http
           .post(Uri.parse(pathUrl + pathTeamDeleteTeam),
-          body: {
-            "teamid": id.toString()
-          },
-          headers: _headers)
+              body: {"teamid": id.toString()}, headers: _headers)
           .timeout(Duration(seconds: timeout));
     } catch (e) {
       throw UserFeedbackException("Server Error");
@@ -351,6 +354,67 @@ class ApiBackend implements ApiInterface {
 
   //Mood
 
+  //submit Mood
+  @override
+  Future<void> setMood(int teamId, int mood, String note) async {
+    http.Response response;
+    try {
+      response = await http
+          .post(Uri.parse(pathUrl + pathSetMood),
+              body: {
+                "teamid": teamId.toString(),
+                "mood": mood.toString(),
+                "note": note,
+              },
+              headers: _headers)
+          .timeout(Duration(seconds: timeout));
+    } catch (e) {
+      print(e);
+      throw UserFeedbackException("Server Error");
+    }
+    switch (response.statusCode) {
+      case 200:
+        updateCookie(response);
+        return;
+      case 400:
+        throw UserFeedbackException("Ungültige Eingaben");
+      case 401:
+        throw InvalidPermissionException("Keine Berechtigung");
+    }
+    throw UserFeedbackException("Server Fehler");
+  }
+
+  //returns your Personal mood for the selected period
+  @override
+  Future<String> getPersonalMood(
+      int teamid, String startDate, String endDate) async {
+    http.Response response;
+    try {
+      response = await http
+          .post(Uri.parse(pathUrl + pathGetPersonalMood),
+              body: {
+                "teamid": teamid.toString(),
+                "startDate": startDate,
+                "endDate": endDate,
+              },
+              headers: _headers)
+          .timeout(Duration(seconds: timeout));
+    } catch (e) {
+      print(e);
+      throw UserFeedbackException("Server Error");
+    }
+    switch (response.statusCode) {
+      case 200:
+        updateCookie(response);
+        return response.body;
+      case 400:
+        throw UserFeedbackException("Ungültige Eingaben");
+      case 401:
+        throw InvalidPermissionException("Keine Berechtigung");
+    }
+    throw UserFeedbackException("Server Fehler");
+  }
+
   //general helper
   ///update cookie persistent
   Future<void> updateCookie(http.Response response) async {
@@ -371,5 +435,17 @@ class CustomHttpOverride extends HttpOverrides {
     return super.createHttpClient(context)
       ..badCertificateCallback =
           (X509Certificate cert, String host, int port) => true;
+  }
+}
+
+class Mood {
+  late int teamid;
+  late int mood;
+  late String date;
+
+  Mood(int teamid, int mood, String date) {
+    this.teamid = teamid;
+    this.mood = mood;
+    this.date = date;
   }
 }

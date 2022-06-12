@@ -52,7 +52,7 @@ class _TeamDetailsState extends State<TeamDetails> {
           Expanded(
               child: SingleChildScrollView(
             child: Column(children: [
-              Widgets.getButtonStyle2("Statistik", () {}, constraints),
+              Widgets.getButtonStyle2("Statistik", _goToStatistic, constraints),
               Widgets.getButtonStyle2(
                   "Meditation", _goToMeditation, constraints),
               Widgets.getButtonStyle2(
@@ -82,16 +82,17 @@ class _TeamDetailsState extends State<TeamDetails> {
     }
   }
 
-  /*void _setMood(int id) async {
-    _currentSelectedMood = 1;
-  }*/
-
   void _back() {
     Navigator.pop(context);
   }
 
   void _goToProfile() {
     Navigator.pushNamed(context, RouteGenerator.profileOverview);
+  }
+
+  void _goToStatistic() {
+    Navigator.of(context).pushNamed(RouteGenerator.personalStatistic,
+        arguments: {"team": _team});
   }
 
   void _goToAtemUebung() {

@@ -49,12 +49,19 @@ class _MoodSelectState extends State<MoodSelect> {
     })));
   }
 
-  void _submitMood() {
+  Future<void> _submitMood() async {
     isLoading = !isLoading;
     print("TODO SEND MOOD TO BACKEND");
-    print("Team: ${_team.name}");
+    print("Team: ${_team.id}");
     print("ActiveMood: ${_currentSelectedMood.activeMood}");
     print("Anmerkung${noteController.text}");
+    try {
+      await Api.api.setMood(
+          _team.id, _currentSelectedMood.activeMood, noteController.text);
+    } catch (e) {
+      print(e);
+    }
+    Navigator.pushReplacementNamed(context, RouteGenerator.teamOverview);
     setState(() {});
   }
 
