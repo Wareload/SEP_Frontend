@@ -20,50 +20,48 @@ class _TeamManageState extends State<TeamManage> {
   List<Team> teams = [];
   Profile _profile = Profile.empty();
 
-
   @override
   Widget build(BuildContext context) {
     _setProfile();
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
-          return Column(
+      return Column(
+        children: [
+          Container(padding: EdgeInsets.only(top: constraints.maxWidth * 0.03)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                  padding: EdgeInsets.only(top: constraints.maxWidth * 0.03)),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Widgets.getTextFieldH3C("Hallo "+_profile.firstname+" !", constraints),
-                  Widgets.getProfileIcon(constraints, _goToProfile),
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  textCenteredHeader("Mitglieder"),
-                  displayTeamIcons(),
-                  SizedBox(height: 50),
-                   btnRedirect("Team-Care", TeamManage()),
-                  SizedBox(height: 30),
-                  displayName("David Neus"),
-                  SizedBox(height: 50),
-                  checkBoxRole(),
-                  SizedBox(height: 50),
-                  //TODO: btn ist nicht responsive (also hängt nicht immer am bottom(weil es mit expanded einen error gibt(der nicht angezeit wird)));
-                  btnDeleteTeam(),
-                  //displayTeams(null,context),
-                ],
-              ),
+              Widgets.getTextFieldH3C(
+                  "Hallo " + _profile.firstname + " !", constraints),
+              Widgets.getProfileIcon(constraints, _goToProfile),
             ],
-          );
-        })));
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              textCenteredHeader("Mitglieder"),
+              displayTeamIcons(),
+              SizedBox(height: 50),
+              btnRedirect("Team-Care", TeamManage()),
+              SizedBox(height: 30),
+              displayName("David Neus"),
+              SizedBox(height: 50),
+              checkBoxRole(),
+              SizedBox(height: 50),
+              //TODO: btn ist nicht responsive (also hängt nicht immer am bottom(weil es mit expanded einen error gibt(der nicht angezeit wird)));
+              btnDeleteTeam(),
+              //displayTeams(null,context),
+            ],
+          ),
+        ],
+      );
+    })));
   }
 
   //Get Profile
   void _setProfile() async {
     if (_profile.email != "email") {
-
     } else {
       print("submiting request for the profile");
       try {
@@ -74,7 +72,6 @@ class _TeamManageState extends State<TeamManage> {
       }
     }
   }
-
 
   //Teams
   Widget getTeams(BoxConstraints constraints) {
@@ -103,8 +100,8 @@ class _TeamManageState extends State<TeamManage> {
   }
 
   void _goToTeam(Team team) {
-    Navigator.pushNamed(context, RouteGenerator.teamDetails, arguments: {"team":team})
-        .then((value) => {_loadTeams()});
+    Navigator.pushNamed(context, RouteGenerator.teamDetails,
+        arguments: {"team": team}).then((value) => {_loadTeams()});
   }
 
   void _goToProfile() {
@@ -127,11 +124,10 @@ class _TeamManageState extends State<TeamManage> {
     return Container(
       padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
       alignment: Alignment.center,
-      child: Text(fullName,
+      child: Text(
+        fullName,
         style: TextStyle(
-            fontSize: 26.0,
-            fontWeight: FontWeight.bold,
-            color: Colors.black),
+            fontSize: 26.0, fontWeight: FontWeight.bold, color: Colors.black),
       ),
     );
   }
@@ -139,7 +135,7 @@ class _TeamManageState extends State<TeamManage> {
   //Displays all Teammember in a team
   displayTeamIcons() {
     return Container(
-      child: SingleChildScrollView (
+      child: SingleChildScrollView(
         child: RawScrollbar(
           thumbColor: Colors.blue,
           radius: Radius.circular(20),
@@ -162,8 +158,6 @@ class _TeamManageState extends State<TeamManage> {
                     displayImageOfMember(),
                     displayImageOfMember(),
                     displayImageOfMember(),
-
-
                   ],
                 ),
                 Row(
@@ -180,7 +174,6 @@ class _TeamManageState extends State<TeamManage> {
                     displayImageOfMember(),
                     displayImageOfMember(),
                     displayImageOfMember(),
-
                   ],
                 )
               ],
@@ -195,12 +188,11 @@ class _TeamManageState extends State<TeamManage> {
     return Container(
       padding: EdgeInsets.fromLTRB(0, 5, 0, 10),
       alignment: Alignment.center,
-      child: Text(userFullName,
+      child: Text(
+        userFullName,
         textAlign: TextAlign.center,
         style: TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.bold,
-            color: Colors.black),
+            fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.black),
       ),
     );
   }
@@ -213,24 +205,28 @@ class _TeamManageState extends State<TeamManage> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
     );
     return Container(
-      padding: EdgeInsets.only(left: 50,right: 50),
+      padding: EdgeInsets.only(left: 50, right: 50),
       child: Theme(
         data: theme.copyWith(checkboxTheme: newCheckBoxTheme),
         child: Column(
           children: [
             CheckboxListTile(
-              title: const Text('Teamleader',
-                style: TextStyle(fontSize: 20),),
+              title: const Text(
+                'Teamleader',
+                style: TextStyle(fontSize: 20),
+              ),
               value: true,
               controlAffinity: ListTileControlAffinity.leading,
-              onChanged: (bool? value){},
+              onChanged: (bool? value) {},
             ),
             CheckboxListTile(
-              title: const Text('Mitglied',
-                style: TextStyle(fontSize: 20),),
+              title: const Text(
+                'Mitglied',
+                style: TextStyle(fontSize: 20),
+              ),
               value: false,
               controlAffinity: ListTileControlAffinity.leading,
-              onChanged: (bool? value){},
+              onChanged: (bool? value) {},
             ),
           ],
         ),
@@ -249,8 +245,7 @@ class _TeamManageState extends State<TeamManage> {
             style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.normal,
-                fontSize: 20
-            ),
+                fontSize: 20),
           ),
           onPressed: () {},
         ),
@@ -258,9 +253,9 @@ class _TeamManageState extends State<TeamManage> {
     );
   }
 
-  btnRedirect(String btnText,Widget widgetTo) {
+  btnRedirect(String btnText, Widget widgetTo) {
     return Container(
-      padding: EdgeInsets.only(left: 25,right: 25),
+      padding: EdgeInsets.only(left: 25, right: 25),
       child: Material(
         color: Colors.blue,
         borderRadius: BorderRadius.circular(50),
@@ -287,7 +282,7 @@ class _TeamManageState extends State<TeamManage> {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.only(left: 10,right: 5),
+          margin: EdgeInsets.only(left: 10, right: 5),
           height: 70,
           width: 70,
           //color: Colors.red,
@@ -303,9 +298,8 @@ class _TeamManageState extends State<TeamManage> {
                     shape: BoxShape.circle,
                     image: DecorationImage(
                         fit: BoxFit.fitHeight,
-                        image: NetworkImage("https://bugsbunnies.de/images/logo.png")
-                    )
-                ),
+                        image: NetworkImage(
+                            "https://bugsbunnies.de/images/logo.png"))),
               ),
             ),
           ),
@@ -317,11 +311,10 @@ class _TeamManageState extends State<TeamManage> {
 
   Widget textOnRedirectBtn(String btnText) {
     return Container(
-      child: Text(btnText,
+      child: Text(
+        btnText,
         style: TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.bold,
-            color: Colors.white),
+            fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white),
       ),
     );
   }
