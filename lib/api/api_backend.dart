@@ -252,9 +252,25 @@ class ApiBackend implements ApiInterface {
   }
 
   @override
-  Future<void> addTeamMember(int teamId, String email) {
-    // TODO: implement addTeamMember
-    throw UnimplementedError();
+  Future<void> addTeamMember(int teamId, String email) async {
+    http.Response response;
+    try {
+      response = await http
+          .post(Uri.parse(pathUrl + pathTeamAddTeamMember), body: {"teamId": teamId.toString(), "userEmail": email}, headers: _headers)
+          .timeout(Duration(seconds: timeout));
+    } catch (e) {
+      throw UserFeedbackException("Server Error");
+    }
+    switch (response.statusCode) {
+      case 200:
+        updateCookie(response);
+        return;
+      case 400:
+        throw UserFeedbackException("Ungültige Eingaben");
+      case 401:
+        throw InvalidPermissionException("Keine Berechtigung");
+    }
+    throw UserFeedbackException("Server Fehler");
   }
 
   @override
