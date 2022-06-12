@@ -24,10 +24,12 @@ class _TeamManageState extends State<TeamManage> {
 
   @override
   Widget build(BuildContext context) {
-    var args = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
+    var args = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
     _setTeam(args["team"]);
     _setProfile();
-    return Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+    return Scaffold(
+        body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return Column(children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -87,7 +89,8 @@ class _TeamManageState extends State<TeamManage> {
   Widget getTeams(BoxConstraints constraints) {
     List<Widget> widgets = [];
     for (var element in teams) {
-      widgets.add(Widgets.getButtonStyle2(element.name, () => _goToTeam(element), constraints));
+      widgets.add(Widgets.getButtonStyle2(
+          element.name, () => _goToTeam(element), constraints));
     }
     widgets.add(Widgets.getProjectAddWidget("+", _onCreateTeam, constraints));
     return Column(
@@ -109,15 +112,18 @@ class _TeamManageState extends State<TeamManage> {
   }
 
   void _goToTeam(Team team) {
-    Navigator.pushNamed(context, RouteGenerator.teamDetails, arguments: {"team": team}).then((value) => {_loadTeams()});
+    Navigator.pushNamed(context, RouteGenerator.teamDetails,
+        arguments: {"team": team}).then((value) => {_loadTeams()});
   }
 
   void _goToProfile() {
-    Navigator.pushNamed(context, RouteGenerator.profileOverview).then((value) => {_loadTeams()});
+    Navigator.pushNamed(context, RouteGenerator.profileOverview)
+        .then((value) => {_loadTeams()});
   }
 
   void _goToTeamInvite() {
-    Navigator.of(context).pushNamed(RouteGenerator.teamInvite, arguments: {"team": _team});
+    Navigator.of(context)
+        .pushNamed(RouteGenerator.teamInvite, arguments: {"team": _team});
   }
 
   void _back() {
@@ -131,7 +137,8 @@ class _TeamManageState extends State<TeamManage> {
   }
 
   void _onCreateTeam() {
-    Navigator.pushNamed(context, RouteGenerator.teamCreate).then((value) => {_loadTeams()});
+    Navigator.pushNamed(context, RouteGenerator.teamCreate)
+        .then((value) => {_loadTeams()});
   }
 
   Widget textCenteredHeader(String fullName) {
@@ -140,7 +147,8 @@ class _TeamManageState extends State<TeamManage> {
       alignment: Alignment.center,
       child: Text(
         fullName,
-        style: TextStyle(fontSize: 26.0, fontWeight: FontWeight.bold, color: Colors.black),
+        style: TextStyle(
+            fontSize: 26.0, fontWeight: FontWeight.bold, color: Colors.black),
       ),
     );
   }
@@ -204,7 +212,8 @@ class _TeamManageState extends State<TeamManage> {
       child: Text(
         userFullName,
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.black),
+        style: TextStyle(
+            fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.black),
       ),
     );
   }
@@ -246,6 +255,50 @@ class _TeamManageState extends State<TeamManage> {
     );
   }
 
+  btnDeleteTeam() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        FlatButton(
+          padding: EdgeInsets.only(bottom: 30),
+          child: Text(
+            "Team löschen",
+            style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.normal,
+                fontSize: 20),
+          ),
+          onPressed: () {},
+        ),
+      ],
+    );
+  }
+
+  btnRedirect(String btnText, Widget widgetTo) {
+    return Container(
+      padding: EdgeInsets.only(left: 25, right: 25),
+      child: Material(
+        color: Colors.blue,
+        borderRadius: BorderRadius.circular(50),
+        child: InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => widgetTo),
+            );
+          },
+          borderRadius: BorderRadius.circular(50),
+          child: Container(
+            width: 200,
+            height: 50,
+            alignment: Alignment.center,
+            child: textOnRedirectBtn(btnText),
+          ),
+        ),
+      ),
+    );
+  }
+
   displayImageOfMember() {
     return Column(
       children: [
@@ -264,13 +317,26 @@ class _TeamManageState extends State<TeamManage> {
                 decoration: BoxDecoration(
                     color: Colors.blue,
                     shape: BoxShape.circle,
-                    image: DecorationImage(fit: BoxFit.fitHeight, image: NetworkImage("https://bugsbunnies.de/images/logo.png"))),
+                    image: DecorationImage(
+                        fit: BoxFit.fitHeight,
+                        image: NetworkImage(
+                            "https://bugsbunnies.de/images/logo.png"))),
               ),
             ),
           ),
         ),
         Text("NAME")
       ],
+    );
+  }
+
+  Widget textOnRedirectBtn(String btnText) {
+    return Container(
+      child: Text(
+        btnText,
+        style: TextStyle(
+            fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white),
+      ),
     );
   }
 }

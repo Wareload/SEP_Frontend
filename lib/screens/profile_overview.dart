@@ -69,9 +69,8 @@ class _ProfileOverviewState extends State<ProfileOverview> {
 
   //Get Profile
   void _setProfile() async {
-    if(_profile.email!="email"){
-
-    }else{
+    if (_profile.email != "email") {
+    } else {
       print("submiting request for the profile");
       try {
         _profile = await Api.api.getProfile();
@@ -80,7 +79,6 @@ class _ProfileOverviewState extends State<ProfileOverview> {
         //no need to handle
       }
     }
-
   }
   //Teams
 
@@ -90,7 +88,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
       widgets.add(Widgets.getProfileTeam(element.name, () {
         _goToTeam(element);
       }, () {
-        _deleteTeam(element);
+        _leaveTeam(element);
       }, constraints));
     }
     return Column(
@@ -106,13 +104,13 @@ class _ProfileOverviewState extends State<ProfileOverview> {
       child: ListView.separated(
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
-          separatorBuilder: (BuildContext context,int index) => const Divider(),
+          separatorBuilder: (BuildContext context, int index) =>
+              const Divider(),
           itemCount: _profile.tags.length,
           itemBuilder: (context, int index) {
             print(_profile.tags[index]);
             return Widgets.getContainerTag(_profile.tags[index], constraints);
-          }
-      ),
+          }),
     );
   }
 
@@ -133,23 +131,21 @@ class _ProfileOverviewState extends State<ProfileOverview> {
     }
   }
 
-  void _deleteTeam(Team team) async{
+  void _leaveTeam(Team team) async {
     try {
       //TODO change delete team to leave team
-      await Api.api.deleteTeam(team.id);
+      await Api.api.leaveTeam(team.id);
       teams.remove(team);
-      setState(() {
-      });
+      setState(() {});
     } catch (e) {
       //TODO handle errors
     }
   }
 
   void _goToTeam(Team team) {
-    Navigator.pushNamed(context, RouteGenerator.teamDetails, arguments: {"team":team})
-        .then((value) => {_loadTeams()});
+    Navigator.pushNamed(context, RouteGenerator.teamDetails,
+        arguments: {"team": team}).then((value) => {_loadTeams()});
   }
-
 
   @override
   void initState() {

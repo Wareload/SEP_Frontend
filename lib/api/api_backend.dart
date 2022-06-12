@@ -26,16 +26,23 @@ class ApiBackend implements ApiInterface {
   final String pathTeamCreateTeam = "/team/createTeam";
   final String pathTeamDeleteTeam = "/team/deleteTeam";
   final String pathTeamGetTeam = "/team/getTeam";
-  final String pathTeamGetInvitations = "/team/getInvitations"; //TODO need to implement
+  final String pathTeamGetInvitations =
+      "/team/getInvitations"; //TODO need to implement
   final String pathTeamLeaveTeam = "/team/leaveTeam"; //TODO need to implement
-  final String pathTeamRemoveTeamMember = "/team/removeTeamMember"; //TODO need to implement
-  final String pathTeamPromoteTeamMember = "/team/promoteTeamMember"; //TODO need to implement
-  final String pathTeamAddTeamMember = "/team/addTeamMember"; //TODO need to implement
-  final String pathTeamAcceptInvitationTeamMember = "/team/acceptInvitation"; //TODO need to implement
+  final String pathTeamRemoveTeamMember =
+      "/team/removeTeamMember"; //TODO need to implement
+  final String pathTeamPromoteTeamMember =
+      "/team/promoteTeamMember"; //TODO need to implement
+  final String pathTeamAddTeamMember =
+      "/team/addTeamMember"; //TODO need to implement
+  final String pathTeamAcceptInvitationTeamMember =
+      "/team/acceptInvitation"; //TODO need to implement
 
   //profile routes
-  final String pathProfileGetProfile = "/profile/getProfile"; //TODO need to implement
-  final String pathProfileAdjustProfile = "/profile/adjustProfile"; //TODO need to implement
+  final String pathProfileGetProfile =
+      "/profile/getProfile"; //TODO need to implement
+  final String pathProfileAdjustProfile =
+      "/profile/adjustProfile"; //TODO need to implement
 
   //mood routes
   final String pathGetTimer = "/mood/getTimer"; //TODO need to implement
@@ -82,7 +89,11 @@ class ApiBackend implements ApiInterface {
     http.Response response;
     try {
       response = await http.post(Uri.parse(pathUrl + pathAccountLogin),
-          headers: _headers, body: {"email": email, "password": password}).timeout(Duration(seconds: timeout));
+          headers: _headers,
+          body: {
+            "email": email,
+            "password": password
+          }).timeout(Duration(seconds: timeout));
     } catch (e) {
       throw UserFeedbackException("Server error");
     }
@@ -100,7 +111,8 @@ class ApiBackend implements ApiInterface {
   }
 
   @override
-  Future<void> register(String email, String password, String firstname, String lastname) async {
+  Future<void> register(
+      String email, String password, String firstname, String lastname) async {
     //TODO need to specify invalid params
     if (!Validator.isEmail(email)) {
       throw UserFeedbackException("Ungültige E-Mail");
@@ -115,7 +127,13 @@ class ApiBackend implements ApiInterface {
     try {
       response = await http
           .post(Uri.parse(pathUrl + pathAccountRegister),
-              body: {"email": email, "password": password, "firstname": firstname, "lastname": lastname}, headers: _headers)
+              body: {
+                "email": email,
+                "password": password,
+                "firstname": firstname,
+                "lastname": lastname
+              },
+              headers: _headers)
           .timeout(Duration(seconds: timeout));
     } catch (e) {
       throw UserFeedbackException("Server Error");
@@ -135,7 +153,9 @@ class ApiBackend implements ApiInterface {
   @override
   Future<bool> isLoggedIn() async {
     try {
-      http.Response response = await http.post(Uri.parse(pathUrl + pathAccountIsLoggedIn), headers: _headers).timeout(Duration(seconds: timeout));
+      http.Response response = await http
+          .post(Uri.parse(pathUrl + pathAccountIsLoggedIn), headers: _headers)
+          .timeout(Duration(seconds: timeout));
       if (response.statusCode == 200) {
         return true;
       }
@@ -146,7 +166,9 @@ class ApiBackend implements ApiInterface {
   @override
   Future<void> logout() async {
     try {
-      http.post(Uri.parse(pathUrl + pathAccountLogout), headers: _headers).timeout(Duration(seconds: timeout));
+      http
+          .post(Uri.parse(pathUrl + pathAccountLogout), headers: _headers)
+          .timeout(Duration(seconds: timeout));
     } finally {
       _headers['cookie'] = "";
       const storage = FlutterSecureStorage();
@@ -167,7 +189,8 @@ class ApiBackend implements ApiInterface {
     // TODO: implement getProfile
     http.Response response;
     try {
-      response = await http.post(Uri.parse(pathUrl + pathProfileGetProfile), headers: _headers, body: {}).timeout(Duration(seconds: timeout));
+      response = await http.post(Uri.parse(pathUrl + pathProfileGetProfile),
+          headers: _headers, body: {}).timeout(Duration(seconds: timeout));
     } catch (e) {
       throw UserFeedbackException("Server error$e");
     }
@@ -203,7 +226,8 @@ class ApiBackend implements ApiInterface {
     http.Response response;
     try {
       response = await http
-          .post(Uri.parse(pathUrl + pathTeamGetTeam), body: {"teamid": id.toString()}, headers: _headers)
+          .post(Uri.parse(pathUrl + pathTeamGetTeam),
+              body: {"teamid": id.toString()}, headers: _headers)
           .timeout(Duration(seconds: timeout));
     } catch (e) {
       throw UserFeedbackException("Server Error");
@@ -226,7 +250,8 @@ class ApiBackend implements ApiInterface {
   Future<List<Team>> getTeams() async {
     http.Response response;
     try {
-      response = await http.post(Uri.parse(pathUrl + pathTeamGetTeams), headers: _headers, body: {}).timeout(Duration(seconds: timeout));
+      response = await http.post(Uri.parse(pathUrl + pathTeamGetTeams),
+          headers: _headers, body: {}).timeout(Duration(seconds: timeout));
     } catch (e) {
       throw UserFeedbackException("Server error");
     }
@@ -236,7 +261,8 @@ class ApiBackend implements ApiInterface {
         var body = json.decode(response.body);
         teams = Team.getSimpleTeams(body["teams"]);
         await updateCookie(response);
-        teams.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+        teams.sort(
+            (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
         return teams;
       case 401:
         throw InvalidPermissionException("Unauthorized");
@@ -246,9 +272,26 @@ class ApiBackend implements ApiInterface {
   }
 
   @override
-  Future<void> acceptInvitation(int teamId) {
-    // TODO: implement acceptInvitation
-    throw UnimplementedError();
+  Future<void> acceptInvitation(int teamId) async {
+    http.Response response;
+    try {
+      response = await http
+          .post(Uri.parse(pathUrl + pathTeamAcceptInvitationTeamMember),
+              body: {"teamid": teamId.toString()}, headers: _headers)
+          .timeout(Duration(seconds: timeout));
+    } catch (e) {
+      throw UserFeedbackException("Server Error");
+    }
+    switch (response.statusCode) {
+      case 200:
+        updateCookie(response);
+        return;
+      case 400:
+        throw UserFeedbackException("Ungültige Eingaben");
+      case 401:
+        throw InvalidPermissionException("Keine Berechtigung");
+    }
+    throw UserFeedbackException("Server Fehler");
   }
 
   @override
@@ -281,8 +324,10 @@ class ApiBackend implements ApiInterface {
     }
     http.Response response;
     try {
-      response =
-          await http.post(Uri.parse(pathUrl + pathTeamCreateTeam), body: {"teamname": name}, headers: _headers).timeout(Duration(seconds: timeout));
+      response = await http
+          .post(Uri.parse(pathUrl + pathTeamCreateTeam),
+              body: {"teamname": name}, headers: _headers)
+          .timeout(Duration(seconds: timeout));
     } catch (e) {
       throw UserFeedbackException("Server Error");
     }
@@ -303,7 +348,8 @@ class ApiBackend implements ApiInterface {
     http.Response response;
     try {
       response = await http
-          .post(Uri.parse(pathUrl + pathTeamDeleteTeam), body: {"teamid": id.toString()}, headers: _headers)
+          .post(Uri.parse(pathUrl + pathTeamDeleteTeam),
+              body: {"teamid": id.toString()}, headers: _headers)
           .timeout(Duration(seconds: timeout));
     } catch (e) {
       throw UserFeedbackException("Server Error");
@@ -321,8 +367,39 @@ class ApiBackend implements ApiInterface {
   }
 
   @override
-  Future<List<Invitation>> getInvitations() {
-    // TODO: implement getInvitations
+  Future<List<Invitation>> getInvitations() async {
+    http.Response response;
+    try {
+      response = await http.post(Uri.parse(pathUrl + pathTeamGetInvitations),
+          headers: _headers, body: {}).timeout(Duration(seconds: timeout));
+    } catch (e) {
+      throw UserFeedbackException("Server error");
+    }
+    switch (response.statusCode) {
+      case 200:
+        var invitations = <Invitation>[];
+        try {
+          String rightresponse = response.body;
+          final replaced1 = rightresponse.replaceAll('[', '');
+
+          final replaced2 = replaced1.replaceFirst("]", '');
+
+          print(replaced2);
+          var body = json.decode(rightresponse);
+          invitations = Invitation.getSimpleInvitation(body);
+          invitations.toString();
+        } catch (e) {
+          print(e);
+        }
+
+        await updateCookie(response);
+        //invitations.sort((a, b) => a.teamname.toLowerCase().compareTo(b.teamname.toLowerCase()));
+        return invitations;
+      case 401:
+        throw InvalidPermissionException("Unauthorized");
+      default:
+        throw UserFeedbackException("Server Fehler");
+    }
     throw UnimplementedError();
   }
 
@@ -333,9 +410,26 @@ class ApiBackend implements ApiInterface {
   }
 
   @override
-  Future<void> leaveTeam(int teamId) {
-    // TODO: implement leaveTeam
-    throw UnimplementedError();
+  Future<void> leaveTeam(int teamId) async {
+    http.Response response;
+    try {
+      response = await http
+          .post(Uri.parse(pathUrl + pathTeamLeaveTeam),
+              body: {"teamid": teamId.toString()}, headers: _headers)
+          .timeout(Duration(seconds: timeout));
+    } catch (e) {
+      throw UserFeedbackException("Server Error");
+    }
+    switch (response.statusCode) {
+      case 200:
+        updateCookie(response);
+        return;
+      case 400:
+        throw UserFeedbackException("Ungültige Eingaben");
+      case 401:
+        throw InvalidPermissionException("Keine Berechtigung");
+    }
+    throw UserFeedbackException("Server Fehler");
   }
 
   //Mood
@@ -372,7 +466,8 @@ class ApiBackend implements ApiInterface {
 
   //returns your Personal mood for the selected period
   @override
-  Future<String> getPersonalMood(int teamid, String startDate, String endDate) async {
+  Future<String> getPersonalMood(
+      int teamid, String startDate, String endDate) async {
     http.Response response;
     try {
       response = await http
@@ -406,7 +501,8 @@ class ApiBackend implements ApiInterface {
     var rawCookie = response.headers['set-cookie'];
     if (rawCookie != null) {
       int index = rawCookie.indexOf(';');
-      _headers['cookie'] = (index == -1) ? rawCookie : rawCookie.substring(0, index);
+      _headers['cookie'] =
+          (index == -1) ? rawCookie : rawCookie.substring(0, index);
       const storage = FlutterSecureStorage();
       await storage.write(key: "cookie", value: _headers['cookie']);
     }
@@ -416,7 +512,9 @@ class ApiBackend implements ApiInterface {
 class CustomHttpOverride extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
 
