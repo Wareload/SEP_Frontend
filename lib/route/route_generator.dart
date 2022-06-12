@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moody/screens/atem_uebung.dart';
 import 'package:moody/screens/login.dart';
 import 'package:moody/screens/meditation_end.dart';
 import 'package:moody/screens/meditation_home.dart';
@@ -29,6 +30,7 @@ class RouteGenerator {
   static const String meditationStart = "/meditationStart";
   static const String meditationTimer = "/meditationTimer";
   static const String meditationEnd = "/meditationEnd";
+  static const String atemUebung = "/atemUebung";
 
   static void reset(context) {
     Navigator.pushNamedAndRemoveUntil(
@@ -81,6 +83,9 @@ class RouteGenerator {
       case meditationEnd:
         return MaterialPageRoute(
             settings: settings, builder: (_) => const MeditationEnd());
+      case atemUebung:
+        return MaterialPageRoute(
+            settings: settings, builder: (_) => const Atemuebung());
       default:
         return MaterialPageRoute(
             settings: settings, builder: (_) => const Splash());

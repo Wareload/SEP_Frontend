@@ -55,7 +55,8 @@ class _TeamDetailsState extends State<TeamDetails> {
               Widgets.getButtonStyle2("Statistik", () {}, constraints),
               Widgets.getButtonStyle2(
                   "Meditation", _goToMeditation, constraints),
-              Widgets.getButtonStyle2("Atemübungen", () {}, constraints),
+              Widgets.getButtonStyle2(
+                  "Atemübungen", _goToAtemUebung, constraints),
               Widgets.getButtonStyle2("Umfragen", () {}, constraints),
               Widgets.getButtonStyle2("Team", () {
                 Navigator.pushNamed(context, RouteGenerator.teamManage);
@@ -91,6 +92,11 @@ class _TeamDetailsState extends State<TeamDetails> {
 
   void _goToProfile() {
     Navigator.pushNamed(context, RouteGenerator.profileOverview);
+  }
+
+  void _goToAtemUebung() {
+    Navigator.of(context)
+        .pushNamed(RouteGenerator.atemUebung, arguments: {"team": _team});
   }
 
   void _goToMeditation() {
