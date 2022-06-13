@@ -777,6 +777,36 @@ class Mood {
   }
 }
 
+class MoodObject {
+  int activeMood = 0;
+  String date = "";
+  String note = "";
+
+  MoodObject(int mood, String date, String note) {
+    this.activeMood = mood;
+    this.date = date;
+    this.note = note;
+  }
+
+  static List<MoodObject> getSimpleMoodObjects(List moods) {
+    var toReturn = <MoodObject>[];
+    for (var element in moods) {
+      toReturn
+          .add(MoodObject(element["mood"], element["date"], element["note"]));
+    }
+    return toReturn;
+  }
+  /*
+    static List<Team> getSimpleTeams(List teams) {
+    var toReturn = <Team>[];
+    for (var element in teams) {
+      toReturn.add(Team._(element["name"], element["teamid"], []));
+    }
+    return toReturn;
+  }
+   */
+}
+
 // <--------------------- Start Old Emotion Emojis -------------------------->
 //changed name from "getMoodEmojis" to "getMoodEmojisOld"
 //create the choose menu for the teamview

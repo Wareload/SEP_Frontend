@@ -10,6 +10,7 @@ import 'package:moody/structs/invitation.dart';
 import 'package:moody/structs/profile.dart';
 import 'package:moody/structs/team.dart';
 import 'package:moody/validator/validator.dart';
+import 'package:moody/widgets/widgets.dart';
 
 class ApiBackend implements ApiInterface {
   //api path
@@ -199,10 +200,10 @@ class ApiBackend implements ApiInterface {
         //var teams = <Team>[];
         var body = json.decode(response.body);
         var email = body["email"];
-        var fistname = body["fistname"];
+        var firstname = body["firstname"];
         var lastname = body["lastname"];
         var tags = body["tags"];
-        Profile profile = new Profile(email, fistname, lastname, tags);
+        Profile profile = new Profile(email, firstname, lastname, tags);
         await updateCookie(response);
         return profile;
       case 401:
@@ -468,8 +469,9 @@ class ApiBackend implements ApiInterface {
 
   //returns your Personal mood for the selected period
   @override
-  Future<String> getPersonalMood(
+  Future<List<MoodObject>> getPersonalMood(
       int teamid, String startDate, String endDate) async {
+    print("Teamid:${teamid} Startdate:${startDate} ENDDATE:${endDate}");
     http.Response response;
     try {
       response = await http
@@ -478,24 +480,60 @@ class ApiBackend implements ApiInterface {
                 "teamid": teamid.toString(),
                 "startDate": startDate,
                 "endDate": endDate,
+                /* "startDate": '"$startDate"',
+                "endDate": '"$endDate"',*/
               },
               headers: _headers)
           .timeout(Duration(seconds: timeout));
+      print(response.body);
     } catch (e) {
       print(e);
       throw UserFeedbackException("Server Error");
     }
     switch (response.statusCode) {
       case 200:
-        updateCookie(response);
-        return response.body;
+        var moodobjects = <MoodObject>[];
+        var body = json.decode(response.body);
+        moodobjects = MoodObject.getSimpleMoodObjects(body["moods"]);
+        await updateCookie(response);
+        return moodobjects;
       case 400:
+        print(response.request);
+        print(response.body);
+        print(response.statusCode);
         throw UserFeedbackException("Ungültige Eingaben");
       case 401:
         throw InvalidPermissionException("Keine Berechtigung");
     }
     throw UserFeedbackException("Server Fehler");
   }
+
+  /*
+    @override
+  Future<List<Team>> getTeams() async {
+    http.Response response;
+    try {
+      response = await http.post(Uri.parse(pathUrl + pathTeamGetTeams),
+          headers: _headers, body: {}).timeout(Duration(seconds: timeout));
+    } catch (e) {
+      throw UserFeedbackException("Server error");
+    }
+    switch (response.statusCode) {
+      case 200:
+        var teams = <Team>[];
+        var body = json.decode(response.body);
+        teams = Team.getSimpleTeams(body["teams"]);
+        await updateCookie(response);
+        teams.sort(
+            (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+        return teams;
+      case 401:
+        throw InvalidPermissionException("Unauthorized");
+      default:
+        throw UserFeedbackException("Server Fehler");
+    }
+  }
+   */
 
   ///returns your moodstatus if you can submit a mood or if you have to wait
   @override
