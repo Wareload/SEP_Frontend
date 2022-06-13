@@ -18,11 +18,9 @@ class _TeamDetailsState extends State<TeamDetails> {
 
   @override
   Widget build(BuildContext context) {
-    var args = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
+    var args = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
     _setTeam(args["team"]);
-    return Scaffold(
-        body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+    return Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return Column(
         children: [
           Container(
@@ -40,11 +38,7 @@ class _TeamDetailsState extends State<TeamDetails> {
             height: 10,
           ),
           Widgets.getMoodEmojis("Wie geht es dir heute?", () {}, () {
-            Navigator.of(context).pushNamed(RouteGenerator.moodSelect,
-                arguments: {
-                  'selectedMood': _currentSelectedMood,
-                  "team": _team
-                });
+            Navigator.of(context).pushNamed(RouteGenerator.moodSelect, arguments: {'selectedMood': _currentSelectedMood, "team": _team});
           }, () {}, constraints, _currentSelectedMood),
           Container(
             height: 30,
@@ -53,13 +47,11 @@ class _TeamDetailsState extends State<TeamDetails> {
               child: SingleChildScrollView(
             child: Column(children: [
               Widgets.getButtonStyle2("Statistik", _goToStatistic, constraints),
-              Widgets.getButtonStyle2(
-                  "Meditation", _goToMeditation, constraints),
-              Widgets.getButtonStyle2(
-                  "Atemübungen", _goToAtemUebung, constraints),
+              Widgets.getButtonStyle2("Meditation", _goToMeditation, constraints),
+              Widgets.getButtonStyle2("Atemübungen", _goToAtemUebung, constraints),
               Widgets.getButtonStyle2("Umfragen", () {}, constraints),
               Widgets.getButtonStyle2("Team", () {
-                Navigator.pushNamed(context, RouteGenerator.teamManage);
+                Navigator.pushNamed(context, RouteGenerator.teamManage, arguments: {"team": _team});
               }, constraints),
             ]),
           ))
@@ -91,13 +83,11 @@ class _TeamDetailsState extends State<TeamDetails> {
   }
 
   void _goToStatistic() {
-    Navigator.of(context).pushNamed(RouteGenerator.personalStatistic,
-        arguments: {"team": _team});
+    Navigator.of(context).pushNamed(RouteGenerator.personalStatistic, arguments: {"team": _team});
   }
 
   void _goToAtemUebung() {
-    Navigator.of(context)
-        .pushNamed(RouteGenerator.atemUebung, arguments: {"team": _team});
+    Navigator.of(context).pushNamed(RouteGenerator.atemUebung, arguments: {"team": _team});
   }
 
   void _goToMeditation() {
