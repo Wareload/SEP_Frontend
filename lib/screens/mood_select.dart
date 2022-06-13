@@ -3,6 +3,7 @@ import 'package:moody/api/api.dart';
 import 'package:moody/route/route_generator.dart';
 import 'package:moody/widgets/widgets.dart';
 
+import '../api/exception/user_feedback_exception.dart';
 import '../structs/team.dart';
 
 class MoodSelect extends StatefulWidget {
@@ -61,7 +62,8 @@ class _MoodSelectState extends State<MoodSelect> {
     } catch (e) {
       print(e);
     }
-    Navigator.pushReplacementNamed(context, RouteGenerator.teamOverview);
+    Navigator.pushNamed(context, RouteGenerator.teamDetails,
+        arguments: {"team": _team});
     setState(() {});
   }
 
