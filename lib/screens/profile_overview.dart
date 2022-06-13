@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:moody/widgets/settings.dart';
 import 'package:moody/widgets/widgets.dart';
 
 import '../api/api.dart';
@@ -29,22 +30,39 @@ class _ProfileOverviewState extends State<ProfileOverview> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            height: constraints.maxWidth * 0.05,
-          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              IconButton(
-                  onPressed: _back,
-                  icon: Icon(Icons.arrow_back,
-                      color: Colors.blue, size: constraints.maxWidth * 0.15)),
               Container(
-                margin: EdgeInsets.only(right: constraints.maxWidth * 0.05),
+                margin: EdgeInsets.only(right: 10,top: 10),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                ),
+                //color: Settings.blueAccent,
+                height: 60,
+                width: 60,
                 child: IconButton(
-                    onPressed: () => {},
+                    onPressed: _back,
+                    icon: Icon(Icons.arrow_back,
+                        color: Colors.blue,size: 40,)),
+              ),
+              Center(child:
+              Widgets.getNavHeaderText("Dein Profil", constraints),
+              ),
+              Container(
+                margin: EdgeInsets.only(right: 10,top: 10),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.blueAccent
+                ),
+                //color: Settings.blueAccent,
+                height: 60,
+                width: 60,
+                child: IconButton(
+                    onPressed: _openSettingsMenu,
                     icon: Icon(Icons.settings,
-                        color: Colors.blue, size: constraints.maxWidth * 0.15)),
+                        color: Colors.white, size: 40)),
               )
             ],
           ),
@@ -66,6 +84,8 @@ class _ProfileOverviewState extends State<ProfileOverview> {
       );
     })));
   }
+
+
 
   //Get Profile
   void _setProfile() async {
@@ -148,6 +168,11 @@ class _ProfileOverviewState extends State<ProfileOverview> {
   void _goToTeam(Team team) {
     Navigator.pushNamed(context, RouteGenerator.teamDetails, arguments: {"team":team})
         .then((value) => {_loadTeams()});
+  }
+
+  void _openSettingsMenu() {
+    print("Opensettings todo");
+    //TODO: Create a openSetting Menu
   }
 
 

@@ -22,7 +22,8 @@ class Team {
     return toReturn;
   }
 
-  static Team getFullTeam(data) {
+  //Had to add something ("var") because it created an error for me
+  static Team getFullTeam(var data) {
     String name = data["teamname"];
     int id = int.parse(data["teamid"]);
     List<Member> teamMember = [];

@@ -611,6 +611,15 @@ class Widgets {
       ),
     );
   }
+
+  static getNavHeaderText(String display, BoxConstraints constraints) {
+  return Text(
+          display,
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20
+          ,color: Settings.blueAccent),
+      );
+    }
+
 }
 
 class Mood {
