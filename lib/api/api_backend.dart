@@ -299,7 +299,9 @@ class ApiBackend implements ApiInterface {
     http.Response response;
     try {
       response = await http
-          .post(Uri.parse(pathUrl + pathTeamAddTeamMember), body: {"teamId": teamId.toString(), "userEmail": email}, headers: _headers)
+          .post(Uri.parse(pathUrl + pathTeamAddTeamMember),
+              body: {"teamId": teamId.toString(), "userEmail": email},
+              headers: _headers)
           .timeout(Duration(seconds: timeout));
     } catch (e) {
       throw UserFeedbackException("Server Error");
@@ -495,7 +497,33 @@ class ApiBackend implements ApiInterface {
     throw UserFeedbackException("Server Fehler");
   }
 
-  //general helper
+  ///returns your moodstatus if you can submit a mood or if you have to wait
+  @override
+  Future<bool> getMoodTimer(int teamid) async {
+    http.Response response;
+    try {
+      response = await http
+          .post(Uri.parse(pathUrl + pathGetTimer),
+              body: {"teamid": teamid.toString()}, headers: _headers)
+          .timeout(Duration(seconds: timeout));
+    } catch (e) {
+      throw UserFeedbackException("Server Error");
+    }
+    switch (response.statusCode) {
+      case 200:
+        updateCookie(response);
+        return true;
+      case 400:
+        throw UserFeedbackException("Ungültige Eingaben");
+      case 401:
+        throw InvalidPermissionException("Keine Berechtigung");
+      case 409:
+        return false;
+    }
+    throw UserFeedbackException("Server Fehler");
+  }
+
+//general helper
   ///update cookie persistent
   Future<void> updateCookie(http.Response response) async {
     var rawCookie = response.headers['set-cookie'];

@@ -65,4 +65,7 @@ abstract class ApiInterface {
 
   ///returns your mood for this timeperiod
   Future<void> getPersonalMood(int teamid, String startDate, String endDate);
+
+  ///returns your moodstatus if you can submit a mood or if you have to wait
+  Future<void> getMoodTimer(int teamid);
 }
