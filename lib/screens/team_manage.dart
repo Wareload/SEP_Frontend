@@ -30,35 +30,38 @@ class _TeamManageState extends State<TeamManage> {
     _setProfile();
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
-      return Column(children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Widgets.getTextButtonStyle1("Back", _back, constraints),
-            Widgets.getTextFieldH3C(_team.name, constraints),
-            Widgets.getProfileIcon(constraints, _goToProfile),
-          ],
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            textCenteredHeader("Mitglieder"),
-            const SizedBox(height: 3),
-            displayTeamIcons(),
-            const SizedBox(height: 25),
-            Widgets.getButtonStyle2("Hinzufügen", _goToTeamInvite, constraints),
-            const SizedBox(height: 2),
-            Widgets.getButtonStyle2("Team Care", () {}, constraints),
-            const SizedBox(height: 2),
-            Widgets.getButtonStyle2("Team löschen", () {}, constraints),
-            const SizedBox(height: 25),
-            displayName("David Neus"),
-            const SizedBox(height: 25),
-            checkBoxRole(),
-          ],
-        ),
-      ]);
+      return SingleChildScrollView(
+        child: Column(children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Widgets.getTextButtonStyle1("Back", _back, constraints),
+              Widgets.getTextFieldH3C(_team.name, constraints),
+              Widgets.getProfileIcon(constraints, _goToProfile),
+            ],
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              textCenteredHeader("Mitglieder"),
+              const SizedBox(height: 3),
+              displayTeamIcons(),
+              const SizedBox(height: 25),
+              Widgets.getButtonStyle2(
+                  "Hinzufügen", _goToTeamInvite, constraints),
+              const SizedBox(height: 2),
+              Widgets.getButtonStyle2("Team Care", () {}, constraints),
+              const SizedBox(height: 2),
+              Widgets.getButtonStyle2("Team löschen", () {}, constraints),
+              const SizedBox(height: 25),
+              displayName("David Neus"),
+              const SizedBox(height: 25),
+              checkBoxRole(),
+            ],
+          ),
+        ]),
+      );
     })));
   }
 
