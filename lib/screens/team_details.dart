@@ -95,7 +95,7 @@ class _TeamDetailsState extends State<TeamDetails> {
   }
 
   void _back() {
-    Navigator.pop(context);
+    Navigator.popAndPushNamed(context, RouteGenerator.teamOverview);
   }
 
   void _goToProfile() {

@@ -37,7 +37,6 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
           children: [
             Widgets.getNavBar(
                 constraints, _back, "Personal Statistic", _goToProfile),
-            Text("HIER JAAAAA"),
             //Text(moods),
             getMoodWidgets()
           ],

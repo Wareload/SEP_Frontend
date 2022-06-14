@@ -40,10 +40,10 @@ class _TeamHistorieState extends State<TeamHistorie> {
     }
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
-      return SingleChildScrollView(
-        child: Column(children: <Widget>[
-          Widgets.getNavBar(constraints, _back, "Team-Historie", _goToProfile),
-          Column(
+      return Column(children: <Widget>[
+        Widgets.getNavBar(constraints, _back, "Team-Historie", _goToProfile),
+        SingleChildScrollView(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             //crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -53,8 +53,8 @@ class _TeamHistorieState extends State<TeamHistorie> {
               getHistoryMoodWidgets(),
             ],
           ),
-        ]),
-      );
+        ),
+      ]);
     })));
   }
 

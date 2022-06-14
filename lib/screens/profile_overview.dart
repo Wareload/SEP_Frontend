@@ -116,6 +116,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
 
   void _back() {
     Navigator.pop(context);
+    //Navigator.popAndPushNamed(context, RouteGenerator.teamOverview);
   }
 
   void _loadTeams() async {
