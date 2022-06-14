@@ -46,7 +46,7 @@ class _TeamOverviewState extends State<TeamOverview> {
                 Navigator.pushReplacementNamed(context, RouteGenerator.login);
               }, constraints)),
           Container(
-            height: constraints.maxWidth * 0.2,
+            height: constraints.maxWidth * 0.1,
           ),
           Widgets.getTextFieldH2("Deine Teams", constraints),
           Expanded(child: SingleChildScrollView(child: getTeams(constraints))),

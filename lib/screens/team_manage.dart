@@ -51,11 +51,13 @@ class _TeamManageState extends State<TeamManage> {
               Widgets.getButtonStyle2(
                   "Hinzufügen", _goToTeamInvite, constraints),
               const SizedBox(height: 2),
-              Widgets.getButtonStyle2("Team Care", () {}, constraints),
+              Widgets.getButtonStyle2("Team Care", () {
+                _goToTeamCare(_team);
+              }, constraints),
               const SizedBox(height: 2),
               Widgets.getButtonStyle2("Team löschen", () {}, constraints),
               const SizedBox(height: 25),
-              displayName("David Neus"),
+              displayName(_profile.firstname + " " + _profile.lastname),
               const SizedBox(height: 25),
               checkBoxRole(),
             ],
@@ -117,6 +119,11 @@ class _TeamManageState extends State<TeamManage> {
   void _goToTeam(Team team) {
     Navigator.pushNamed(context, RouteGenerator.teamDetails,
         arguments: {"team": team}).then((value) => {_loadTeams()});
+  }
+
+  void _goToTeamCare(Team team) {
+    Navigator.pushNamed(context, RouteGenerator.teamCare,
+        arguments: {"teamid": team.id}).then((value) => {_loadTeams()});
   }
 
   void _goToProfile() {

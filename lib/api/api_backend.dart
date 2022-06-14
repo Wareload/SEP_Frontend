@@ -508,6 +508,46 @@ class ApiBackend implements ApiInterface {
     throw UserFeedbackException("Server Fehler");
   }
 
+  @override
+  Future<List<MoodObject>> getTeamMood(
+      int teamid, String startDate, String endDate) async {
+    print("Teamid:${teamid} Startdate:${startDate} ENDDATE:${endDate}");
+    http.Response response;
+    try {
+      response = await http
+          .post(Uri.parse(pathUrl + pathGetTeamMood),
+              body: {
+                "teamid": teamid.toString(),
+                "startDate": startDate,
+                "endDate": endDate,
+                /* "startDate": '"$startDate"',
+                "endDate": '"$endDate"',*/
+              },
+              headers: _headers)
+          .timeout(Duration(seconds: timeout));
+      print(response.body);
+    } catch (e) {
+      print(e);
+      throw UserFeedbackException("Server Error");
+    }
+    switch (response.statusCode) {
+      case 200:
+        var moodobjects = <MoodObject>[];
+        var body = json.decode(response.body);
+        moodobjects = MoodObject.getSimpleMoodObjects(body["moods"]);
+        await updateCookie(response);
+        return moodobjects;
+      case 400:
+        print(response.request);
+        print(response.body);
+        print(response.statusCode);
+        throw UserFeedbackException("Ungültige Eingaben");
+      case 401:
+        throw InvalidPermissionException("Keine Berechtigung");
+    }
+    throw UserFeedbackException("Server Fehler");
+  }
+
   /*
     @override
   Future<List<Team>> getTeams() async {

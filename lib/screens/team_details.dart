@@ -16,7 +16,7 @@ class TeamDetails extends StatefulWidget {
 class _TeamDetailsState extends State<TeamDetails> {
   Team _team = Team.empty();
   Mood _currentSelectedMood = Mood();
-  bool canSelect = true;
+  bool canSelect = false;
   String _timemessage = "Du hast heute schon abgestimmt";
   bool gottimerstate = false;
 
@@ -27,7 +27,6 @@ class _TeamDetailsState extends State<TeamDetails> {
     _setTeam(args["team"]);
     if (!gottimerstate && _team.id != 0) {
       _setTimerstate(_team);
-      gottimerstate = true;
     }
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
@@ -79,6 +78,7 @@ class _TeamDetailsState extends State<TeamDetails> {
   Future<void> _setTimerstate(Team team) async {
     try {
       canSelect = await Api.api.getMoodTimer(team.id);
+      gottimerstate = true;
       setState(() {});
     } catch (e) {
       //no need to handle
@@ -117,7 +117,10 @@ class _TeamDetailsState extends State<TeamDetails> {
   }
 
   Widget getMoodEmojisByState(BoxConstraints constraints) {
-    if (canSelect) {
+    if (!gottimerstate) {
+      return Widgets.getDisabledMoodEmojis(
+          "Loading...", () {}, () {}, () {}, constraints, _currentSelectedMood);
+    } else if (canSelect) {
       return Widgets.getMoodEmojis("Wie geht es dir heute?", () {}, () {
         Navigator.of(context).pushNamed(RouteGenerator.moodSelect,
             arguments: {'selectedMood': _currentSelectedMood, "team": _team});

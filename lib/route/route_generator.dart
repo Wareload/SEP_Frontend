@@ -14,8 +14,11 @@ import 'package:moody/screens/register.dart';
 import 'package:moody/screens/splash.dart';
 import 'package:moody/screens/team_create.dart';
 import 'package:moody/screens/team_details.dart';
+import 'package:moody/screens/team_historie.dart';
+import 'package:moody/screens/team_historie_singledate.dart';
 import 'package:moody/screens/team_manage.dart';
 import 'package:moody/screens/team_overview.dart';
+import 'package:moody/screens/team_teamcare.dart';
 
 import '../screens/team_invite.dart';
 
@@ -29,6 +32,10 @@ class RouteGenerator {
   static const String teamCreate = "/teamCreate";
   static const String teamManage = "/teamManage";
   static const String teamInvite = "/teamInvite";
+  static const String teamCare = "/teamCare";
+  static const String teamHistorie = "/teamHistorie";
+  static const String teamHistorieSingleDate = "/teamHistorieSingleDate";
+
   static const String moodSelect = "/moodSelect";
   static const String meditationHome = "/meditationHome";
   static const String meditationInfo = "/meditationInfo";
@@ -76,6 +83,15 @@ class RouteGenerator {
       case teamInvite:
         return MaterialPageRoute(
             settings: settings, builder: (_) => const TeamInvite());
+      case teamCare:
+        return MaterialPageRoute(
+            settings: settings, builder: (_) => const TeamCare());
+      case teamHistorie:
+        return MaterialPageRoute(
+            settings: settings, builder: (_) => const TeamHistorie());
+      case teamHistorieSingleDate:
+        return MaterialPageRoute(
+            settings: settings, builder: (_) => const HistorySingleDate());
       case moodSelect:
         return MaterialPageRoute(
             settings: settings, builder: (_) => const MoodSelect());
