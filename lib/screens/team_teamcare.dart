@@ -19,14 +19,14 @@ class TeamCare extends StatefulWidget {
 
 class _TeamCareState extends State<TeamCare> {
   List<Team> teams = [];
-  int teamid = 0;
+  Team _team = Team.empty();
   Profile _profile = Profile.empty();
 
   @override
   Widget build(BuildContext context) {
     var args = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
-    teamid = (args["teamid"]);
+    _setTeam(args['team']);
     _setProfile();
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
@@ -54,6 +54,11 @@ class _TeamCareState extends State<TeamCare> {
     })));
   }
 
+  void _setTeam(Team team) async {
+    _team = team;
+    setState(() {});
+  }
+
   //Get Profile
   void _setProfile() async {
     if (_profile.email != "email") {
@@ -68,44 +73,13 @@ class _TeamCareState extends State<TeamCare> {
     }
   }
 
-  Widget getTeams(BoxConstraints constraints) {
-    List<Widget> widgets = [];
-    for (var element in teams) {
-      widgets.add(Widgets.getButtonStyle2(
-          element.name, () => _goToTeam(element), constraints));
-    }
-    widgets.add(Widgets.getProjectAddWidget("+", _onCreateTeam, constraints));
-    return Column(
-      children: widgets,
-    );
-  }
-
-  void _loadTeams() async {
-    try {
-      teams = await Api.api.getTeams();
-      setState(() {});
-    } catch (e) {
-      if (e.runtimeType == UserFeedbackException) {
-        //TODO handle exception here
-      } else if (e.runtimeType == InvalidPermissionException) {
-        RouteGenerator.reset(context);
-      }
-    }
-  }
-
-  void _goToTeam(Team team) {
-    Navigator.pushNamed(context, RouteGenerator.teamDetails,
-        arguments: {"team": team}).then((value) => {_loadTeams()});
-  }
-
   void _goToProfile() {
-    Navigator.pushNamed(context, RouteGenerator.profileOverview)
-        .then((value) => {_loadTeams()});
+    Navigator.pushReplacementNamed(context, RouteGenerator.profileOverview);
   }
 
   void _goToTeamHistorie() {
     Navigator.of(context)
-        .pushNamed(RouteGenerator.teamHistorie, arguments: {"teamid": teamid});
+        .pushNamed(RouteGenerator.teamHistorie, arguments: {"team": _team});
   }
 
   void _back() {
@@ -115,12 +89,6 @@ class _TeamCareState extends State<TeamCare> {
   @override
   void initState() {
     super.initState();
-    _loadTeams();
-  }
-
-  void _onCreateTeam() {
-    Navigator.pushNamed(context, RouteGenerator.teamCreate)
-        .then((value) => {_loadTeams()});
   }
 
   Widget textCenteredHeader(String fullName) {
@@ -175,7 +143,7 @@ class _TeamCareState extends State<TeamCare> {
                 margin: EdgeInsets.only(top: 20),
                 width: 190.0,
                 height: 190.0,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: Colors.blue,
                     shape: BoxShape.circle,
                     image: DecorationImage(
@@ -204,7 +172,7 @@ class _TeamCareState extends State<TeamCare> {
   displayText() {
     return Container(
       padding: EdgeInsets.all(30),
-      child: Text(
+      child: const Text(
           "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."),
     );
   }

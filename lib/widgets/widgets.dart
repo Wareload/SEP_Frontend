@@ -87,6 +87,16 @@ class Widgets {
     );
   }
 
+  static getNavHeaderText(String display, BoxConstraints constraints) {
+    return Text(
+      display,
+      style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+          color: Settings.blueAccent),
+    );
+  }
+
   static Widget getInputFieldStyle1(TextEditingController ctr,
       TextInputType type, bool hidden, BoxConstraints constraints) {
     return TextField(
@@ -233,6 +243,36 @@ class Widgets {
       margin: EdgeInsets.only(bottom: constraints.maxWidth * 0.03),
       child: Material(
         color: Settings.blue,
+        borderRadius: BorderRadius.circular(50),
+        child: InkWell(
+          onTap: func,
+          borderRadius: BorderRadius.circular(50),
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+            alignment: Alignment.center,
+            child: Text(
+              display,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  color: Settings.white),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  static Widget getButtonStyle2Disabled(
+      String display, VoidCallback func, BoxConstraints constraints) {
+    return Container(
+      width: constraints.maxWidth * 0.9,
+      height: 50,
+      margin: EdgeInsets.only(bottom: constraints.maxWidth * 0.03),
+      child: Material(
+        color: Settings.grey,
         borderRadius: BorderRadius.circular(50),
         child: InkWell(
           onTap: func,

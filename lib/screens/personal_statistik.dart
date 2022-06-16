@@ -69,12 +69,8 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
   }
 
   void _setTeam(Team team) async {
-    try {
-      _team = await Api.api.getTeam(team.id);
-      setState(() {});
-    } catch (e) {
-      //no need to handle
-    }
+    _team = team;
+    setState(() {});
   }
 
   Future<void> _getPersonalMoods() async {

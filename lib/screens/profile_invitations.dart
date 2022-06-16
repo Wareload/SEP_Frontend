@@ -49,6 +49,7 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
   Future<void> getInvitations() async {
     try {
       invitations = await Api.api.getInvitations();
+      print(invitations.length);
       setState(() {});
     } catch (e) {
       if (e.runtimeType == UserFeedbackException) {
@@ -145,9 +146,10 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
 
   Future<void> acceptInvitation(Invitation invite) async {
     try {
-      await Api.api.acceptInvitation(invite.teamid);
       invitations.remove(invite);
-      setState(() {});
+      _renderNew();
+      await Api.api.acceptInvitation(invite.teamid);
+      Navigator.pushNamed(context, RouteGenerator.teamOverview);
     } catch (e) {
       //TODO handle errors
     }

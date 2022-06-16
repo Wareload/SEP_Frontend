@@ -99,7 +99,8 @@ class _TeamOverviewState extends State<TeamOverview> {
 
   void _goToTeam(Team team) {
     Navigator.pushNamed(context, RouteGenerator.teamDetails,
-        arguments: {"team": team}).then((value) => {_loadTeams()});
+            arguments: {"team": team, "leader": team.leader})
+        .then((value) => {_loadTeams()});
   }
 
   void _goToProfile() {

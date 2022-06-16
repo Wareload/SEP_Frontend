@@ -66,12 +66,8 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
   }
 
   void _setTeam(Team team) async {
-    try {
-      _team = await Api.api.getTeam(team.id);
-      setState(() {});
-    } catch (e) {
-      //no need to handle
-    }
+    _team = team;
+    setState(() {});
   }
 
   void _setMoodList(List<MoodObject> moodList) async {

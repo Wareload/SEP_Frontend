@@ -29,6 +29,9 @@ class _MeditationTimerState extends State<MeditationTimer> {
     var args = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
     print(args);
+
+    _setTeam(args['team']);
+
     minutesGlobal = args['minutes'];
     if (!initDone) {
       initCountdown();
@@ -64,8 +67,9 @@ class _MeditationTimerState extends State<MeditationTimer> {
                         Center(
                           child: halfBtnOrange("Fertig", () {
                             timer?.cancel();
-                            Navigator.pushNamed(
-                                context, RouteGenerator.meditationEnd);
+                            Navigator.of(context).pushReplacementNamed(
+                                RouteGenerator.meditationEnd,
+                                arguments: {"team": _team});
                           }),
                         ),
                       ],
@@ -78,34 +82,18 @@ class _MeditationTimerState extends State<MeditationTimer> {
         })));
   }
 
-  void _renderNew() {
-    setState(() {});
-  }
-
   @override
   void initState() {
     super.initState();
   }
 
   void _setTeam(Team team) async {
-    try {
-      _team = await Api.api.getTeam(team.id);
-      setState(() {});
-    } catch (e) {
-      //no need to handle
-    }
+    _team = team;
+    setState(() {});
   }
 
   void _back() {
     Navigator.pop(context);
-  }
-
-  void _goToProfile() {
-    Navigator.pushNamed(context, RouteGenerator.profileOverview);
-  }
-
-  void _goToMeditationStart() {
-    Navigator.pushNamed(context, RouteGenerator.profileOverview);
   }
 
   textWidgetCentered(String text) {
@@ -153,7 +141,8 @@ class _MeditationTimerState extends State<MeditationTimer> {
       final seconds = duration.inSeconds - addSeconds;
       if (seconds < 0) {
         timer?.cancel();
-        Navigator.pushNamed(context, RouteGenerator.meditationEnd);
+        Navigator.of(context).pushReplacementNamed(RouteGenerator.meditationEnd,
+            arguments: {"team": _team});
       } else {
         duration = Duration(seconds: seconds);
       }

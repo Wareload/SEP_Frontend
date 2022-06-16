@@ -31,7 +31,7 @@ class _TeamHistorieState extends State<TeamHistorie> {
   Widget build(BuildContext context) {
     var args = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
-    _setTeam(args["teamid"]);
+    _setTeam(args["team"]);
     _setProfile();
     if (!moodsLoaded && _team.id != 0) {
       print("Gettingteammoods");
@@ -73,13 +73,9 @@ class _TeamHistorieState extends State<TeamHistorie> {
   }
 
   //Teams
-  void _setTeam(int teamid) async {
-    try {
-      _team = await Api.api.getTeam(teamid);
-      setState(() {});
-    } catch (e) {
-      //no need to handle
-    }
+  void _setTeam(Team team) async {
+    _team = team;
+    setState(() {});
   }
 
   void _loadTeams() async {
@@ -93,11 +89,6 @@ class _TeamHistorieState extends State<TeamHistorie> {
         RouteGenerator.reset(context);
       }
     }
-  }
-
-  void _goToTeam(Team team) {
-    Navigator.pushNamed(context, RouteGenerator.teamDetails,
-        arguments: {"team": team}).then((value) => {_loadTeams()});
   }
 
   void _goToProfile() {
@@ -136,7 +127,6 @@ class _TeamHistorieState extends State<TeamHistorie> {
       for (var element in moods) {
         if (moodDates['${element.date}'] == null) {
           List<MoodObject> moodList = [];
-          print("nix drinnen mit dem date");
           moodList.add(element);
           moodDates.putIfAbsent(element.date, () => moodList);
         } else {
@@ -144,9 +134,7 @@ class _TeamHistorieState extends State<TeamHistorie> {
           moodList = moodDates["${element.date}"];
           moodList?.add(element);
           moodDates[element.date] = moodList!;
-          print("drinnen mit dem date");
         }
-        //mooddates.add(MoodDates(element.date, element))
       }
       setState(() {});
     } catch (e) {
@@ -189,7 +177,7 @@ class _TeamHistorieState extends State<TeamHistorie> {
   Widget textWhiteH3(String teamname) {
     return Text(
       teamname,
-      style: TextStyle(
+      style: const TextStyle(
           fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
     );
   }
@@ -197,14 +185,14 @@ class _TeamHistorieState extends State<TeamHistorie> {
   Widget textWhiteH2(String teamname) {
     return Text(
       teamname,
-      style: TextStyle(
+      style: const TextStyle(
           fontWeight: FontWeight.normal, fontSize: 18, color: Colors.white),
     );
   }
 
   Widget getTeamAverage(double average) {
     return Text(
-      (average + 1).toString(),
+      (4 - (average + 1)).toString(),
       style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 30,

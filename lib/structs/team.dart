@@ -5,11 +5,12 @@ class Team {
   final String name;
   final int id;
   final List<Member> members;
+  int leader;
 
-  Team._(this.name, this.id, this.members);
+  Team._(this.name, this.id, this.members, this.leader);
 
   static Team empty() {
-    return Team._("", 0, []);
+    return Team._("", 0, [], 0);
   }
 
   //TODO need to implement
@@ -17,7 +18,8 @@ class Team {
   static List<Team> getSimpleTeams(List teams) {
     var toReturn = <Team>[];
     for (var element in teams) {
-      toReturn.add(Team._(element["name"], element["teamid"], []));
+      toReturn.add(
+          Team._(element["name"], element["teamid"], [], element["leader"]));
     }
     return toReturn;
   }
@@ -25,7 +27,8 @@ class Team {
   static List<Team> getSimpleTeamsInvitation(List teams) {
     var toReturn = <Team>[];
     for (var element in teams) {
-      toReturn.add(Team._(element["name"], element["id"], []));
+      toReturn
+          .add(Team._(element["name"], element["id"], [], element["leader"]));
     }
     return toReturn;
   }
@@ -44,6 +47,6 @@ class Team {
           element["tags"].cast<String>());
       teamMember.add(m);
     }
-    return Team._(name, id, teamMember);
+    return Team._(name, id, teamMember, 0);
   }
 }

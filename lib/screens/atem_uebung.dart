@@ -25,10 +25,12 @@ class _AtemuebungState extends State<Atemuebung> {
 
   @override
   Widget build(BuildContext context) {
-    var args = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
+    var args = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
     _setTeam(args["team"]);
 
-    return Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+    return Scaffold(
+        body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return CustomScrollView(
         slivers: [
           SliverFillRemaining(
@@ -38,10 +40,12 @@ class _AtemuebungState extends State<Atemuebung> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Widgets.getNavBarWithoutProfile(constraints, _back, "Atemübung"),
+                  Widgets.getNavBarWithoutProfile(
+                      constraints, _back, "Atemübung"),
                   textWidgetCentered(getCurrentActivity()),
                   bubbleForSeconds(seconds),
-                  Widgets.getButtonStyleOrange("Fertig", _goToTeamDetails, constraints, "Stopp"),
+                  Widgets.getButtonStyleOrange(
+                      "Fertig", _goToTeamDetails, constraints, "Stopp"),
                 ],
               ),
             ),
@@ -72,7 +76,8 @@ class _AtemuebungState extends State<Atemuebung> {
   }
 
   void _goToTeamDetails() {
-    Navigator.of(context).pushNamed(RouteGenerator.teamDetails, arguments: {"team": _team});
+    Navigator.of(context).pushReplacementNamed(RouteGenerator.teamDetails,
+        arguments: {"team": _team});
   }
 
   textWidgetCentered(String text) {

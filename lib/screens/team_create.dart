@@ -16,6 +16,7 @@ class TeamCreate extends StatefulWidget {
 class _TeamCreateState extends State<TeamCreate> {
   String _errorText = "";
   TextEditingController teamNameController = TextEditingController();
+  bool isSending = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,18 +32,29 @@ class _TeamCreateState extends State<TeamCreate> {
               Widgets.getTextFieldH3C("Team erstellen", constraints),
             ],
           ),
-          SizedBox(height: 30,),
+          SizedBox(
+            height: 30,
+          ),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Widgets.getInputFieldWithTitle(teamNameController,TextInputType.text,false,constraints,"Teamname","Teamname hier eintragen"),
-                Widgets.getButtonStyleOrange("Erstellen", _onTeamCreate, constraints,"Fertig"),
+                Widgets.getInputFieldWithTitle(
+                    teamNameController,
+                    TextInputType.text,
+                    false,
+                    constraints,
+                    "Teamname",
+                    "Teamname hier eintragen"),
+                getButtonStyleOrangeWithAnimation(
+                    _onTeamCreate, constraints, "Fertig", isSending),
               ],
             ),
           ),
-          SizedBox(height: 30,),
+          SizedBox(
+            height: 30,
+          ),
         ],
       );
     })));
@@ -51,19 +63,67 @@ class _TeamCreateState extends State<TeamCreate> {
   void _onBack() {
     Navigator.pop(context);
   }
+
   void _onTeamCreate() async {
-    try{
-      await Api.api.createTeam(teamNameController.text);
-      _onBack();
-    }catch(e){
-      setState(() {
-        if (e.runtimeType == UserFeedbackException) {
-          _errorText = e.toString();
-        }else if (e.runtimeType == InvalidPermissionException){
-          RouteGenerator.reset(context);
-        }
-      });
+    if (!isSending) {
+      isSending = true;
+      try {
+        await Api.api.createTeam(teamNameController.text);
+        _onBack();
+      } catch (e) {
+        setState(() {
+          if (e.runtimeType == UserFeedbackException) {
+            _errorText = e.toString();
+          } else if (e.runtimeType == InvalidPermissionException) {
+            RouteGenerator.reset(context);
+          }
+        });
+      }
     }
+  }
+
+  //button with a circularbtn animation for sending the mood to our backend
+  static Widget getButtonStyleOrangeWithAnimation(VoidCallback func,
+      BoxConstraints constraints, String btnText, bool isLoading) {
+    return Container(
+      padding: EdgeInsets.all(10),
+      margin: EdgeInsets.only(left: 10, right: 10),
+      child: Material(
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: Colors.orange,
+            textStyle: TextStyle(fontSize: 20),
+            shape: StadiumBorder(),
+          ),
+          onPressed: func,
+          //borderRadius: BorderRadius.circular(50),
+          child: isLoading
+              ? Container(
+                  height: 50,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
+                      //animation/infotext?
+                    ],
+                  ),
+                )
+              : Container(
+                  height: 50,
+                  alignment: Alignment.center,
+                  child: Text(
+                    btnText,
+                    style: const TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
+                ),
+        ),
+      ),
+    );
   }
 
   @override

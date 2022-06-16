@@ -77,12 +77,8 @@ class _MoodSelectState extends State<MoodSelect> {
   }
 
   void _setTeam(Team team) async {
-    try {
-      _team = await Api.api.getTeam(team.id);
-      setState(() {});
-    } catch (e) {
-      //no need to handle
-    }
+    _team = team;
+    setState(() {});
   }
 
   void _back() {

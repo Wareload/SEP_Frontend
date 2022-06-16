@@ -19,11 +19,13 @@ class _TeamDetailsState extends State<TeamDetails> {
   bool canSelect = false;
   String _timemessage = "Du hast heute schon abgestimmt";
   bool gottimerstate = false;
+  int leaderState = 0;
 
   @override
   Widget build(BuildContext context) {
     var args = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
+    leaderState = args["leader"];
     _setTeam(args["team"]);
     if (!gottimerstate && _team.id != 0) {
       _setTimerstate(_team);
@@ -88,6 +90,7 @@ class _TeamDetailsState extends State<TeamDetails> {
   void _setTeam(Team team) async {
     try {
       _team = await Api.api.getTeam(team.id);
+      _team.leader = leaderState;
       setState(() {});
     } catch (e) {
       //no need to handle
@@ -113,7 +116,8 @@ class _TeamDetailsState extends State<TeamDetails> {
   }
 
   void _goToMeditation() {
-    Navigator.pushNamed(context, RouteGenerator.meditationHome);
+    Navigator.of(context)
+        .pushNamed(RouteGenerator.meditationHome, arguments: {"team": _team});
   }
 
   Widget getMoodEmojisByState(BoxConstraints constraints) {

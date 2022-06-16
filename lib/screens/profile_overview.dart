@@ -22,29 +22,45 @@ class _ProfileOverviewState extends State<ProfileOverview> {
   @override
   Widget build(BuildContext context) {
     _setProfile();
-
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            height: constraints.maxWidth * 0.05,
-          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              IconButton(
-                  onPressed: _back,
-                  icon: Icon(Icons.arrow_back,
-                      color: Colors.blue, size: constraints.maxWidth * 0.15)),
               Container(
-                margin: EdgeInsets.only(right: constraints.maxWidth * 0.05),
+                margin: EdgeInsets.only(right: 10, top: 10),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                //color: Settings.blueAccent,
+                height: 60,
+                width: 60,
                 child: IconButton(
-                    onPressed: () => {},
-                    icon: Icon(Icons.settings,
-                        color: Colors.blue, size: constraints.maxWidth * 0.15)),
+                    onPressed: _back,
+                    icon: Icon(
+                      Icons.arrow_back,
+                      color: Colors.blue,
+                      size: 40,
+                    )),
+              ),
+              Center(
+                child: Widgets.getNavHeaderText("Dein Profil", constraints),
+              ),
+              Container(
+                margin: EdgeInsets.only(right: 10, top: 10),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle, color: Colors.blueAccent),
+                //color: Settings.blueAccent,
+                height: 60,
+                width: 60,
+                child: IconButton(
+                    onPressed: _openSettingsMenu,
+                    icon: Icon(Icons.settings, color: Colors.white, size: 40)),
               )
             ],
           ),
@@ -119,17 +135,9 @@ class _ProfileOverviewState extends State<ProfileOverview> {
     //Navigator.popAndPushNamed(context, RouteGenerator.teamOverview);
   }
 
-  void _loadTeams() async {
-    try {
-      teams = await Api.api.getTeams();
-      setState(() {});
-    } catch (e) {
-      if (e.runtimeType == UserFeedbackException) {
-        //TODO handle exception here
-      } else if (e.runtimeType == InvalidPermissionException) {
-        RouteGenerator.reset(context);
-      }
-    }
+  void _openSettingsMenu() {
+    print("Opensettings todo");
+    //TODO: Create a openSetting Menu
   }
 
   void _leaveTeam(Team team) async {
@@ -145,12 +153,11 @@ class _ProfileOverviewState extends State<ProfileOverview> {
 
   void _goToTeam(Team team) {
     Navigator.pushNamed(context, RouteGenerator.teamDetails,
-        arguments: {"team": team}).then((value) => {_loadTeams()});
+        arguments: {"team": team});
   }
 
   @override
   void initState() {
     super.initState();
-    _loadTeams();
   }
 }

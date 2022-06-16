@@ -22,6 +22,7 @@ class _MeditationHomeState extends State<MeditationHome> {
     var args = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
     print(args);
+    _setTeam(args['team']);
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return CustomScrollView(
@@ -62,12 +63,8 @@ class _MeditationHomeState extends State<MeditationHome> {
   }
 
   void _setTeam(Team team) async {
-    try {
-      _team = await Api.api.getTeam(team.id);
-      setState(() {});
-    } catch (e) {
-      //no need to handle
-    }
+    _team = team;
+    setState(() {});
   }
 
   void _back() {
@@ -78,12 +75,12 @@ class _MeditationHomeState extends State<MeditationHome> {
   //           }, () {}, constraints,feelingStatus),
 
   void _goToProfile() {
-    Navigator.pushNamed(context, RouteGenerator.profileOverview);
+    Navigator.pushReplacementNamed(context, RouteGenerator.profileOverview);
   }
 
   void _startMeditation() {
-    Navigator.of(context).pushNamed(RouteGenerator.meditationInfo,
-        arguments: {"minutes": minutes});
+    Navigator.of(context).pushReplacementNamed(RouteGenerator.meditationInfo,
+        arguments: {"minutes": minutes, "team": _team});
   }
 
   textWidgetCentered(String text) {

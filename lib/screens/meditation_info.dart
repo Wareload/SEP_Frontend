@@ -24,6 +24,7 @@ class _MeditationInfoState extends State<MeditationInfo> {
         <String, dynamic>{}) as Map;
     minutes = args['minutes'];
     print(args);
+    _setTeam(args['team']);
     return Scaffold(
         backgroundColor: Colors.blueAccent,
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
@@ -76,25 +77,17 @@ class _MeditationInfoState extends State<MeditationInfo> {
   }
 
   void _setTeam(Team team) async {
-    try {
-      _team = await Api.api.getTeam(team.id);
-      setState(() {});
-    } catch (e) {
-      //no need to handle
-    }
+    _team = team;
+    setState(() {});
   }
 
   void _back() {
     Navigator.pop(context);
   }
 
-  void _goToProfile() {
-    Navigator.pushNamed(context, RouteGenerator.profileOverview);
-  }
-
   void _goToMeditationStart() {
-    Navigator.of(context).pushNamed(RouteGenerator.meditationStart,
-        arguments: {"minutes": minutes});
+    Navigator.of(context).pushReplacementNamed(RouteGenerator.meditationStart,
+        arguments: {"minutes": minutes, "team": _team});
   }
 
   textWidgetCentered(String text) {

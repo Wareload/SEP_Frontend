@@ -22,6 +22,7 @@ class _MeditationEndState extends State<MeditationEnd> {
     var args = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
     print(args);
+    _setTeam(args['team']);
     return Scaffold(
         backgroundColor: Colors.blueAccent,
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
@@ -73,12 +74,8 @@ class _MeditationEndState extends State<MeditationEnd> {
   }
 
   void _setTeam(Team team) async {
-    try {
-      _team = await Api.api.getTeam(team.id);
-      setState(() {});
-    } catch (e) {
-      //no need to handle
-    }
+    _team = team;
+    setState(() {});
   }
 
   void _back() {
@@ -86,11 +83,7 @@ class _MeditationEndState extends State<MeditationEnd> {
   }
 
   void _goToHome() {
-    Navigator.pushNamed(context, RouteGenerator.teamOverview);
-  }
-
-  void _goToProfile() {
-    Navigator.pushNamed(context, RouteGenerator.profileOverview);
+    Navigator.pop(context);
   }
 
   textWidgetCentered(String text) {

@@ -296,7 +296,7 @@ class ApiBackend implements ApiInterface {
   }
 
   @override
-  Future<void> addTeamMember(int teamId, String email) async {
+  Future<String> addTeamMember(int teamId, String email) async {
     http.Response response;
     try {
       response = await http
@@ -310,12 +310,15 @@ class ApiBackend implements ApiInterface {
     switch (response.statusCode) {
       case 200:
         updateCookie(response);
-        return;
+        return "Erfolgreich eingeladen";
       case 400:
+        return "Ungültige Eingabe";
         throw UserFeedbackException("Ungültige Eingaben");
       case 401:
+        return "Keine Berechtigung!";
         throw InvalidPermissionException("Keine Berechtigung");
     }
+    return "Server Fehler";
     throw UserFeedbackException("Server Fehler");
   }
 
@@ -347,7 +350,7 @@ class ApiBackend implements ApiInterface {
   }
 
   @override
-  Future<void> deleteTeam(int id) async {
+  Future<String> deleteTeam(int id) async {
     http.Response response;
     try {
       response = await http
@@ -360,12 +363,14 @@ class ApiBackend implements ApiInterface {
     switch (response.statusCode) {
       case 200:
         updateCookie(response);
-        return;
+        return "Erfolgreich gelöscht";
       case 400:
         throw UserFeedbackException("Ungültige Eingaben");
       case 401:
+        return "Keine Berechtigung";
         throw InvalidPermissionException("Keine Berechtigung");
     }
+    return "Keine Berechtigung";
     throw UserFeedbackException("Server Fehler");
   }
 

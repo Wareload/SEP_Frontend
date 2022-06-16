@@ -9,6 +9,7 @@ import '../api/exception/user_feedback_exception.dart';
 import '../route/route_generator.dart';
 import '../structs/profile.dart';
 import '../structs/team.dart';
+import '../widgets/settings.dart';
 
 class TeamManage extends StatefulWidget {
   const TeamManage({Key? key}) : super(key: key);
@@ -55,7 +56,7 @@ class _TeamManageState extends State<TeamManage> {
                 _goToTeamCare(_team);
               }, constraints),
               const SizedBox(height: 2),
-              Widgets.getButtonStyle2("Team löschen", () {}, constraints),
+              getTeamDeleteButton(constraints),
               const SizedBox(height: 25),
               displayName(_profile.firstname + " " + _profile.lastname),
               const SizedBox(height: 25),
@@ -83,12 +84,47 @@ class _TeamManageState extends State<TeamManage> {
 
   //Teams
   void _setTeam(Team team) async {
+    _team = team;
+
+    setState(() {});
+  }
+
+  createAlertDialog(BuildContext context, String response) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(response),
+            actions: [
+              getButtonStyleOrange("", _goToHome, "Ok"),
+            ],
+          );
+        });
+  }
+
+  createAlertDialogNothing(BuildContext context, String message) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(message),
+            actions: [
+              getButtonStyleOrange("", () {
+                Navigator.pop(context);
+              }, "Ok"),
+            ],
+          );
+        });
+  }
+
+  void _deleteTeam(Team team) async {
+    String response = "Lädt...";
     try {
-      _team = await Api.api.getTeam(team.id);
-      setState(() {});
+      response = await Api.api.deleteTeam(team.id);
     } catch (e) {
-      //no need to handle
+      print(e);
     }
+    createAlertDialog(context, response);
   }
 
   Widget getTeams(BoxConstraints constraints) {
@@ -103,32 +139,22 @@ class _TeamManageState extends State<TeamManage> {
     );
   }
 
-  void _loadTeams() async {
-    try {
-      teams = await Api.api.getTeams();
-      setState(() {});
-    } catch (e) {
-      if (e.runtimeType == UserFeedbackException) {
-        //TODO handle exception here
-      } else if (e.runtimeType == InvalidPermissionException) {
-        RouteGenerator.reset(context);
-      }
-    }
-  }
-
   void _goToTeam(Team team) {
     Navigator.pushNamed(context, RouteGenerator.teamDetails,
-        arguments: {"team": team}).then((value) => {_loadTeams()});
+        arguments: {"team": team});
+  }
+
+  void _goToHome() {
+    Navigator.pushNamed(context, RouteGenerator.teamOverview);
   }
 
   void _goToTeamCare(Team team) {
     Navigator.pushNamed(context, RouteGenerator.teamCare,
-        arguments: {"teamid": team.id}).then((value) => {_loadTeams()});
+        arguments: {"team": team});
   }
 
   void _goToProfile() {
-    Navigator.pushNamed(context, RouteGenerator.profileOverview)
-        .then((value) => {_loadTeams()});
+    Navigator.pushNamed(context, RouteGenerator.profileOverview);
   }
 
   void _goToTeamInvite() {
@@ -143,12 +169,37 @@ class _TeamManageState extends State<TeamManage> {
   @override
   void initState() {
     super.initState();
-    _loadTeams();
   }
 
   void _onCreateTeam() {
-    Navigator.pushNamed(context, RouteGenerator.teamCreate)
-        .then((value) => {_loadTeams()});
+    Navigator.pushNamed(context, RouteGenerator.teamCreate);
+  }
+
+  static Widget getButtonStyleOrange(
+      String display, VoidCallback func, String btnText) {
+    return Container(
+      padding: EdgeInsets.all(10),
+      margin: EdgeInsets.only(left: 10, right: 10),
+      child: Material(
+        color: Colors.orange,
+        borderRadius: BorderRadius.circular(50),
+        child: InkWell(
+          onTap: func,
+          borderRadius: BorderRadius.circular(50),
+          child: Container(
+            height: 60,
+            alignment: Alignment.center,
+            child: Text(
+              btnText,
+              style: const TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  color: Settings.white),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   Widget textCenteredHeader(String fullName) {
@@ -271,7 +322,7 @@ class _TeamManageState extends State<TeamManage> {
       children: [
         FlatButton(
           padding: EdgeInsets.only(bottom: 30),
-          child: Text(
+          child: const Text(
             "Team löschen",
             style: TextStyle(
                 color: Colors.black,
@@ -286,7 +337,7 @@ class _TeamManageState extends State<TeamManage> {
 
   btnRedirect(String btnText, Widget widgetTo) {
     return Container(
-      padding: EdgeInsets.only(left: 25, right: 25),
+      padding: const EdgeInsets.only(left: 25, right: 25),
       child: Material(
         color: Colors.blue,
         borderRadius: BorderRadius.circular(50),
@@ -324,7 +375,7 @@ class _TeamManageState extends State<TeamManage> {
                 margin: EdgeInsets.only(top: 20),
                 width: 190.0,
                 height: 190.0,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: Colors.blue,
                     shape: BoxShape.circle,
                     image: DecorationImage(
@@ -348,5 +399,21 @@ class _TeamManageState extends State<TeamManage> {
             fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white),
       ),
     );
+  }
+
+  Widget getTeamDeleteButton(BoxConstraints constraints) {
+    print("Du bist");
+    print("------------------------");
+    print(_team.leader);
+    if (_team.leader == 1) {
+      return Widgets.getButtonStyle2("Team löschen", () {
+        _deleteTeam(_team);
+      }, constraints);
+    } else {
+      return Widgets.getButtonStyle2Disabled("Team löschen", () {
+        createAlertDialogNothing(context,
+            "Du hast keiner Berechtigung dafür! Melde dich bei deinem Teamadmin!");
+      }, constraints);
+    }
   }
 }

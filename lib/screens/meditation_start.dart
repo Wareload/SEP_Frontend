@@ -25,6 +25,8 @@ class _MeditationStartState extends State<MeditationStart> {
     var args = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
     print(args);
+    _setTeam(args['team']);
+
     minutes = args['minutes'];
 
     return Scaffold(
@@ -58,38 +60,23 @@ class _MeditationStartState extends State<MeditationStart> {
         })));
   }
 
-  void _renderNew() {
-    setState(() {});
-  }
-
   @override
   void initState() {
     super.initState();
     Timer(
         Duration(seconds: 4),
-        () => Navigator.of(context).pushNamed(RouteGenerator.meditationTimer,
-            arguments: {"minutes": minutes}));
+        () => Navigator.of(context).pushReplacementNamed(
+            RouteGenerator.meditationTimer,
+            arguments: {"minutes": minutes, "team": _team}));
   }
 
   void _setTeam(Team team) async {
-    try {
-      _team = await Api.api.getTeam(team.id);
-      setState(() {});
-    } catch (e) {
-      //no need to handle
-    }
+    _team = team;
+    setState(() {});
   }
 
   void _back() {
     Navigator.pop(context);
-  }
-
-  void _goToProfile() {
-    Navigator.pushNamed(context, RouteGenerator.profileOverview);
-  }
-
-  void _goToMeditationStart() {
-    Navigator.pushNamed(context, RouteGenerator.profileOverview);
   }
 
   textWidgetCentered(String text) {
