@@ -29,6 +29,8 @@ class _TeamManageState extends State<TeamManage> {
         <String, dynamic>{}) as Map;
     _setTeam(args["team"]);
     _setProfile();
+    print(_team.members.length);
+
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return SingleChildScrollView(
@@ -47,7 +49,7 @@ class _TeamManageState extends State<TeamManage> {
             children: [
               textCenteredHeader("Mitglieder"),
               const SizedBox(height: 3),
-              displayTeamIcons(),
+              _getMember(constraints),
               const SizedBox(height: 25),
               Widgets.getButtonStyle2(
                   "Hinzufügen", _goToTeamInvite, constraints),
@@ -59,13 +61,52 @@ class _TeamManageState extends State<TeamManage> {
               getTeamDeleteButton(constraints),
               const SizedBox(height: 25),
               displayName(_profile.firstname + " " + _profile.lastname),
-              const SizedBox(height: 25),
               checkBoxRole(),
             ],
           ),
         ]),
       );
     })));
+  }
+
+  Widget _getMember(constraints) {
+    List<Widget> widgetsTop = [];
+    List<Widget> widgetsBottom = [];
+
+    bool top = true;
+    for (var element in _team.members) {
+      if (top) {
+        top = false;
+        widgetsTop.add(
+            displayImageOfMember(element.firstName + " " + element.lastName));
+      } else {
+        top = true;
+        widgetsBottom.add(
+            displayImageOfMember(element.firstName + " " + element.lastName));
+      }
+    }
+    return Container(
+      child: SingleChildScrollView(
+        child: RawScrollbar(
+          thumbColor: Colors.blue,
+          radius: Radius.circular(20),
+          thickness: 5,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Column(
+              children: [
+                Row(
+                  children: widgetsTop,
+                ),
+                Row(
+                  children: widgetsBottom,
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   //Get Profile
@@ -214,8 +255,8 @@ class _TeamManageState extends State<TeamManage> {
     );
   }
 
-  //Displays all Teammember in a team
-  displayTeamIcons() {
+  /*//Displays all Teammember in a team
+  displayTeamIcons(BoxConstraints constraints) {
     return Container(
       child: SingleChildScrollView(
         child: RawScrollbar(
@@ -228,34 +269,14 @@ class _TeamManageState extends State<TeamManage> {
               children: [
                 Row(
                   children: [
-                    displayImageOfMember(),
-                    displayImageOfMember(),
-                    displayImageOfMember(),
-                    displayImageOfMember(),
-                    displayImageOfMember(),
-                    displayImageOfMember(),
-                    displayImageOfMember(),
-                    displayImageOfMember(),
-                    displayImageOfMember(),
-                    displayImageOfMember(),
-                    displayImageOfMember(),
-                    displayImageOfMember(),
+                    _getMember(constraints),
+                    displayImageOfMember("Hans"),
+                    displayImageOfMember("Hans"),
                   ],
                 ),
                 Row(
                   children: [
-                    displayImageOfMember(),
-                    displayImageOfMember(),
-                    displayImageOfMember(),
-                    displayImageOfMember(),
-                    displayImageOfMember(),
-                    displayImageOfMember(),
-                    displayImageOfMember(),
-                    displayImageOfMember(),
-                    displayImageOfMember(),
-                    displayImageOfMember(),
-                    displayImageOfMember(),
-                    displayImageOfMember(),
+                    displayImageOfMember("Hans"),
                   ],
                 )
               ],
@@ -264,7 +285,7 @@ class _TeamManageState extends State<TeamManage> {
         ),
       ),
     );
-  }
+  }*/
 
   Widget displayName(String userFullName) {
     return Container(
@@ -297,7 +318,7 @@ class _TeamManageState extends State<TeamManage> {
                 'Teamleader',
                 style: TextStyle(fontSize: 20),
               ),
-              value: true,
+              value: intToBool(_team.leader),
               controlAffinity: ListTileControlAffinity.leading,
               onChanged: (bool? value) {},
             ),
@@ -306,7 +327,7 @@ class _TeamManageState extends State<TeamManage> {
                 'Mitglied',
                 style: TextStyle(fontSize: 20),
               ),
-              value: false,
+              value: !intToBool(_team.leader),
               controlAffinity: ListTileControlAffinity.leading,
               onChanged: (bool? value) {},
             ),
@@ -314,6 +335,14 @@ class _TeamManageState extends State<TeamManage> {
         ),
       ),
     );
+  }
+
+  intToBool(int input) {
+    if (input == 1) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   btnDeleteTeam() {
@@ -360,7 +389,7 @@ class _TeamManageState extends State<TeamManage> {
     );
   }
 
-  displayImageOfMember() {
+  displayImageOfMember(String name) {
     return Column(
       children: [
         Container(
@@ -386,7 +415,7 @@ class _TeamManageState extends State<TeamManage> {
             ),
           ),
         ),
-        Text("NAME")
+        Text(name),
       ],
     );
   }

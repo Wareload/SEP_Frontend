@@ -79,7 +79,7 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
   }
 
   void _goToProfile() {
-    Navigator.pushNamed(context, RouteGenerator.profileOverview);
+    Navigator.popAndPushNamed(context, RouteGenerator.profileOverview);
   }
 
   timeButton(String display, VoidCallback func) {
@@ -112,8 +112,7 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              displayEmoji(
-                  "assets/verygood.png", Colors.green, () => {}, element, 0),
+              displayEmoji("", Colors.green, () => {}, element, 0),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -144,10 +143,19 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
 
   static displayEmoji(String s, MaterialColor color, VoidCallback callback,
       MoodObject selectedMood, int id) {
-    List moodnames = <String>["Sehr gut", "Gut", "Schlecht", "Sehr schlecht"];
+    List moodnames = <String>[
+      "Sehr gut",
+      "Gut",
+      "alles gut",
+      "naja",
+      "Schlecht",
+      "Sehr schlecht"
+    ];
     List moodPaths = <String>[
       "assets/verygood.png",
       "assets/good.png",
+      "assets/smile.png",
+      "assets/unamused.png",
       "assets/bad.png",
       "assets/verybad.png"
     ];

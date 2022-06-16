@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moody/structs/team.dart';
 import 'package:moody/widgets/settings.dart';
 
 //TODO Mood Logik mit der Map an neues Design (4 Emojis) anpassen
@@ -22,6 +23,16 @@ class Widgets {
       child: Text(
         display,
         style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+      ),
+    );
+  }
+
+  static Widget getTextFieldH2C(String display, BoxConstraints constraints) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+      child: Text(
+        display,
+        style: const TextStyle(color: Settings.blue, fontSize: 20),
       ),
     );
   }
@@ -392,7 +403,7 @@ class Widgets {
   }
 
   static Widget getProfileTeam(display, VoidCallback click, VoidCallback leave,
-      BoxConstraints constraints) {
+      BoxConstraints constraints, Team team) {
     return Container(
         margin: EdgeInsets.only(bottom: constraints.maxWidth * 0.02),
         child: Row(
@@ -420,30 +431,61 @@ class Widgets {
                 ),
               ),
             ),
-            Container(
-                margin: EdgeInsets.only(left: constraints.maxWidth * 0.02),
-                child: Center(
-                  child: Material(
-                    color: Settings.grey,
-                    borderRadius: BorderRadius.circular(50),
-                    child: InkWell(
-                      onTap: leave,
-                      borderRadius: BorderRadius.circular(50),
-                      child: Container(
-                        width: constraints.maxWidth * 0.14,
-                        height: constraints.maxWidth * 0.14,
-                        alignment: Alignment.center,
-                        child: const Text(
-                          "-",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 40, color: Settings.blue),
-                        ),
-                      ),
-                    ),
-                  ),
-                ))
+            getLeaveButton(constraints, leave, team.leader),
           ],
         ));
+  }
+
+  static getLeaveButton(
+      BoxConstraints constraints, VoidCallback func, int isLeader) {
+    if (isLeader == 1) {
+      return Container(
+          margin: EdgeInsets.only(left: constraints.maxWidth * 0.02),
+          child: Center(
+            child: Material(
+              color: Settings.grey,
+              borderRadius: BorderRadius.circular(50),
+              child: InkWell(
+                onTap: func,
+                borderRadius: BorderRadius.circular(50),
+                child: Container(
+                  width: constraints.maxWidth * 0.14,
+                  height: constraints.maxWidth * 0.14,
+                  alignment: Alignment.center,
+                  child: const Text(
+                    "",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 40, color: Settings.blue),
+                  ),
+                ),
+              ),
+            ),
+          ));
+      ;
+    } else {
+      return Container(
+          margin: EdgeInsets.only(left: constraints.maxWidth * 0.02),
+          child: Center(
+            child: Material(
+              color: Settings.grey,
+              borderRadius: BorderRadius.circular(50),
+              child: InkWell(
+                onTap: func,
+                borderRadius: BorderRadius.circular(50),
+                child: Container(
+                  width: constraints.maxWidth * 0.14,
+                  height: constraints.maxWidth * 0.14,
+                  alignment: Alignment.center,
+                  child: const Text(
+                    "-",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 40, color: Settings.blue),
+                  ),
+                ),
+              ),
+            ),
+          ));
+    }
   }
 
   static Widget getMoodEmojis(display, VoidCallback click, VoidCallback select1,
@@ -479,6 +521,7 @@ class Widgets {
                             bottomRight: Radius.elliptical(20.0, 20),
                           )),
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -487,10 +530,22 @@ class Widgets {
                                   select1, selectedMood, 0),
                               displayEmoji("assets/good.png", Colors.lightGreen,
                                   select1, selectedMood, 1),
-                              displayEmoji("assets/bad.png", Colors.orange,
+                              displayEmoji("assets/smile.png", Colors.orange,
                                   select1, selectedMood, 2),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              displayEmoji("assets/unamused.png",
+                                  Colors.lightGreen, select1, selectedMood, 3),
+                              displayEmoji("assets/bad.png", Colors.orange,
+                                  select1, selectedMood, 4),
                               displayEmoji("assets/verybad.png", Colors.red,
-                                  select1, selectedMood, 3),
+                                  select1, selectedMood, 5),
                             ],
                           ),
                         ],
@@ -548,10 +603,22 @@ class Widgets {
                                   Colors.green, select1, selectedMood, 0),
                               displaydisabledEmoji("assets/good.png",
                                   Colors.lightGreen, select1, selectedMood, 1),
-                              displaydisabledEmoji("assets/bad.png",
+                              displaydisabledEmoji("assets/smile.png",
                                   Colors.orange, select1, selectedMood, 2),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              displaydisabledEmoji("assets/unamused.png",
+                                  Colors.lightGreen, select1, selectedMood, 3),
+                              displaydisabledEmoji("assets/bad.png",
+                                  Colors.orange, select1, selectedMood, 4),
                               displaydisabledEmoji("assets/verybad.png",
-                                  Colors.red, select1, selectedMood, 3),
+                                  Colors.red, select1, selectedMood, 5),
                             ],
                           ),
                         ],
@@ -566,7 +633,14 @@ class Widgets {
   //Displays a single emoji icon in the mood selection view
   static displayEmoji(String s, MaterialColor color, VoidCallback callback,
       Mood selectedMood, int id) {
-    List moodnames = <String>["Sehr gut", "Gut", "Schlecht", "Sehr schlecht"];
+    List moodnames = <String>[
+      "Sehr gut",
+      "Gut",
+      "alles gut",
+      "naja",
+      "Schlecht",
+      "Sehr schlecht"
+    ];
     return Container(
       padding: const EdgeInsets.only(left: 5, right: 5),
       child: Column(
@@ -599,7 +673,14 @@ class Widgets {
 
   static displaydisabledEmoji(String s, MaterialColor color,
       VoidCallback callback, Mood selectedMood, int id) {
-    List moodnames = <String>["Sehr gut", "Gut", "Schlecht", "Sehr schlecht"];
+    List moodnames = <String>[
+      "Sehr gut",
+      "Gut",
+      "alles gut",
+      "naja",
+      "Schlecht",
+      "Sehr schlecht"
+    ];
     return Container(
       padding: const EdgeInsets.only(left: 5, right: 5),
       child: Column(

@@ -7,6 +7,7 @@ import 'package:moody/widgets/widgets.dart';
 import '../api/exception/invalid_permission_exception.dart';
 import '../api/exception/user_feedback_exception.dart';
 import '../route/route_generator.dart';
+import '../structs/invitation.dart';
 import '../structs/profile.dart';
 import '../structs/team.dart';
 
@@ -20,10 +21,16 @@ class TeamOverview extends StatefulWidget {
 class _TeamOverviewState extends State<TeamOverview> {
   List<Team> teams = [];
   Profile _profile = Profile.empty();
-  String _invitations = "1";
+  String _invitations = "";
+  List<Invitation> invitations = [];
 
   @override
   Widget build(BuildContext context) {
+    if (invitations.length >= 1) {
+      _invitations = invitations.length.toString();
+    } else {
+      _invitations = "";
+    }
     _setProfile();
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
@@ -33,7 +40,7 @@ class _TeamOverviewState extends State<TeamOverview> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Widgets.getTextFieldH3C(
+              Widgets.getTextFieldH2C(
                   "Hallo " + _profile.firstname + "!", constraints),
               getInvitations(),
               Widgets.getProfileIcon(constraints, _goToProfile),
@@ -56,6 +63,22 @@ class _TeamOverviewState extends State<TeamOverview> {
         ],
       );
     })));
+  }
+
+  //get Current Invitations
+  Future<void> getInvitationList() async {
+    try {
+      invitations = await Api.api.getInvitations();
+      print(invitations.length);
+      setState(() {});
+    } catch (e) {
+      if (e.runtimeType == UserFeedbackException) {
+        //TODO handle exception here
+      } else if (e.runtimeType == InvalidPermissionException) {
+        RouteGenerator.reset(context);
+      }
+    }
+    setState(() {});
   }
 
   //Get Profile
@@ -116,6 +139,7 @@ class _TeamOverviewState extends State<TeamOverview> {
   void initState() {
     super.initState();
     _loadTeams();
+    getInvitationList();
   }
 
   void _onCreateTeam() {
@@ -146,8 +170,9 @@ class _TeamOverviewState extends State<TeamOverview> {
             ),
             Container(
                 alignment: Alignment.bottomRight,
+                padding: EdgeInsets.only(left: 45, top: 10),
                 child: Text(
-                  "$_invitations",
+                  "${_invitations}",
                   style: TextStyle(
                       color: Colors.pink,
                       fontWeight: FontWeight.bold,

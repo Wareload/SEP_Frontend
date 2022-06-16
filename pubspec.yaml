@@ -67,9 +67,9 @@ flutter:
     - assets/old/exhaling.png
     - assets/old/neutral.png
     - assets/old/sleeping.png
-    - assets/old/smile.png
+    - assets/smile.png
     - assets/old/steam.png
-    - assets/old/unamused.png
+    - assets/unamused.png
     - assets/pb_placeholderr.jpg
     - assets/verygood.png
     - assets/good.png

@@ -93,7 +93,7 @@ class _TeamInviteState extends State<TeamInvite> {
   }
 
   void _goToProfile() {
-    Navigator.pushNamed(context, RouteGenerator.profileOverview);
+    Navigator.pushReplacementNamed(context, RouteGenerator.profileOverview);
   }
 
   void _goToTeam() {

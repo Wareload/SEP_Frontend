@@ -25,8 +25,12 @@ class _TeamDetailsState extends State<TeamDetails> {
   Widget build(BuildContext context) {
     var args = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
-    leaderState = args["leader"];
-    _setTeam(args["team"]);
+    if (args["leader"] != null) {
+      leaderState = args["leader"];
+      _setTeamApi(args["team"]);
+    } else {
+      _setTeam(args["team"]);
+    }
     if (!gottimerstate && _team.id != 0) {
       _setTimerstate(_team);
     }
@@ -87,7 +91,7 @@ class _TeamDetailsState extends State<TeamDetails> {
     }
   }
 
-  void _setTeam(Team team) async {
+  void _setTeamApi(Team team) async {
     try {
       _team = await Api.api.getTeam(team.id);
       _team.leader = leaderState;
@@ -95,6 +99,10 @@ class _TeamDetailsState extends State<TeamDetails> {
     } catch (e) {
       //no need to handle
     }
+  }
+
+  void _setTeam(Team team) async {
+    _team = team;
   }
 
   void _back() {
@@ -106,8 +114,8 @@ class _TeamDetailsState extends State<TeamDetails> {
   }
 
   void _goToStatistic() {
-    Navigator.of(context).pushNamed(RouteGenerator.personalStatistic,
-        arguments: {"team": _team});
+    Navigator.of(context)
+        .pushNamed(RouteGenerator.teamHistorie, arguments: {"team": _team});
   }
 
   void _goToAtemUebung() {

@@ -24,6 +24,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
     _setProfile();
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+      _getTeams(constraints);
       return Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -105,7 +106,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
         _goToTeam(element);
       }, () {
         _leaveTeam(element);
-      }, constraints));
+      }, constraints, element));
     }
     return Column(
       children: widgets,
@@ -140,6 +141,19 @@ class _ProfileOverviewState extends State<ProfileOverview> {
     //TODO: Create a openSetting Menu
   }
 
+  void _loadTeams() async {
+    try {
+      teams = await Api.api.getTeams();
+      setState(() {});
+    } catch (e) {
+      if (e.runtimeType == UserFeedbackException) {
+        //TODO handle exception here
+      } else if (e.runtimeType == InvalidPermissionException) {
+        RouteGenerator.reset(context);
+      }
+    }
+  }
+
   void _leaveTeam(Team team) async {
     try {
       //TODO change delete team to leave team
@@ -159,5 +173,6 @@ class _ProfileOverviewState extends State<ProfileOverview> {
   @override
   void initState() {
     super.initState();
+    _loadTeams();
   }
 }

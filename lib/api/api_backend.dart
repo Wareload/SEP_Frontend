@@ -446,6 +446,10 @@ class ApiBackend implements ApiInterface {
   @override
   Future<void> setMood(int teamId, int mood, String note) async {
     http.Response response;
+    print(teamId.toString());
+    print(mood.toString());
+    print(note);
+
     try {
       response = await http
           .post(Uri.parse(pathUrl + pathSetMood),

@@ -32,19 +32,29 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
     print(args);
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
-      return SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Widgets.getNavBar(
-                constraints, _back, "Personal Statistic", _goToProfile),
-            getTimeButtons(),
-            Text("Letzte ${_daysToShow + 1} Tage werden angezeigt"),
-            //Text(moods),
-            getMoodWidgets()
-          ],
+      return Column(children: <Widget>[
+        Widgets.getNavBar(
+            constraints, _back, "Personal Statistic", _goToProfile),
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  getTimeButtons(),
+                  Text("Letzte ${_daysToShow + 1} Tage werden angezeigt"),
+                  const SizedBox(height: 10),
+                  getMoodWidgets()
+                ],
+              ),
+              getBottomBar(() {}, _goToHistory),
+            ],
+          ),
         ),
-      );
+      ]);
     })));
   }
 
@@ -95,7 +105,12 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
   }
 
   void _goToProfile() {
-    Navigator.pushNamed(context, RouteGenerator.profileOverview);
+    Navigator.pushReplacementNamed(context, RouteGenerator.profileOverview);
+  }
+
+  void _goToHistory() {
+    Navigator.pushReplacementNamed(context, RouteGenerator.teamHistorie,
+        arguments: {"team": _team});
   }
 
   Widget getTimeButtons() {
@@ -178,10 +193,19 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
 
   static displayEmoji(String s, MaterialColor color, VoidCallback callback,
       MoodObject selectedMood, int id) {
-    List moodnames = <String>["Sehr gut", "Gut", "Schlecht", "Sehr schlecht"];
+    List moodnames = <String>[
+      "Sehr gut",
+      "Gut",
+      "alles gut",
+      "naja",
+      "Schlecht",
+      "Sehr schlecht"
+    ];
     List moodPaths = <String>[
       "assets/verygood.png",
       "assets/good.png",
+      "assets/smile.png",
+      "assets/unamused.png",
       "assets/bad.png",
       "assets/verybad.png"
     ];
@@ -205,5 +229,49 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
         ],
       ),
     );
+  }
+
+  getBottomBar(VoidCallback ownFunc, VoidCallback teamFunc) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        btnSelector("Eigene Ansicht", true, ownFunc),
+        btnSelector(_team.name, false, teamFunc),
+      ],
+    );
+  }
+
+  btnSelector(String text, bool active, VoidCallback func) {
+    return Container(
+      padding: EdgeInsets.only(bottom: 20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FlatButton(
+            padding: EdgeInsets.all(5),
+            child: Text(
+              text,
+              style: TextStyle(
+                  color: Colors.transparent,
+                  shadows: [Shadow(color: Colors.black, offset: Offset(0, -5))],
+                  fontWeight: FontWeight.normal,
+                  decoration: getUnderlineByBool(active),
+                  decorationColor: Colors.blue,
+                  decorationThickness: 4,
+                  fontSize: 20),
+            ),
+            onPressed: func,
+          ),
+        ],
+      ),
+    );
+  }
+
+  getUnderlineByBool(bool active) {
+    if (active) {
+      return TextDecoration.underline;
+    } else {
+      return TextDecoration.none;
+    }
   }
 }
