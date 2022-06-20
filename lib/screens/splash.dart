@@ -4,6 +4,9 @@ import 'package:moody/widgets/settings.dart';
 import 'package:moody/widgets/widgets.dart';
 
 import '../api/api.dart';
+import '../structs/invitation.dart';
+import '../structs/profile.dart';
+import '../structs/team.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
@@ -25,6 +28,10 @@ class _SplashState extends State<Splash> {
   Color topColor = Colors.yellow;
   Alignment begin = Alignment.bottomLeft;
   Alignment end = Alignment.topRight;
+
+  List<Team> teams = [];
+  Profile _profile = Profile.empty();
+  List<Invitation> invitations = [];
 
   @override
   Widget build(BuildContext context) {
@@ -66,12 +73,24 @@ class _SplashState extends State<Splash> {
     return Container();
   }
 
-  void init() {
+  void apiCalls() async {
+    try {
+      _profile = await Api.api.getProfile();
+      invitations = await Api.api.getInvitations();
+      teams = await Api.api.getTeams();
+    } catch (e) {
+      //no need to handle
+    }
+  }
+
+  void init() async {
+    await Api.setApi();
+    apiCalls();
     Future.delayed(const Duration(seconds: 3), () async {
-      await Api.setApi();
       //await Settings.api.logout(); //use to force clear flutter secure storage at start
       if (await Api.api.isLoggedIn()) {
-        Navigator.pushReplacementNamed(context, RouteGenerator.teamOverview);
+        Navigator.pushReplacementNamed(context, RouteGenerator.teamOverview,
+            arguments: {"teams": teams, "profile": _profile, "invitations": invitations});
       } else {
         Navigator.pushReplacementNamed(context, RouteGenerator.login);
       }

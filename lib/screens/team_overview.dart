@@ -12,17 +12,45 @@ import '../structs/profile.dart';
 import '../structs/team.dart';
 
 class TeamOverview extends StatefulWidget {
-  const TeamOverview({Key? key}) : super(key: key);
+  final Map data;
+  const TeamOverview(this.data, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _TeamOverviewState();
 }
 
+bool isLoading = true;
+List<Team> teams = [];
+Profile _profile = Profile.empty();
+String _invitations = "";
+List<Invitation> invitations = [];
+
 class _TeamOverviewState extends State<TeamOverview> {
-  List<Team> teams = [];
-  Profile _profile = Profile.empty();
-  String _invitations = "";
-  List<Invitation> invitations = [];
+  void initData(Profile loadedProfile, List loadedInvitations, List loadedTeams) {
+    try {
+      _profile = loadedProfile;
+      invitations = loadedInvitations as List<Invitation>;
+      teams = loadedTeams as List<Team>;
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      //no need to handle
+    }
+  }
+
+  void apiCalls() async {
+    try {
+      _profile = await Api.api.getProfile();
+      invitations = await Api.api.getInvitations();
+      teams = await Api.api.getTeams();
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      //no need to handle
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,66 +59,43 @@ class _TeamOverviewState extends State<TeamOverview> {
     } else {
       _invitations = "";
     }
-    _setProfile();
-    return Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
-      return Column(
-        children: [
-          Container(padding: EdgeInsets.only(top: constraints.maxWidth * 0.03)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Widgets.getTextFieldH2C("Hallo " + _profile.firstname + "!", constraints),
-              getInvitations(),
-              Widgets.getProfileIcon(constraints, _goToProfile),
-            ],
-          ),
-          Align(
-              alignment: Alignment.centerLeft,
-              child: Widgets.getTextButtonStyle1("Ausloggen", () async {
-                await Api.api.logout();
-                Navigator.pushReplacementNamed(context, RouteGenerator.login);
-              }, constraints)),
-          Container(
-            height: constraints.maxWidth * 0.1,
-          ),
-          Widgets.getTextFieldH2("Deine Teams", constraints),
-          Expanded(child: SingleChildScrollView(child: getTeams(constraints))),
-          Container(
-            height: 10,
+    return isLoading
+        ? const SizedBox(
+            child: Align(
+              child: CircularProgressIndicator(),
+            ),
+            width: 50,
+            height: 50,
           )
-        ],
-      );
-    })));
-  }
-
-  //get Current Invitations
-  Future<void> getInvitationList() async {
-    try {
-      invitations = await Api.api.getInvitations();
-      print(invitations.length);
-      setState(() {});
-    } catch (e) {
-      if (e.runtimeType == UserFeedbackException) {
-        //TODO handle exception here
-      } else if (e.runtimeType == InvalidPermissionException) {
-        RouteGenerator.reset(context);
-      }
-    }
-    setState(() {});
-  }
-
-  //Get Profile
-  void _setProfile() async {
-    if (_profile.email != "email") {
-    } else {
-      print("submiting request for the profile");
-      try {
-        _profile = await Api.api.getProfile();
-        setState(() {});
-      } catch (e) {
-        //no need to handle
-      }
-    }
+        : Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+            return Column(
+              children: [
+                Container(padding: EdgeInsets.only(top: constraints.maxWidth * 0.03)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Widgets.getTextFieldH2C("Hallo " + _profile.firstname + "!", constraints),
+                    getInvitations(),
+                    Widgets.getProfileIcon(constraints, _goToProfile),
+                  ],
+                ),
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: Widgets.getTextButtonStyle1("Ausloggen", () async {
+                      await Api.api.logout();
+                      Navigator.pushReplacementNamed(context, RouteGenerator.login);
+                    }, constraints)),
+                Container(
+                  height: constraints.maxWidth * 0.1,
+                ),
+                Widgets.getTextFieldH2("Deine Teams", constraints),
+                Expanded(child: SingleChildScrollView(child: getTeams(constraints))),
+                Container(
+                  height: 10,
+                )
+              ],
+            );
+          })));
   }
 
   Widget getTeams(BoxConstraints constraints) {
@@ -104,25 +109,12 @@ class _TeamOverviewState extends State<TeamOverview> {
     );
   }
 
-  void _loadTeams() async {
-    try {
-      teams = await Api.api.getTeams();
-      setState(() {});
-    } catch (e) {
-      if (e.runtimeType == UserFeedbackException) {
-        //TODO handle exception here
-      } else if (e.runtimeType == InvalidPermissionException) {
-        RouteGenerator.reset(context);
-      }
-    }
-  }
-
   void _goToTeam(Team team) {
-    Navigator.pushNamed(context, RouteGenerator.teamDetails, arguments: {"team": team, "leader": team.leader}).then((value) => {_loadTeams()});
+    Navigator.pushNamed(context, RouteGenerator.teamDetails, arguments: {"team": team, "leader": team.leader});
   }
 
   void _goToProfile() {
-    Navigator.pushNamed(context, RouteGenerator.profileOverview).then((value) => {_loadTeams()});
+    Navigator.pushNamed(context, RouteGenerator.profileOverview).then((value) => {apiCalls()});
   }
 
   void _goToInvitations() {
@@ -131,13 +123,12 @@ class _TeamOverviewState extends State<TeamOverview> {
 
   @override
   void initState() {
+    initData(widget.data["profile"], widget.data["invitations"], widget.data["teams"]);
     super.initState();
-    _loadTeams();
-    getInvitationList();
   }
 
   void _onCreateTeam() {
-    Navigator.pushNamed(context, RouteGenerator.teamCreate).then((value) => {_loadTeams()});
+    Navigator.pushNamed(context, RouteGenerator.teamCreate).then((value) => {apiCalls()});
   }
 
   Widget getInvitations() {
