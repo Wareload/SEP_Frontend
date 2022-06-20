@@ -569,9 +569,10 @@ class Widgets {
 
   //Displays a single emoji icon in the mood selection view
   static displayEmoji(String s, MaterialColor color, VoidCallback callback, Mood selectedMood, int id) {
-    List moodnames = <String>["Sehr gut", "Gut", "alles gut", "naja", "Schlecht", "Sehr schlecht"];
+    List moodnames = <String>["Sehr gut", "Gut", "Okay", "Naja", "Schlecht", "Sehr schlecht"];
     return Container(
       padding: const EdgeInsets.only(left: 5, right: 5),
+      width: 95,
       child: Column(
         children: <Widget>[
           GestureDetector(
