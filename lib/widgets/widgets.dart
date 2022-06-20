@@ -603,6 +603,7 @@ class Widgets {
     List moodnames = <String>["Sehr gut", "Gut", "alles gut", "naja", "Schlecht", "Sehr schlecht"];
     return Container(
       padding: const EdgeInsets.only(left: 5, right: 5),
+      width: 95,
       child: Column(
         children: <Widget>[
           GestureDetector(
