@@ -32,16 +32,14 @@ class _TeamOverviewState extends State<TeamOverview> {
       _invitations = "";
     }
     _setProfile();
-    return Scaffold(
-        body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+    return Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return Column(
         children: [
           Container(padding: EdgeInsets.only(top: constraints.maxWidth * 0.03)),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Widgets.getTextFieldH2C(
-                  "Hallo " + _profile.firstname + "!", constraints),
+              Widgets.getTextFieldH2C("Hallo " + _profile.firstname + "!", constraints),
               getInvitations(),
               Widgets.getProfileIcon(constraints, _goToProfile),
             ],
@@ -98,8 +96,7 @@ class _TeamOverviewState extends State<TeamOverview> {
   Widget getTeams(BoxConstraints constraints) {
     List<Widget> widgets = [];
     for (var element in teams) {
-      widgets.add(Widgets.getButtonStyle2(
-          element.name, () => _goToTeam(element), constraints));
+      widgets.add(Widgets.getButtonStyle2(element.name, () => _goToTeam(element), constraints));
     }
     widgets.add(Widgets.getProjectAddWidget("+", _onCreateTeam, constraints));
     return Column(
@@ -121,14 +118,11 @@ class _TeamOverviewState extends State<TeamOverview> {
   }
 
   void _goToTeam(Team team) {
-    Navigator.pushNamed(context, RouteGenerator.teamDetails,
-            arguments: {"team": team, "leader": team.leader})
-        .then((value) => {_loadTeams()});
+    Navigator.pushNamed(context, RouteGenerator.teamDetails, arguments: {"team": team, "leader": team.leader}).then((value) => {_loadTeams()});
   }
 
   void _goToProfile() {
-    Navigator.pushNamed(context, RouteGenerator.profileOverview)
-        .then((value) => {_loadTeams()});
+    Navigator.pushNamed(context, RouteGenerator.profileOverview).then((value) => {_loadTeams()});
   }
 
   void _goToInvitations() {
@@ -143,8 +137,7 @@ class _TeamOverviewState extends State<TeamOverview> {
   }
 
   void _onCreateTeam() {
-    Navigator.pushNamed(context, RouteGenerator.teamCreate)
-        .then((value) => {_loadTeams()});
+    Navigator.pushNamed(context, RouteGenerator.teamCreate).then((value) => {_loadTeams()});
   }
 
   Widget getInvitations() {
@@ -161,22 +154,17 @@ class _TeamOverviewState extends State<TeamOverview> {
       child: Center(
         child: Stack(
           children: <Widget>[
-            Container(
-              child: Icon(
-                Icons.person_add_alt_1,
-                size: 40,
-                color: Colors.black,
-              ),
+            const Icon(
+              Icons.email_outlined,
+              size: 40,
+              color: Colors.black,
             ),
             Container(
                 alignment: Alignment.bottomRight,
                 padding: EdgeInsets.only(left: 45, top: 10),
                 child: Text(
                   "${_invitations}",
-                  style: TextStyle(
-                      color: Colors.pink,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22.0),
+                  style: TextStyle(color: Colors.pink, fontWeight: FontWeight.bold, fontSize: 22.0),
                 )),
           ],
         ), //Icon(I
