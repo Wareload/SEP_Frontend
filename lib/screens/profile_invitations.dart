@@ -15,6 +15,8 @@ class ProfileInvitations extends StatefulWidget {
   State<StatefulWidget> createState() => _ProfileInvitationsState();
 }
 
+var refreshKey = GlobalKey<RefreshIndicatorState>();
+
 class _ProfileInvitationsState extends State<ProfileInvitations> {
   TextEditingController teamNameController = TextEditingController();
   List<Invitation> invitations = [];
@@ -22,18 +24,28 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
-      return Column(
-        children: [
-          Widgets.getNavBarWithoutProfile(
-              constraints, _onBack, "Deine Einladungen"),
-          Expanded(
-            child: SingleChildScrollView(
-              child: getInvitationwidgets(),
+      return RefreshIndicator(
+        key: refreshKey,
+        onRefresh: refreshInvitations,
+        child: ListView(
+          children: [
+            Widgets.getNavBarWithoutProfile(
+                constraints, _onBack, "Deine Einladungen"),
+            Expanded(
+              child: SingleChildScrollView(
+                child: getInvitationwidgets(),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
     })));
+  }
+
+  Future<void> refreshInvitations() async {
+    refreshKey.currentState?.show(atTop: false);
+    getInvitations();
+    setState(() {});
   }
 
   void _onBack() {

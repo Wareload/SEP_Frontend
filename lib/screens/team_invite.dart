@@ -20,20 +20,16 @@ class _TeamInviteState extends State<TeamInvite> {
   TextEditingController emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    var args = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
+    var args = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
     _setTeam(args["team"]);
     return Scaffold(
       body: SafeArea(
         child: LayoutBuilder(
           builder: (builder, constraints) {
             return Column(children: <Widget>[
-              Widgets.getNavBar(
-                  constraints, _back, "Teammitglied hinzufügen", _goToProfile),
-              Widgets.getInputFieldLoginStyle(
-                  "Email *", emailController, TextInputType.emailAddress),
-              Widgets.getButtonStyleOrange(
-                  "", _sendInvitation, constraints, "Einladung senden"),
+              Widgets.getNavBar(constraints, _back, "Teammitglied hinzufügen", _goToProfile),
+              Widgets.getInputFieldLoginStyle("Email *", emailController, TextInputType.emailAddress),
+              Widgets.getButtonStyleOrange("", _sendInvitation, constraints, "Einladung senden"),
             ]);
           },
         ),
@@ -46,7 +42,7 @@ class _TeamInviteState extends State<TeamInvite> {
     try {
       response = await Api.api.addTeamMember(_team.id, emailController.text);
     } catch (e) {
-      print(e);
+      print("Error:" + e.toString());
     }
     createAlertDialog(context, response);
     setState(() {});
@@ -65,8 +61,7 @@ class _TeamInviteState extends State<TeamInvite> {
         });
   }
 
-  static Widget getButtonStyleOrange(
-      String display, VoidCallback func, String btnText) {
+  static Widget getButtonStyleOrange(String display, VoidCallback func, String btnText) {
     return Container(
       padding: EdgeInsets.all(10),
       margin: EdgeInsets.only(left: 10, right: 10),
@@ -81,10 +76,7 @@ class _TeamInviteState extends State<TeamInvite> {
             alignment: Alignment.center,
             child: Text(
               btnText,
-              style: const TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                  color: Settings.white),
+              style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Settings.white),
             ),
           ),
         ),
@@ -97,8 +89,7 @@ class _TeamInviteState extends State<TeamInvite> {
   }
 
   void _goToTeam() {
-    Navigator.pushReplacementNamed(context, RouteGenerator.teamManage,
-        arguments: {"team": _team});
+    Navigator.pushReplacementNamed(context, RouteGenerator.teamManage, arguments: {"team": _team});
   }
 
   void _back() {

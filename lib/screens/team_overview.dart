@@ -162,12 +162,10 @@ class _TeamOverviewState extends State<TeamOverview> {
       child: Center(
         child: Stack(
           children: <Widget>[
-            Container(
-              child: Icon(
-                Icons.person_add_alt_1,
-                size: 40,
-                color: Colors.black,
-              ),
+            const Icon(
+              Icons.email_outlined,
+              size: 40,
+              color: Colors.black,
             ),
             Container(
                 alignment: Alignment.bottomRight,
