@@ -13,12 +13,7 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
-  List<Color> colorList = [
-    Colors.red,
-    Colors.blue,
-    Colors.green,
-    Colors.yellow
-  ];
+  List<Color> colorList = [Colors.red, Colors.blue, Colors.green, Colors.yellow];
   List<Alignment> alignmentList = [
     Alignment.bottomLeft,
     Alignment.bottomRight,
@@ -33,13 +28,15 @@ class _SplashState extends State<Splash> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+    return Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return AnimatedContainer(
         width: constraints.maxWidth,
         height: constraints.maxHeight,
         duration: const Duration(milliseconds: 800),
-        child: Container(alignment: Alignment.center, padding: EdgeInsets.fromLTRB(0, 0, 0, constraints.maxHeight*0.4), child: Widgets.getTextFieldH1("Moody", constraints)),
+        child: Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.fromLTRB(0, 0, 0, constraints.maxHeight * 0.4),
+            child: Widgets.getTextFieldH1("moody", constraints)),
         onEnd: () {
           setState(() {
             index = index + 1;
@@ -48,9 +45,7 @@ class _SplashState extends State<Splash> {
             topColor = colorList[(index + 1) % colorList.length];
           });
         },
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: begin, end: end, colors: [bottomColor, topColor])),
+        decoration: BoxDecoration(gradient: LinearGradient(begin: begin, end: end, colors: [bottomColor, topColor])),
       );
     })));
   }
@@ -76,9 +71,9 @@ class _SplashState extends State<Splash> {
       await Api.setApi();
       //await Settings.api.logout(); //use to force clear flutter secure storage at start
       if (await Api.api.isLoggedIn()) {
-           Navigator.pushReplacementNamed(context, RouteGenerator.teamOverview);
+        Navigator.pushReplacementNamed(context, RouteGenerator.teamOverview);
       } else {
-           Navigator.pushReplacementNamed(context, RouteGenerator.login);
+        Navigator.pushReplacementNamed(context, RouteGenerator.login);
       }
     });
   }
