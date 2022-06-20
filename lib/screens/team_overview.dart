@@ -32,16 +32,14 @@ class _TeamOverviewState extends State<TeamOverview> {
       _invitations = "";
     }
     _setProfile();
-    return Scaffold(
-        body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+    return Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return Column(
         children: [
           Container(padding: EdgeInsets.only(top: constraints.maxWidth * 0.03)),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Widgets.getTextFieldH2C(
-                  "Hallo " + _profile.firstname + "!", constraints),
+              Widgets.getTextFieldH2C("Hallo " + _profile.firstname + "!", constraints),
               getInvitations(),
               Widgets.getProfileIcon(constraints, _goToProfile),
             ],
@@ -58,7 +56,16 @@ class _TeamOverviewState extends State<TeamOverview> {
           Widgets.getTextFieldH2("Deine Teams", constraints),
           Expanded(child: SingleChildScrollView(child: getTeams(constraints))),
           Container(
-            height: 10,
+            height: 75,
+            child: Scaffold(
+              floatingActionButton: FloatingActionButton(
+                  elevation: 12,
+                  onPressed: _onCreateTeam,
+                  child: const Text(
+                    '+',
+                    style: TextStyle(fontSize: 40),
+                  )),
+            ),
           )
         ],
       );
@@ -96,14 +103,12 @@ class _TeamOverviewState extends State<TeamOverview> {
   }
 
   Widget getTeams(BoxConstraints constraints) {
-    List<Widget> widgets = [];
+    List<Widget> displayedTeams = [];
     for (var element in teams) {
-      widgets.add(Widgets.getButtonStyle2(
-          element.name, () => _goToTeam(element), constraints));
+      displayedTeams.add(Widgets.getButtonStyle2(element.name, () => _goToTeam(element), constraints));
     }
-    widgets.add(Widgets.getProjectAddWidget("+", _onCreateTeam, constraints));
     return Column(
-      children: widgets,
+      children: displayedTeams,
     );
   }
 
@@ -121,14 +126,11 @@ class _TeamOverviewState extends State<TeamOverview> {
   }
 
   void _goToTeam(Team team) {
-    Navigator.pushNamed(context, RouteGenerator.teamDetails,
-            arguments: {"team": team, "leader": team.leader})
-        .then((value) => {_loadTeams()});
+    Navigator.pushNamed(context, RouteGenerator.teamDetails, arguments: {"team": team, "leader": team.leader}).then((value) => {_loadTeams()});
   }
 
   void _goToProfile() {
-    Navigator.pushNamed(context, RouteGenerator.profileOverview)
-        .then((value) => {_loadTeams()});
+    Navigator.pushNamed(context, RouteGenerator.profileOverview).then((value) => {_loadTeams()});
   }
 
   void _goToInvitations() {
@@ -143,8 +145,7 @@ class _TeamOverviewState extends State<TeamOverview> {
   }
 
   void _onCreateTeam() {
-    Navigator.pushNamed(context, RouteGenerator.teamCreate)
-        .then((value) => {_loadTeams()});
+    Navigator.pushNamed(context, RouteGenerator.teamCreate).then((value) => {_loadTeams()});
   }
 
   Widget getInvitations() {
@@ -173,10 +174,7 @@ class _TeamOverviewState extends State<TeamOverview> {
                 padding: EdgeInsets.only(left: 45, top: 10),
                 child: Text(
                   "${_invitations}",
-                  style: TextStyle(
-                      color: Colors.pink,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22.0),
+                  style: TextStyle(color: Colors.pink, fontWeight: FontWeight.bold, fontSize: 22.0),
                 )),
           ],
         ), //Icon(I

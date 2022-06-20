@@ -19,16 +19,12 @@ class _TeamCreateState extends State<TeamCreate> {
   bool isSending = false;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+    return Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return Column(
         children: [
           Row(
             children: [
-              IconButton(
-                  onPressed: _onBack,
-                  icon: Icon(Icons.arrow_back,
-                      color: Colors.blue, size: constraints.maxWidth * 0.15)),
+              IconButton(onPressed: _onBack, icon: Icon(Icons.arrow_back, color: Colors.blue, size: constraints.maxWidth * 0.15)),
               Widgets.getTextFieldH3C("Team erstellen", constraints),
             ],
           ),
@@ -40,15 +36,8 @@ class _TeamCreateState extends State<TeamCreate> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Widgets.getInputFieldWithTitle(
-                    teamNameController,
-                    TextInputType.text,
-                    false,
-                    constraints,
-                    "Teamname",
-                    "Teamname hier eintragen"),
-                getButtonStyleOrangeWithAnimation(
-                    _onTeamCreate, constraints, "Fertig", isSending),
+                Widgets.getInputFieldWithTitle(teamNameController, TextInputType.text, false, constraints, "Teamname", "Teamname hier eintragen"),
+                getButtonStyleOrangeWithAnimation(_onTeamCreate, constraints, "Fertig", isSending),
               ],
             ),
           ),
@@ -83,8 +72,7 @@ class _TeamCreateState extends State<TeamCreate> {
   }
 
   //button with a circularbtn animation for sending the mood to our backend
-  static Widget getButtonStyleOrangeWithAnimation(VoidCallback func,
-      BoxConstraints constraints, String btnText, bool isLoading) {
+  static Widget getButtonStyleOrangeWithAnimation(VoidCallback func, BoxConstraints constraints, String btnText, bool isLoading) {
     return Container(
       padding: EdgeInsets.all(10),
       margin: EdgeInsets.only(left: 10, right: 10),
@@ -115,10 +103,7 @@ class _TeamCreateState extends State<TeamCreate> {
                   alignment: Alignment.center,
                   child: Text(
                     btnText,
-                    style: const TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                    style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                 ),
         ),
