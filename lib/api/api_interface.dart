@@ -2,6 +2,8 @@ import 'package:moody/structs/invitation.dart';
 import 'package:moody/structs/profile.dart';
 import 'package:moody/structs/team.dart';
 
+import 'api_backend.dart';
+
 abstract class ApiInterface {
   ApiInterface._();
 
@@ -68,6 +70,9 @@ abstract class ApiInterface {
 
   //returns Moods for a specific time and for a team
   Future<void> getTeamMood(int teamid, String startDate, String endDate);
+
+  ///get more information from a team by id
+  Future<List<TeamMoods>> getTeamMoods();
 
   ///returns your moodstatus if you can submit a mood or if you have to wait
   Future<void> getMoodTimer(int teamid);

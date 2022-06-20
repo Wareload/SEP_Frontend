@@ -12,6 +12,9 @@ import 'package:moody/structs/team.dart';
 import 'package:moody/validator/validator.dart';
 import 'package:moody/widgets/widgets.dart';
 
+import '../widgets/widgets.dart';
+import '../widgets/widgets.dart';
+
 class ApiBackend implements ApiInterface {
   //api path
   final String pathUrl = "https://api.bugsbunnies.de";
@@ -50,6 +53,8 @@ class ApiBackend implements ApiInterface {
   final String pathSetMood = "/mood/setMood";
   final String pathGetPersonalMood = "/mood/getPersonalMood";
   final String pathGetTeamMood = "/mood/getTeamMood"; //TODO need to implement
+  final String pathGetNotificationTeamMoods =
+      "/notification/getAlert"; //TODO need to implement
 
   //http data
   final int timeout = 3; //in seconds
@@ -603,6 +608,10 @@ class ApiBackend implements ApiInterface {
       case 400:
         throw UserFeedbackException("Ungültige Eingaben");
       case 401:
+        @override
+        Future getTeamMoods(int id) {
+          throw UnimplementedError();
+        }
         throw InvalidPermissionException("Keine Berechtigung");
       case 409:
         return false;
@@ -621,6 +630,39 @@ class ApiBackend implements ApiInterface {
       const storage = FlutterSecureStorage();
       await storage.write(key: "cookie", value: _headers['cookie']);
     }
+  }
+
+  @override
+  Future<List<TeamMoods>> getTeamMoods() async {
+    print("collection team notification moods");
+    http.Response response;
+    try {
+      response = await http
+          .post(Uri.parse(pathUrl + pathGetNotificationTeamMoods),
+              body: {}, headers: _headers)
+          .timeout(Duration(seconds: timeout));
+      print(response.body);
+    } catch (e) {
+      print(e);
+      throw UserFeedbackException("Server Error");
+    }
+    switch (response.statusCode) {
+      case 200:
+        List<TeamMoods> teamMoods = [];
+        var body = json.decode(response.body);
+        teamMoods = TeamMoods.getSimpleMoodObjects(body["moods"]);
+        await updateCookie(response);
+        return teamMoods;
+      case 400:
+        print(response.request);
+        print(response.body);
+        print(response.statusCode);
+        throw UserFeedbackException("Ungültige Eingaben");
+      case 401:
+        throw InvalidPermissionException("Keine Berechtigung");
+    }
+    throw UserFeedbackException("Server Fehler");
+    throw UnimplementedError();
   }
 }
 
@@ -642,5 +684,33 @@ class Mood {
     this.teamid = teamid;
     this.mood = mood;
     this.date = date;
+  }
+}
+
+class TeamMoods {
+  late int teamid;
+  late double avg;
+  late int min;
+
+  TeamMoods(int teamid, double avg, int min) {
+    this.teamid = teamid;
+    this.avg = avg;
+    this.min = min;
+  }
+
+  static List<TeamMoods> getSimpleMoodObjects(List moods) {
+    var toReturn = <TeamMoods>[];
+    for (var element in moods) {
+      double avg;
+      if (element['avg'].toString().contains(".")) {
+        avg = double.parse(element['avg'].toString());
+      } else {
+        int avgInt = int.parse(element['avg'].toString());
+        avg = avgInt.toDouble();
+      }
+      toReturn.add(TeamMoods(int.parse(element['teamid'].toString()), avg,
+          int.parse(element['min'].toString())));
+    }
+    return toReturn;
   }
 }
