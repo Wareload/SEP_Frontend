@@ -15,6 +15,9 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   String _errorText = "";
+  bool _isObscure = true;
+  bool _isObscureCheck = true;
+  bool showRedBorder = false;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordcheckController = TextEditingController();
@@ -36,87 +39,112 @@ class _RegisterState extends State<Register> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Widgets.getInputFieldLoginStyle("Vorname *", firstnameController, TextInputType.emailAddress),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Widgets.getInputFieldLoginStyle("Nachname *", lastnameController, TextInputType.emailAddress),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Widgets.getInputFieldLoginStyle("E-Mail *", emailController, TextInputType.emailAddress),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
-                  ),
-                  Widgets.getInputFieldLoginStyleObscured("Passwort *", passwordController, TextInputType.visiblePassword),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Widgets.getInputFieldLoginStyleObscured("Passwort wiederholen *", passwordcheckController, TextInputType.visiblePassword),
-                  SizedBox(
-                    height: 10,
                   ),
                   Container(
-                    margin: EdgeInsets.only(left: 30, top: 10),
-                    child: Text(
-                      "* Pflichtangaben",
-                      style: TextStyle(color: Colors.grey[600]),
+                    margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                    child: TextField(
+                      obscureText: _isObscure,
+                      enableSuggestions: false, //to not suggest past pws
+                      autocorrect: false, //to not autorrect past pws
+                      keyboardType: TextInputType.visiblePassword,
+                      controller: passwordController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        filled: true,
+                        hintStyle: TextStyle(color: Colors.grey[800]),
+                        hintText: "Password *",
+                        fillColor: Colors.white70,
+                        suffixIcon: IconButton(
+                            icon: Icon(_isObscure ? Icons.visibility : Icons.visibility_off),
+                            onPressed: () {
+                              setState(() {
+                                _isObscure = !_isObscure;
+                              });
+                            }),
+                      ),
                     ),
                   ),
-                  Center(child: Widgets.getTextFieldE1(_errorText, constraints)),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                    child: TextField(
+                      obscureText: _isObscureCheck,
+                      enableSuggestions: false, //to not suggest past pws
+                      autocorrect: false, //to not autorrect past pws
+                      keyboardType: TextInputType.visiblePassword,
+                      controller: passwordcheckController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),
+                        filled: true,
+                        hintStyle: TextStyle(color: Colors.grey[800]),
+                        hintText: "Password wiederholen *",
+                        fillColor: Colors.white70,
+                        suffixIcon: IconButton(
+                            icon: Icon(_isObscureCheck ? Icons.visibility : Icons.visibility_off),
+                            onPressed: () {
+                              setState(() {
+                                _isObscureCheck = !_isObscureCheck;
+                              });
+                            }),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    //padding: EdgeInsets.only(left: 30, top: 10),
+                    children: <Widget>[
+                      Flexible(
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                          child: Text(
+                            "Passwort muss mind. 8 Zeichen lang sein, eine Zahl & einen Großbuchstaben enthalten.",
+                            style: TextStyle(color: Colors.grey[600]),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(padding: const EdgeInsets.fromLTRB(10, 0, 10, 0), child: Widgets.getTextFieldE1(_errorText, constraints)),
                   Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Widgets.getButtonStyleOrange("", _register, constraints, "Registrieren"),
-                        SizedBox(
+                        const SizedBox(
                           height: 25,
                         ),
-                        Text("Bereits einen Account?"),
-                        SizedBox(
+                        const Text("Bereits einen Account?"),
+                        const SizedBox(
                           height: 5,
                         ),
                         btnWithoutBackground("Jetzt Einloggen", _toLogin),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                       ],
                     ),
                   ),
                 ],
-
-                /*children: [
-          Container(
-            height: constraints.maxHeight*0.05,
-          ),
-          Widgets.getTextFieldH1("Registrieren", constraints),
-          Widgets.getTextFieldH3("E-Mail", constraints),
-          Widgets.getInputFieldStyle1(emailController,
-              TextInputType.emailAddress, false, constraints),
-          Widgets.getTextFieldH3("Vorname", constraints),
-          Widgets.getInputFieldStyle1(
-              firstnameController, TextInputType.text, false, constraints),
-          Widgets.getTextFieldH3("Nachname", constraints),
-          Widgets.getInputFieldStyle1(
-              lastnameController, TextInputType.text, false, constraints),
-          Widgets.getTextFieldH3("Password", constraints),
-          Widgets.getInputFieldStyle1(
-              passwordController, TextInputType.text, true, constraints),
-          Widgets.getTextFieldE1(_errorText, constraints),
-          Widgets.getButtonStyle1(
-              "Konto erstellen", _register, constraints),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Widgets.getTextFieldP1("Bereits einen Account?", constraints),
-              Widgets.getTextButtonStyle1(
-                  "Jetzt einloggen!", _toLogin, constraints)
-            ],
-          )
-        ],*/
               );
             }))));
   }
@@ -125,7 +153,6 @@ class _RegisterState extends State<Register> {
     if (passwordcheckController.text != passwordController.text) {
       setState(() {
         _errorText = "Überprüfe die Passworteingabe!";
-        ;
       });
     } else {
       try {

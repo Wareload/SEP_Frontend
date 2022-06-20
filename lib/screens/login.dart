@@ -14,6 +14,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   String _errorText = "";
+  bool _isObscure = true;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -34,18 +35,36 @@ class _LoginState extends State<Login> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 20,
+                    height: 50,
                   ),
-                  Widgets.getInputFieldLoginStyle("Email *", emailController, TextInputType.emailAddress),
+                  Widgets.getInputFieldLoginStyle("Email", emailController, TextInputType.emailAddress),
                   SizedBox(
                     height: 20,
                   ),
-                  Widgets.getInputFieldLoginStyleObscured("Password *", passwordController, TextInputType.text),
                   Container(
-                    margin: EdgeInsets.only(left: 30, top: 10),
-                    child: Text(
-                      "* Pflichtangaben",
-                      style: TextStyle(color: Colors.grey[600]),
+                    margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                    child: TextField(
+                      obscureText: _isObscure,
+                      enableSuggestions: false, //to not suggest past pws
+                      autocorrect: false, //to not autorrect past pws
+                      keyboardType: TextInputType.text,
+                      controller: passwordController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        filled: true,
+                        hintStyle: TextStyle(color: Colors.grey[800]),
+                        hintText: "Password",
+                        fillColor: Colors.white70,
+                        suffixIcon: IconButton(
+                            icon: Icon(_isObscure ? Icons.visibility : Icons.visibility_off),
+                            onPressed: () {
+                              setState(() {
+                                _isObscure = !_isObscure;
+                              });
+                            }),
+                      ),
                     ),
                   ),
                   Center(child: Widgets.getTextFieldE1(_errorText, constraints)),
@@ -54,15 +73,15 @@ class _LoginState extends State<Login> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Widgets.getButtonStyleOrange("", _login, constraints, "Einloggen"),
-                        SizedBox(
+                        const SizedBox(
                           height: 25,
                         ),
-                        Text("noch keinen Account?"),
-                        SizedBox(
+                        const Text("noch keinen Account?"),
+                        const SizedBox(
                           height: 5,
                         ),
                         btnWithoutBackground("Jetzt registrieren", _toRegister),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                       ],
