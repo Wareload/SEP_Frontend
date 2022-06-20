@@ -15,25 +15,34 @@ class ProfileInvitations extends StatefulWidget {
   State<StatefulWidget> createState() => _ProfileInvitationsState();
 }
 
+var refreshKey = GlobalKey<RefreshIndicatorState>();
+
 class _ProfileInvitationsState extends State<ProfileInvitations> {
   TextEditingController teamNameController = TextEditingController();
   List<Invitation> invitations = [];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
-      return Column(
-        children: [
-          Widgets.getNavBarWithoutProfile(
-              constraints, _onBack, "Deine Einladungen"),
-          Expanded(
-            child: SingleChildScrollView(
-              child: getInvitationwidgets(),
+    return Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+      return RefreshIndicator(
+        key: refreshKey,
+        onRefresh: refreshInvitations,
+        child: ListView(
+          children: [
+            Widgets.getNavBarWithoutProfile(constraints, _onBack, "Deine Einladungen"),
+            Expanded(
+              child: SingleChildScrollView(
+                child: getInvitationwidgets(),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
     })));
+  }
+
+  Future<void> refreshInvitations() async {
+    refreshKey.currentState?.show(atTop: false);
+    setState(() {});
   }
 
   void _onBack() {
@@ -72,8 +81,7 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
         decoration: BoxDecoration(
             border: Border.all(color: Colors.blue),
             color: Settings.blueAccent,
-            borderRadius: BorderRadius.circular(
-                20) // use instead of BorderRadius.all(Radius.circular(20))
+            borderRadius: BorderRadius.circular(20) // use instead of BorderRadius.all(Radius.circular(20))
             ),
         child: Container(
           color: Settings.blueAccent,
@@ -107,8 +115,7 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
   Widget textWhiteH3(String teamname) {
     return Text(
       teamname,
-      style: TextStyle(
-          fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
+      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
     );
   }
 
