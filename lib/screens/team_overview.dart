@@ -66,7 +66,7 @@ class _TeamOverviewState extends State<TeamOverview> {
                     style: TextStyle(fontSize: 40),
                   )),
             ),
-          )
+          ),
         ],
       );
     })));
