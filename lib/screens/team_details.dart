@@ -25,6 +25,7 @@ int leaderState = 0;
 
 class _TeamDetailsState extends State<TeamDetails> {
   Mood _currentSelectedMood = Mood();
+
   void loadData(team, leaderstate) async {
     try {
       //timerstate
