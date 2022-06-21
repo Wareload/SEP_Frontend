@@ -91,6 +91,18 @@ class _TeamOverviewState extends State<TeamOverview> {
                 Widgets.getTextFieldH2("Deine Teams", constraints),
                 Expanded(child: SingleChildScrollView(child: getTeams(constraints))),
                 Container(
+                  height: 75,
+                  child: Scaffold(
+                    floatingActionButton: FloatingActionButton(
+                        elevation: 12,
+                        onPressed: _onCreateTeam,
+                        child: const Text(
+                          '+',
+                          style: TextStyle(fontSize: 40),
+                        )),
+                  ),
+                ),
+                Container(
                   height: 10,
                 )
               ],
