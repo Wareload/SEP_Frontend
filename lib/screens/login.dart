@@ -27,70 +27,68 @@ class _LoginState extends State<Login> {
           title: Text("Anmelden"),
           centerTitle: true,
         ),
-        body: Container(
-          child: LayoutBuilder(
-            builder: (builder, constraints) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 50,
-                  ),
-                  Widgets.getInputFieldLoginStyle("Email", emailController, TextInputType.emailAddress),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
-                    child: TextField(
-                      obscureText: _isObscure,
-                      enableSuggestions: false, //to not suggest past pws
-                      autocorrect: false, //to not autorrect past pws
-                      keyboardType: TextInputType.text,
-                      controller: passwordController,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        filled: true,
-                        hintStyle: TextStyle(color: Colors.grey[800]),
-                        hintText: "Password",
-                        fillColor: Colors.white70,
-                        suffixIcon: IconButton(
-                            icon: Icon(_isObscure ? Icons.visibility : Icons.visibility_off),
-                            onPressed: () {
-                              setState(() {
-                                _isObscure = !_isObscure;
-                              });
-                            }),
+        body: LayoutBuilder(
+          builder: (builder, constraints) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 50,
+                ),
+                Widgets.getInputFieldLoginStyle("Email", emailController, TextInputType.emailAddress),
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                  child: TextField(
+                    obscureText: _isObscure,
+                    enableSuggestions: false, //to not suggest past pws
+                    autocorrect: false, //to not autorrect past pws
+                    keyboardType: TextInputType.text,
+                    controller: passwordController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
                       ),
+                      filled: true,
+                      hintStyle: TextStyle(color: Colors.grey[800]),
+                      hintText: "Password",
+                      fillColor: Colors.white70,
+                      suffixIcon: IconButton(
+                          icon: Icon(_isObscure ? Icons.visibility : Icons.visibility_off),
+                          onPressed: () {
+                            setState(() {
+                              _isObscure = !_isObscure;
+                            });
+                          }),
                     ),
                   ),
-                  Center(child: Widgets.getTextFieldE1(_errorText, constraints)),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Widgets.getButtonStyleOrange("", _login, constraints, "Einloggen"),
-                        const SizedBox(
-                          height: 25,
-                        ),
-                        const Text("noch keinen Account?"),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        btnWithoutBackground("Jetzt registrieren", _toRegister),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                      ],
-                    ),
+                ),
+                Center(child: Widgets.getTextFieldE1(_errorText, constraints)),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Widgets.getButtonStyleOrange("", _login, constraints, "Einloggen"),
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      const Text("noch keinen Account?"),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      btnWithoutBackground("Jetzt registrieren", _toRegister),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                    ],
                   ),
-                ],
-              );
-            },
-          ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

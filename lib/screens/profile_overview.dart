@@ -15,88 +15,92 @@ class ProfileOverview extends StatefulWidget {
   State<StatefulWidget> createState() => _ProfileOverviewState();
 }
 
+bool isLoading = true;
+
+List<Team> teams = [];
+Profile _profile = Profile.empty();
+
 class _ProfileOverviewState extends State<ProfileOverview> {
-  List<Team> teams = [];
-  Profile _profile = Profile.empty();
+  void apiCalls() async {
+    try {
+      _profile = await Api.api.getProfile();
+      teams = await Api.api.getTeams();
+
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      //no need to handle
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    _setProfile();
-    return Scaffold(
-        body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
-      _getTeams(constraints);
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                margin: EdgeInsets.only(right: 10, top: 10),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                ),
-                //color: Settings.blueAccent,
-                height: 60,
-                width: 60,
-                child: IconButton(
-                    onPressed: _back,
-                    icon: Icon(
-                      Icons.arrow_back,
-                      color: Colors.blue,
-                      size: 40,
-                    )),
-              ),
-              Center(
-                child: Widgets.getNavHeaderText("Dein Profil", constraints),
-              ),
-              Container(
-                margin: EdgeInsets.only(right: 10, top: 10),
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle, color: Colors.blueAccent),
-                //color: Settings.blueAccent,
-                height: 60,
-                width: 60,
-                child: IconButton(
-                    onPressed: _openSettingsMenu,
-                    icon: Icon(Icons.settings, color: Colors.white, size: 40)),
-              )
-            ],
-          ),
-          Widgets.getProfileImage(
-              "https://bugsbunnies.de/images/logo.png", constraints),
-          Widgets.getTextFieldH2(_profile.getFullName(), constraints),
-          Widgets.getTextFieldH3(_profile.email, constraints),
-          displayTags(constraints),
-          Container(
-              margin: EdgeInsets.only(left: constraints.maxWidth * 0.05),
+    return isLoading
+        ? Container(
+            color: Colors.white,
+            child: const SizedBox(
               child: Align(
-                  child: Widgets.getTextFieldH3("Deine Teams:", constraints),
-                  alignment: Alignment.centerLeft)),
-          Expanded(
-              child: SingleChildScrollView(
-            child: _getTeams(constraints),
-          ))
-        ],
-      );
-    })));
+                child: CircularProgressIndicator(),
+              ),
+              width: 50,
+              height: 50,
+            ))
+        : Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+            _getTeams(constraints);
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(right: 10, top: 10),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                      ),
+                      //color: Settings.blueAccent,
+                      height: 60,
+                      width: 60,
+                      child: IconButton(
+                          onPressed: _back,
+                          icon: Icon(
+                            Icons.arrow_back,
+                            color: Colors.blue,
+                            size: 40,
+                          )),
+                    ),
+                    Center(
+                      child: Widgets.getNavHeaderText("Dein Profil", constraints),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(right: 10, top: 10),
+                      decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.blueAccent),
+                      //color: Settings.blueAccent,
+                      height: 60,
+                      width: 60,
+                      child: IconButton(onPressed: _openSettingsMenu, icon: Icon(Icons.settings, color: Colors.white, size: 40)),
+                    )
+                  ],
+                ),
+                Widgets.getProfileImage("https://bugsbunnies.de/images/logo.png", constraints),
+                Widgets.getTextFieldH2(_profile.getFullName(), constraints),
+                Widgets.getTextFieldH3(_profile.email, constraints),
+                displayTags(constraints),
+                Container(
+                    margin: EdgeInsets.only(left: constraints.maxWidth * 0.05),
+                    child: Align(child: Widgets.getTextFieldH3("Deine Teams:", constraints), alignment: Alignment.centerLeft)),
+                Expanded(
+                    child: SingleChildScrollView(
+                  child: _getTeams(constraints),
+                ))
+              ],
+            );
+          })));
   }
 
-  //Get Profile
-  void _setProfile() async {
-    if (_profile.email != "email") {
-    } else {
-      print("submiting request for the profile");
-      try {
-        _profile = await Api.api.getProfile();
-        setState(() {});
-      } catch (e) {
-        //no need to handle
-      }
-    }
-  }
   //Teams
 
   Widget _getTeams(constraints) {
@@ -121,8 +125,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
       child: ListView.separated(
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
-          separatorBuilder: (BuildContext context, int index) =>
-              const Divider(),
+          separatorBuilder: (BuildContext context, int index) => const Divider(),
           itemCount: _profile.tags.length,
           itemBuilder: (context, int index) {
             print(_profile.tags[index]);
@@ -141,19 +144,6 @@ class _ProfileOverviewState extends State<ProfileOverview> {
     //TODO: Create a openSetting Menu
   }
 
-  void _loadTeams() async {
-    try {
-      teams = await Api.api.getTeams();
-      setState(() {});
-    } catch (e) {
-      if (e.runtimeType == UserFeedbackException) {
-        //TODO handle exception here
-      } else if (e.runtimeType == InvalidPermissionException) {
-        RouteGenerator.reset(context);
-      }
-    }
-  }
-
   void _leaveTeam(Team team) async {
     try {
       //TODO change delete team to leave team
@@ -166,13 +156,12 @@ class _ProfileOverviewState extends State<ProfileOverview> {
   }
 
   void _goToTeam(Team team) {
-    Navigator.pushNamed(context, RouteGenerator.teamDetails,
-        arguments: {"team": team});
+    Navigator.pushNamed(context, RouteGenerator.teamDetails, arguments: {"team": team});
   }
 
   @override
   void initState() {
+    apiCalls();
     super.initState();
-    _loadTeams();
   }
 }
