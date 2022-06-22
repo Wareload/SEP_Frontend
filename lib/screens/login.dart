@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:moody/api/api.dart';
 import 'package:moody/api/exception/user_feedback_exception.dart';
 import 'package:moody/route/route_generator.dart';
@@ -48,6 +49,9 @@ class _LoginState extends State<Login> {
                     autocorrect: false, //to not autorrect past pws
                     keyboardType: TextInputType.text,
                     controller: passwordController,
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(50),
+                    ],
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),

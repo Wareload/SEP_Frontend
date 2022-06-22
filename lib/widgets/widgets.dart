@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:moody/structs/team.dart';
 import 'package:moody/widgets/settings.dart';
 
@@ -117,6 +118,9 @@ class Widgets {
       child: TextField(
         keyboardType: type,
         controller: ctr,
+        inputFormatters: [
+          LengthLimitingTextInputFormatter(254),
+        ],
         decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30.0),
@@ -791,6 +795,9 @@ class Widgets {
             textAlign: TextAlign.center,
             minLines: 10,
             maxLines: 20,
+            inputFormatters: [
+              LengthLimitingTextInputFormatter(300),
+            ],
             decoration: const InputDecoration(hintText: "Anmerkungen", contentPadding: EdgeInsets.all(15), border: InputBorder.none),
             onChanged: (value) {},
           ),

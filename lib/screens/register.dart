@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:moody/api/exception/user_feedback_exception.dart';
 import 'package:moody/route/route_generator.dart';
 import 'package:moody/widgets/settings.dart';
@@ -34,8 +35,7 @@ class _RegisterState extends State<Register> {
               title: Text("Registrieren"),
               centerTitle: true,
             ),
-            body:
-                Container(child: LayoutBuilder(builder: (builder, constraints) {
+            body: Container(child: LayoutBuilder(builder: (builder, constraints) {
               return SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -44,18 +44,15 @@ class _RegisterState extends State<Register> {
                     /*  const SizedBox(
                       height: 20,
                     ),*/
-                    Widgets.getInputFieldLoginStyle("Vorname *",
-                        firstnameController, TextInputType.emailAddress),
+                    Widgets.getInputFieldLoginStyle("Vorname *", firstnameController, TextInputType.emailAddress),
                     const SizedBox(
                       height: 5,
                     ),
-                    Widgets.getInputFieldLoginStyle("Nachname *",
-                        lastnameController, TextInputType.emailAddress),
+                    Widgets.getInputFieldLoginStyle("Nachname *", lastnameController, TextInputType.emailAddress),
                     const SizedBox(
                       height: 5,
                     ),
-                    Widgets.getInputFieldLoginStyle("E-Mail *", emailController,
-                        TextInputType.emailAddress),
+                    Widgets.getInputFieldLoginStyle("E-Mail *", emailController, TextInputType.emailAddress),
                     const SizedBox(
                       height: 5,
                     ),
@@ -67,6 +64,9 @@ class _RegisterState extends State<Register> {
                         autocorrect: false, //to not autorrect past pws
                         keyboardType: TextInputType.visiblePassword,
                         controller: passwordController,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(50),
+                        ],
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30.0),
@@ -76,9 +76,7 @@ class _RegisterState extends State<Register> {
                           hintText: "Password *",
                           fillColor: Colors.white70,
                           suffixIcon: IconButton(
-                              icon: Icon(_isObscure
-                                  ? Icons.visibility
-                                  : Icons.visibility_off),
+                              icon: Icon(_isObscure ? Icons.visibility : Icons.visibility_off),
                               onPressed: () {
                                 setState(() {
                                   _isObscure = !_isObscure;
@@ -98,17 +96,17 @@ class _RegisterState extends State<Register> {
                         autocorrect: false, //to not autorrect past pws
                         keyboardType: TextInputType.visiblePassword,
                         controller: passwordcheckController,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(50),
+                        ],
                         decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30.0)),
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),
                           filled: true,
                           hintStyle: TextStyle(color: Colors.grey[800]),
                           hintText: "Password wiederholen *",
                           fillColor: Colors.white70,
                           suffixIcon: IconButton(
-                              icon: Icon(_isObscureCheck
-                                  ? Icons.visibility
-                                  : Icons.visibility_off),
+                              icon: Icon(_isObscureCheck ? Icons.visibility : Icons.visibility_off),
                               onPressed: () {
                                 setState(() {
                                   _isObscureCheck = !_isObscureCheck;
@@ -134,15 +132,12 @@ class _RegisterState extends State<Register> {
                         ),
                       ],
                     ),
-                    Container(
-                        padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                        child: Widgets.getTextFieldE1(_errorText, constraints)),
+                    Container(padding: const EdgeInsets.fromLTRB(5, 0, 5, 0), child: Widgets.getTextFieldE1(_errorText, constraints)),
                     Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Widgets.getButtonStyleOrange(
-                              "", _register, constraints, "Registrieren"),
+                          Widgets.getButtonStyleOrange("", _register, constraints, "Registrieren"),
                           const SizedBox(
                             height: 5,
                           ),
@@ -170,8 +165,7 @@ class _RegisterState extends State<Register> {
       });
     } else {
       try {
-        await Api.api.register(emailController.text, passwordController.text,
-            firstnameController.text, lastnameController.text);
+        await Api.api.register(emailController.text, passwordController.text, firstnameController.text, lastnameController.text);
         Navigator.pushReplacementNamed(context, RouteGenerator.teamOverview);
       } catch (e) {
         setState(() {
@@ -197,8 +191,7 @@ class _RegisterState extends State<Register> {
       //padding: EdgeInsets.only(bottom: 30),
       child: Text(
         text,
-        style: TextStyle(
-            color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
+        style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
       ),
       onPressed: func,
     );
