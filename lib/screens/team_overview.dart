@@ -68,51 +68,50 @@ class _TeamOverviewState extends State<TeamOverview> {
             width: 50,
             height: 50,
           )
-        : Scaffold(body:
-            SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
-            return Column(
-              children: [
-                Container(
-                    padding: EdgeInsets.only(top: constraints.maxWidth * 0.03)),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Widgets.getTextFieldH2C(
-                        "Hallo " + _profile.firstname + "!", constraints),
-                    getInvitations(),
-                    Widgets.getProfileIcon(constraints, _goToProfile),
-                  ],
-                ),
-                /*Align(
+        : Scaffold(
+            body:
+                SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+              return Column(
+                children: [
+                  Container(
+                      padding:
+                          EdgeInsets.only(top: constraints.maxWidth * 0.03)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Widgets.getTextFieldH2Black(
+                          "Hallo " + _profile.firstname + "!", constraints),
+                      getInvitations(),
+                      Widgets.getProfileIcon(constraints, _goToProfile),
+                    ],
+                  ),
+                  /*Align(
                     alignment: Alignment.centerLeft,
                     child: Widgets.getTextButtonStyle1("Ausloggen", () async {
                       await Api.api.logout();
                       Navigator.pushReplacementNamed(context, RouteGenerator.login);
                     }, constraints)),*/
-                Container(
-                  height: constraints.maxWidth * 0.1,
-                ),
-                Widgets.getTextFieldH2("Deine Teams", constraints),
-                Expanded(
-                    child: SingleChildScrollView(child: getTeams(constraints))),
-                Container(
-                  height: 75,
-                  child: Scaffold(
-                    floatingActionButton: FloatingActionButton(
-                        elevation: 8,
-                        onPressed: _onCreateTeam,
-                        child: const Text(
-                          '+',
-                          style: TextStyle(fontSize: 40),
-                        )),
+                  Container(
+                    height: constraints.maxWidth * 0.1,
                   ),
-                ),
-                Container(
-                  height: 10,
-                )
-              ],
-            );
-          })));
+                  Widgets.getTextFieldH2("Deine Teams", constraints),
+                  Expanded(
+                      child:
+                          SingleChildScrollView(child: getTeams(constraints))),
+                  Container(
+                    height: 10,
+                  )
+                ],
+              );
+            })),
+            floatingActionButton: FloatingActionButton(
+                elevation: 8,
+                onPressed: _onCreateTeam,
+                child: const Text(
+                  '+',
+                  style: TextStyle(fontSize: 40),
+                )),
+          );
   }
 
   Widget getTeams(BoxConstraints constraints) {

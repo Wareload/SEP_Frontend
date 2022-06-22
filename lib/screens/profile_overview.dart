@@ -145,7 +145,6 @@ class _ProfileOverviewState extends State<ProfileOverview> {
   }
 
   Widget displayTags(BoxConstraints constraints) {
-    print("running");
     return Container(
       margin: const EdgeInsets.all(10),
       height: 40,

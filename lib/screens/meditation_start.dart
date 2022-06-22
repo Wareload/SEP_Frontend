@@ -42,7 +42,7 @@ class _MeditationStartState extends State<MeditationStart> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Widgets.getNavBarWithoutProfileWhite(
+                        Widgets.getNavBarWithoutProfile(
                             constraints, _back, "Meditation"),
                         Center(
                           child: textWidgetCentered("Schließe deine Augen."),

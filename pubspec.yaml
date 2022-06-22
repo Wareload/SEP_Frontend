@@ -71,10 +71,12 @@ flutter:
     - assets/old/steam.png
     - assets/unamused.png
     - assets/pb_placeholderr.jpg
+    - assets/pb_placeholder.jpg
     - assets/verygood.png
     - assets/good.png
     - assets/bad.png
     - assets/verybad.png
+    - assets/king.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

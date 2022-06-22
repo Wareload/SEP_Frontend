@@ -38,6 +38,18 @@ class Widgets {
     );
   }
 
+  static Widget getTextFieldH2Black(
+      String display, BoxConstraints constraints) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+      child: Text(
+        display,
+        style: const TextStyle(
+            color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
   static Widget getTextFieldH3(String display, BoxConstraints constraints) {
     return Container(
       padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -58,7 +70,8 @@ class Widgets {
     );
   }
 
-  static Widget getTextFieldH3CWhite(String display, BoxConstraints constraints) {
+  static Widget getTextFieldH3CWhite(
+      String display, BoxConstraints constraints) {
     return Container(
       padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
       child: Text(
@@ -85,25 +98,29 @@ class Widgets {
   static Widget getTextWhiteH3(String text, BoxConstraints constraints) {
     return Text(
       text,
-      style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Settings.white),
+      style: const TextStyle(
+          fontSize: 18.0, fontWeight: FontWeight.bold, color: Settings.white),
     );
   }
 
   static Widget getNormalTextH3(String text, BoxConstraints constraints) {
     return Text(
       text,
-      style: const TextStyle(fontSize: 15.0, fontWeight: FontWeight.normal, color: Colors.black),
+      style: const TextStyle(
+          fontSize: 15.0, fontWeight: FontWeight.normal, color: Colors.black),
     );
   }
 
   static getNavHeaderText(String display, BoxConstraints constraints) {
     return Text(
       display,
-      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Settings.blueAccent),
+      style: const TextStyle(
+          fontWeight: FontWeight.bold, fontSize: 22, color: Colors.black),
     );
   }
 
-  static Widget getInputFieldStyle1(TextEditingController ctr, TextInputType type, bool hidden, BoxConstraints constraints) {
+  static Widget getInputFieldStyle1(TextEditingController ctr,
+      TextInputType type, bool hidden, BoxConstraints constraints) {
     return TextField(
       textAlign: TextAlign.center,
       obscureText: hidden,
@@ -112,7 +129,8 @@ class Widgets {
     );
   }
 
-  static Widget getInputFieldLoginStyle(String hint, TextEditingController ctr, TextInputType type) {
+  static Widget getInputFieldLoginStyle(
+      String hint, TextEditingController ctr, TextInputType type) {
     return Container(
       margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
       child: TextField(
@@ -133,7 +151,8 @@ class Widgets {
     );
   }
 
-  static Widget getInputFieldLoginStyleObscured(String hint, TextEditingController ctr, TextInputType type) {
+  static Widget getInputFieldLoginStyleObscured(
+      String hint, TextEditingController ctr, TextInputType type) {
     return Container(
       margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
       child: TextField(
@@ -157,7 +176,12 @@ class Widgets {
 
   //A InputField with a title(Top Blue and Bottom white)
   static Widget getInputFieldWithTitle(
-      TextEditingController ctr, TextInputType type, bool hidden, BoxConstraints constraints, String title, String hint) {
+      TextEditingController ctr,
+      TextInputType type,
+      bool hidden,
+      BoxConstraints constraints,
+      String title,
+      String hint) {
     return Container(
         padding: const EdgeInsets.all(10),
         child: Column(
@@ -174,7 +198,10 @@ class Widgets {
               child: Center(
                   child: Text(
                 title,
-                style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Settings.white),
+                style: const TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                    color: Settings.white),
               )),
             ),
             Container(
@@ -201,14 +228,16 @@ class Widgets {
         ));
   }
 
-  static Widget getButtonStyle1(String display, VoidCallback func, BoxConstraints constraints) {
+  static Widget getButtonStyle1(
+      String display, VoidCallback func, BoxConstraints constraints) {
     return ElevatedButton(
       onPressed: func,
       child: Text(display),
     );
   }
 
-  static Widget getButtonStyleOrange(String display, VoidCallback func, BoxConstraints constraints, String btnText) {
+  static Widget getButtonStyleOrange(String display, VoidCallback func,
+      BoxConstraints constraints, String btnText) {
     return Container(
       padding: EdgeInsets.all(10),
       margin: EdgeInsets.only(left: 10, right: 10),
@@ -223,7 +252,10 @@ class Widgets {
             alignment: Alignment.center,
             child: Text(
               btnText,
-              style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Settings.white),
+              style: const TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  color: Settings.white),
             ),
           ),
         ),
@@ -231,7 +263,8 @@ class Widgets {
     );
   }
 
-  static Widget getButtonStyle2(String display, VoidCallback func, BoxConstraints constraints) {
+  static Widget getButtonStyle2(
+      String display, VoidCallback func, BoxConstraints constraints) {
     return Container(
       width: constraints.maxWidth * 0.9,
       height: 50,
@@ -249,7 +282,10 @@ class Widgets {
               display,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Settings.white),
+              style: const TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  color: Settings.white),
             ),
           ),
         ),
@@ -257,7 +293,8 @@ class Widgets {
     );
   }
 
-  static Widget getButtonStyle2Disabled(String display, VoidCallback func, BoxConstraints constraints) {
+  static Widget getButtonStyle2Disabled(
+      String display, VoidCallback func, BoxConstraints constraints) {
     return Container(
       width: constraints.maxWidth * 0.9,
       height: 50,
@@ -275,7 +312,10 @@ class Widgets {
               display,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Settings.white),
+              style: const TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  color: Settings.white),
             ),
           ),
         ),
@@ -283,7 +323,8 @@ class Widgets {
     );
   }
 
-  static Widget getTextButtonStyle1(String display, VoidCallback func, BoxConstraints constraints) {
+  static Widget getTextButtonStyle1(
+      String display, VoidCallback func, BoxConstraints constraints) {
     return TextButton(
         onPressed: func,
         child: Text(
@@ -295,7 +336,8 @@ class Widgets {
         ));
   }
 
-  static Widget getTextButtonStyle1White(String display, VoidCallback func, BoxConstraints constraints) {
+  static Widget getTextButtonStyle1White(
+      String display, VoidCallback func, BoxConstraints constraints) {
     return TextButton(
         onPressed: func,
         child: Text(
@@ -308,7 +350,8 @@ class Widgets {
         ));
   }
 
-  static Widget getProjectAddWidget(String display, VoidCallback func, BoxConstraints constraints) {
+  static Widget getProjectAddWidget(
+      String display, VoidCallback func, BoxConstraints constraints) {
     return Container(
       width: constraints.maxWidth * 0.9,
       height: 50,
@@ -324,7 +367,10 @@ class Widgets {
             alignment: Alignment.center,
             child: Text(
               display,
-              style: const TextStyle(fontSize: 50.0, fontWeight: FontWeight.bold, color: Settings.blue),
+              style: const TextStyle(
+                  fontSize: 50.0,
+                  fontWeight: FontWeight.bold,
+                  color: Settings.blue),
             ),
           ),
         ),
@@ -340,8 +386,10 @@ class Widgets {
       decoration: BoxDecoration(
           color: Settings.blue,
           shape: BoxShape.circle,
-          image:
-              DecorationImage(fit: BoxFit.fitHeight, image: AssetImage("assets/pb_placeholderr.jpg"))), //Over networkimage image: NetworkImage(link)
+          image: DecorationImage(
+              fit: BoxFit.fitHeight,
+              image: AssetImage(
+                  "assets/pb_placeholder.jpg"))), //Over networkimage image: NetworkImage(link)
       // child: Image.network(link),
     );
   }
@@ -356,7 +404,10 @@ class Widgets {
         alignment: Alignment.center,
         child: Text(
           text,
-          style: const TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold, color: Settings.white),
+          style: const TextStyle(
+              fontSize: 14.0,
+              fontWeight: FontWeight.bold,
+              color: Settings.white),
         ),
       ),
       decoration: BoxDecoration(
@@ -368,7 +419,8 @@ class Widgets {
     );
   }
 
-  static Widget getProfileTeam(display, VoidCallback click, VoidCallback leave, BoxConstraints constraints, Team team) {
+  static Widget getProfileTeam(display, VoidCallback click, VoidCallback leave,
+      BoxConstraints constraints, Team team) {
     return Container(
         margin: EdgeInsets.only(bottom: constraints.maxWidth * 0.02),
         child: Row(
@@ -377,7 +429,7 @@ class Widgets {
               width: constraints.maxWidth * 0.75,
               margin: EdgeInsets.only(left: constraints.maxWidth * 0.05),
               child: Material(
-                color: Settings.blue,
+                color: Settings.blueAccent,
                 borderRadius: BorderRadius.circular(50),
                 child: InkWell(
                   onTap: click,
@@ -387,7 +439,10 @@ class Widgets {
                     alignment: Alignment.center,
                     child: Text(
                       display,
-                      style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Settings.white),
+                      style: const TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                          color: Settings.white),
                     ),
                   ),
                 ),
@@ -398,37 +453,16 @@ class Widgets {
         ));
   }
 
-  static getLeaveButton(BoxConstraints constraints, VoidCallback func, int isLeader) {
+  static getLeaveButton(
+      BoxConstraints constraints, VoidCallback func, int isLeader) {
     if (isLeader == 1) {
-      return Container(
-          margin: EdgeInsets.only(left: constraints.maxWidth * 0.02),
-          child: Center(
-            child: Material(
-              color: Settings.grey,
-              borderRadius: BorderRadius.circular(50),
-              child: InkWell(
-                onTap: func,
-                borderRadius: BorderRadius.circular(50),
-                child: Container(
-                  width: constraints.maxWidth * 0.14,
-                  height: constraints.maxWidth * 0.14,
-                  alignment: Alignment.center,
-                  child: const Text(
-                    "",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 40, color: Settings.blue),
-                  ),
-                ),
-              ),
-            ),
-          ));
-      ;
+      return SizedBox();
     } else {
       return Container(
           margin: EdgeInsets.only(left: constraints.maxWidth * 0.02),
           child: Center(
             child: Material(
-              color: Settings.grey,
+              color: Settings.blueAccent,
               borderRadius: BorderRadius.circular(50),
               child: InkWell(
                 onTap: func,
@@ -440,7 +474,7 @@ class Widgets {
                   child: const Text(
                     "-",
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 40, color: Settings.blue),
+                    style: TextStyle(fontSize: 40, color: Settings.white),
                   ),
                 ),
               ),
@@ -449,7 +483,8 @@ class Widgets {
     }
   }
 
-  static Widget getMoodEmojis(display, VoidCallback click, VoidCallback select1, VoidCallback leave, BoxConstraints constraints, Mood selectedMood) {
+  static Widget getMoodEmojis(display, VoidCallback click, VoidCallback select1,
+      VoidCallback leave, BoxConstraints constraints, Mood selectedMood) {
     return Column(
       children: [
         Container(
@@ -467,7 +502,8 @@ class Widgets {
                             topLeft: Radius.elliptical(20.0, 20),
                             topRight: Radius.elliptical(20.0, 20),
                           )),
-                      child: Center(child: getTextWhiteH3(display, constraints)),
+                      child:
+                          Center(child: getTextWhiteH3(display, constraints)),
                     ),
                     Container(
                       padding: const EdgeInsets.all(10),
@@ -485,9 +521,12 @@ class Widgets {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              displayEmoji("assets/verygood.png", Colors.green, select1, selectedMood, 0),
-                              displayEmoji("assets/good.png", Colors.lightGreen, select1, selectedMood, 1),
-                              displayEmoji("assets/smile.png", Colors.orange, select1, selectedMood, 2),
+                              displayEmoji("assets/verygood.png", Colors.green,
+                                  select1, selectedMood, 0),
+                              displayEmoji("assets/good.png", Colors.lightGreen,
+                                  select1, selectedMood, 1),
+                              displayEmoji("assets/smile.png", Colors.orange,
+                                  select1, selectedMood, 2),
                             ],
                           ),
                           SizedBox(
@@ -496,9 +535,12 @@ class Widgets {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              displayEmoji("assets/unamused.png", Colors.lightGreen, select1, selectedMood, 3),
-                              displayEmoji("assets/bad.png", Colors.orange, select1, selectedMood, 4),
-                              displayEmoji("assets/verybad.png", Colors.red, select1, selectedMood, 5),
+                              displayEmoji("assets/unamused.png",
+                                  Colors.lightGreen, select1, selectedMood, 3),
+                              displayEmoji("assets/bad.png", Colors.orange,
+                                  select1, selectedMood, 4),
+                              displayEmoji("assets/verybad.png", Colors.red,
+                                  select1, selectedMood, 5),
                             ],
                           ),
                         ],
@@ -511,7 +553,12 @@ class Widgets {
   }
 
   static Widget getDisabledMoodEmojis(
-      display, VoidCallback click, VoidCallback select1, VoidCallback leave, BoxConstraints constraints, Mood selectedMood) {
+      display,
+      VoidCallback click,
+      VoidCallback select1,
+      VoidCallback leave,
+      BoxConstraints constraints,
+      Mood selectedMood) {
     return Column(
       children: [
         Container(
@@ -529,7 +576,8 @@ class Widgets {
                             topLeft: Radius.elliptical(20.0, 20),
                             topRight: Radius.elliptical(20.0, 20),
                           )),
-                      child: Center(child: getTextWhiteH3(display, constraints)),
+                      child:
+                          Center(child: getTextWhiteH3(display, constraints)),
                     ),
                     Container(
                       padding: const EdgeInsets.all(10),
@@ -546,9 +594,12 @@ class Widgets {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              displaydisabledEmoji("assets/verygood.png", Colors.green, select1, selectedMood, 0),
-                              displaydisabledEmoji("assets/good.png", Colors.lightGreen, select1, selectedMood, 1),
-                              displaydisabledEmoji("assets/smile.png", Colors.orange, select1, selectedMood, 2),
+                              displaydisabledEmoji("assets/verygood.png",
+                                  Colors.green, select1, selectedMood, 0),
+                              displaydisabledEmoji("assets/good.png",
+                                  Colors.lightGreen, select1, selectedMood, 1),
+                              displaydisabledEmoji("assets/smile.png",
+                                  Colors.orange, select1, selectedMood, 2),
                             ],
                           ),
                           SizedBox(
@@ -557,9 +608,12 @@ class Widgets {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              displaydisabledEmoji("assets/unamused.png", Colors.lightGreen, select1, selectedMood, 3),
-                              displaydisabledEmoji("assets/bad.png", Colors.orange, select1, selectedMood, 4),
-                              displaydisabledEmoji("assets/verybad.png", Colors.red, select1, selectedMood, 5),
+                              displaydisabledEmoji("assets/unamused.png",
+                                  Colors.lightGreen, select1, selectedMood, 3),
+                              displaydisabledEmoji("assets/bad.png",
+                                  Colors.orange, select1, selectedMood, 4),
+                              displaydisabledEmoji("assets/verybad.png",
+                                  Colors.red, select1, selectedMood, 5),
                             ],
                           ),
                         ],
@@ -572,8 +626,16 @@ class Widgets {
   }
 
   //Displays a single emoji icon in the mood selection view
-  static displayEmoji(String s, MaterialColor color, VoidCallback callback, Mood selectedMood, int id) {
-    List moodnames = <String>["Sehr gut", "Gut", "Okay", "Naja", "Schlecht", "Sehr schlecht"];
+  static displayEmoji(String s, MaterialColor color, VoidCallback callback,
+      Mood selectedMood, int id) {
+    List moodnames = <String>[
+      "Sehr gut",
+      "Gut",
+      "Okay",
+      "Naja",
+      "Schlecht",
+      "Sehr schlecht"
+    ];
     return Container(
       padding: const EdgeInsets.only(left: 5, right: 5),
       width: 95,
@@ -588,9 +650,11 @@ class Widgets {
               radius: 31,
               backgroundColor: color,
               child: CircleAvatar(
-                radius: getRadiusByState(selectedMood.activeMood == id), //getRadiusByState(states, id),
+                radius: getRadiusByState(selectedMood.activeMood ==
+                    id), //getRadiusByState(states, id),
                 backgroundImage: AssetImage(s),
-                backgroundColor: getColorByState(selectedMood.activeMood == id, color),
+                backgroundColor:
+                    getColorByState(selectedMood.activeMood == id, color),
               ),
             ),
           ),
@@ -603,8 +667,16 @@ class Widgets {
     );
   }
 
-  static displaydisabledEmoji(String s, MaterialColor color, VoidCallback callback, Mood selectedMood, int id) {
-    List moodnames = <String>["Sehr gut", "Gut", "alles gut", "naja", "Schlecht", "Sehr schlecht"];
+  static displaydisabledEmoji(String s, MaterialColor color,
+      VoidCallback callback, Mood selectedMood, int id) {
+    List moodnames = <String>[
+      "Sehr gut",
+      "Gut",
+      "alles gut",
+      "naja",
+      "Schlecht",
+      "Sehr schlecht"
+    ];
     return Container(
       padding: const EdgeInsets.only(left: 5, right: 5),
       width: 95,
@@ -673,7 +745,8 @@ class Widgets {
     );
   }
 
-  static Widget displayInfoBoxWithTitle(String title, String description, BoxConstraints constraints) {
+  static Widget displayInfoBoxWithTitle(
+      String title, String description, BoxConstraints constraints) {
     return Container(
         padding: const EdgeInsets.all(10),
         child: Column(
@@ -705,16 +778,36 @@ class Widgets {
         ));
   }
 
-  static Widget getNavBar(constraints, VoidCallback callbackBack, String title, VoidCallback callbackProfile) {
+  static Widget getNavBar(constraints, VoidCallback callbackBack, String title,
+      VoidCallback callbackProfile) {
     return Column(children: [
       Container(
         height: 10,
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Widgets.getTextButtonStyle1("Back", callbackBack, constraints),
-          Widgets.getTextFieldH3C(title, constraints),
+          Container(
+            alignment: Alignment.topLeft,
+            margin: EdgeInsets.only(right: 10, top: 10),
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+            ),
+            //color: Settings.blueAccent,
+            height: 60,
+            width: 60,
+            child: IconButton(
+                onPressed: callbackBack,
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                  size: 40,
+                )),
+          ),
+          Center(
+            child: Widgets.getNavHeaderText(title, constraints),
+          ),
           Widgets.getProfileIcon(constraints, callbackProfile),
         ],
       ),
@@ -724,7 +817,8 @@ class Widgets {
     ]);
   }
 
-  static Widget getNavBarWithoutProfileWhite(constraints, VoidCallback callbackBack, String title) {
+  /* static Widget getNavBarWithoutProfileWhite(
+      constraints, VoidCallback callbackBack, String title) {
     return Column(children: [
       Container(
         height: 10,
@@ -743,9 +837,10 @@ class Widgets {
         height: 10,
       ),
     ]);
-  }
+  }*/
 
-  static Widget getNavBarWithoutProfile(constraints, VoidCallback callbackBack, String title) {
+  static Widget getNavBarWithoutProfile(
+      constraints, VoidCallback callbackBack, String title) {
     return Column(children: [
       Container(
         height: 10,
@@ -753,8 +848,24 @@ class Widgets {
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Widgets.getTextButtonStyle1("Back", callbackBack, constraints),
-          Widgets.getTextFieldH3C(title, constraints),
+          Container(
+            alignment: Alignment.topLeft,
+            margin: EdgeInsets.only(right: 10, top: 10),
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+            ),
+            //color: Settings.blueAccent,
+            height: 60,
+            width: 60,
+            child: IconButton(
+                onPressed: callbackBack,
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                  size: 40,
+                )),
+          ),
+          Widgets.getNavHeaderText(title, constraints),
           SizedBox(
             width: 70,
           )
@@ -770,7 +881,8 @@ class Widgets {
     return Container(
       child: ElevatedButton(
         onPressed: callback,
-        child: Icon(Icons.account_circle, color: Colors.grey, size: constraints.maxWidth * 0.15),
+        child: Icon(Icons.account_circle,
+            color: Colors.grey, size: constraints.maxWidth * 0.15),
         style: ElevatedButton.styleFrom(
           shape: CircleBorder(),
           primary: Colors.white, // <-- Button color
@@ -780,7 +892,8 @@ class Widgets {
     );
   }
 
-  static Widget getInputField(TextEditingController noteController, TextInputType text, BoxConstraints constraints) {
+  static Widget getInputField(TextEditingController noteController,
+      TextInputType text, BoxConstraints constraints) {
     return Container(
       height: 150,
       padding: EdgeInsets.all(5),
@@ -789,7 +902,8 @@ class Widgets {
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(width: 1, color: Colors.white, style: BorderStyle.solid)),
+              border: Border.all(
+                  width: 1, color: Colors.white, style: BorderStyle.solid)),
           child: TextField(
             controller: noteController,
             textAlign: TextAlign.center,
@@ -798,7 +912,10 @@ class Widgets {
             inputFormatters: [
               LengthLimitingTextInputFormatter(200),
             ],
-            decoration: const InputDecoration(hintText: "Anmerkungen", contentPadding: EdgeInsets.all(15), border: InputBorder.none),
+            decoration: const InputDecoration(
+                hintText: "Anmerkungen",
+                contentPadding: EdgeInsets.all(15),
+                border: InputBorder.none),
             onChanged: (value) {},
           ),
         ),
@@ -830,7 +947,8 @@ class MoodObject {
   static List<MoodObject> getSimpleMoodObjects(List moods) {
     var toReturn = <MoodObject>[];
     for (var element in moods) {
-      toReturn.add(MoodObject(element["mood"], element["date"], element["note"]));
+      toReturn
+          .add(MoodObject(element["mood"], element["date"], element["note"]));
     }
     return toReturn;
   }

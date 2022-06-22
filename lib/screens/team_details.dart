@@ -58,20 +58,7 @@ class _TeamDetailsState extends State<TeamDetails> {
             SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
             return Column(
               children: [
-                Container(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Widgets.getTextButtonStyle1("Back", _back, constraints),
-                    Widgets.getTextFieldH3C(_team.name, constraints),
-                    Widgets.getProfileIcon(constraints, _goToProfile),
-                  ],
-                ),
-                Container(
-                  height: 10,
-                ),
+                Widgets.getNavBar(constraints, _back, _team.name, _goToProfile),
                 getMoodEmojisByState(constraints),
                 Container(
                   height: 30,
@@ -85,7 +72,7 @@ class _TeamDetailsState extends State<TeamDetails> {
                         "Meditation", _goToMeditation, constraints),
                     Widgets.getButtonStyle2(
                         "Atemübungen", _goToAtemUebung, constraints),
-                    Widgets.getButtonStyle2("Umfragen", () {}, constraints),
+                    // Widgets.getButtonStyle2("Umfragen", () {}, constraints), //Not implemented
                     Widgets.getButtonStyle2("Team", () {
                       Navigator.pushNamed(context, RouteGenerator.teamManage,
                           arguments: {"team": _team});

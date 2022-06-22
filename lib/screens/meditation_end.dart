@@ -36,7 +36,7 @@ class _MeditationEndState extends State<MeditationEnd> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Widgets.getNavBarWithoutProfileWhite(
+                        Widgets.getNavBarWithoutProfile(
                             constraints, _back, "Meditation"),
                         SizedBox(
                           height: 100,

@@ -376,24 +376,23 @@ class _TeamManageState extends State<TeamManage> {
             //color: Colors.red,
             child: Stack(children: <Widget>[
               CircleAvatar(
-                backgroundColor: Colors.yellow,
+                backgroundColor: Colors.black,
                 radius: 46.0,
                 child: ClipRRect(
                   child: Container(
-                    margin: EdgeInsets.only(top: 20),
-                    width: 190.0,
-                    height: 190.0,
                     decoration: const BoxDecoration(
-                        color: Settings.blue,
+                        color: Colors.black,
                         shape: BoxShape.circle,
                         image: DecorationImage(
                             fit: BoxFit.fitHeight,
-                            image: NetworkImage(
-                                "https://bugsbunnies.de/images/logo.png"))),
+                            image: AssetImage(
+                                "assets/king.png") /*NetworkImage(
+                                "https://bugsbunnies.de/images/logo.png")*/
+                            )),
                   ),
                 ),
               ),
-              Container(
+              /* Container(
                 height: 70,
                 width: 70,
                 child: IconButton(
@@ -404,7 +403,7 @@ class _TeamManageState extends State<TeamManage> {
                       color: Colors.yellow,
                       size: 30,
                     )),
-              ),
+              ),*/
             ]),
           ),
           Text(name),
@@ -422,9 +421,6 @@ class _TeamManageState extends State<TeamManage> {
             radius: 16.0,
             child: ClipRRect(
               child: Container(
-                margin: EdgeInsets.only(top: 20),
-                width: 190.0,
-                height: 190.0,
                 decoration: const BoxDecoration(
                     color: Settings.blue,
                     shape: BoxShape.circle,
