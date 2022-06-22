@@ -44,7 +44,9 @@ class Team {
           element["email"],
           element["firstname"],
           element["lastname"],
-          element["tags"].cast<String>());
+          element["tags"].cast<String>(),
+          element["leader"]);
+
       teamMember.add(m);
     }
     return Team._(name, id, teamMember, 0);

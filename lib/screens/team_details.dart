@@ -34,8 +34,6 @@ class _TeamDetailsState extends State<TeamDetails> {
       //teamapi
       _team = await Api.api.getTeam(team.id);
       _team.leader = leaderState;
-      //team
-      _team = team;
       setState(() {
         isLoading = false;
       });
@@ -56,7 +54,8 @@ class _TeamDetailsState extends State<TeamDetails> {
               width: 50,
               height: 50,
             ))
-        : Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+        : Scaffold(body:
+            SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
             return Column(
               children: [
                 Container(
@@ -80,12 +79,16 @@ class _TeamDetailsState extends State<TeamDetails> {
                 Expanded(
                     child: SingleChildScrollView(
                   child: Column(children: [
-                    Widgets.getButtonStyle2("Statistik", _goToStatistic, constraints),
-                    Widgets.getButtonStyle2("Meditation", _goToMeditation, constraints),
-                    Widgets.getButtonStyle2("Atemübungen", _goToAtemUebung, constraints),
+                    Widgets.getButtonStyle2(
+                        "Statistik", _goToStatistic, constraints),
+                    Widgets.getButtonStyle2(
+                        "Meditation", _goToMeditation, constraints),
+                    Widgets.getButtonStyle2(
+                        "Atemübungen", _goToAtemUebung, constraints),
                     Widgets.getButtonStyle2("Umfragen", () {}, constraints),
                     Widgets.getButtonStyle2("Team", () {
-                      Navigator.pushNamed(context, RouteGenerator.teamManage, arguments: {"team": _team});
+                      Navigator.pushNamed(context, RouteGenerator.teamManage,
+                          arguments: {"team": _team});
                     }, constraints),
                   ]),
                 ))
@@ -112,28 +115,33 @@ class _TeamDetailsState extends State<TeamDetails> {
   }
 
   void _goToStatistic() {
-    Navigator.of(context).pushNamed(RouteGenerator.teamHistorie, arguments: {"team": _team});
+    Navigator.of(context)
+        .pushNamed(RouteGenerator.teamHistorie, arguments: {"team": _team});
   }
 
   void _goToAtemUebung() {
-    Navigator.of(context).pushNamed(RouteGenerator.atemUebung, arguments: {"team": _team});
+    Navigator.of(context)
+        .pushNamed(RouteGenerator.atemUebung, arguments: {"team": _team});
   }
 
   void _goToMeditation() {
-    Navigator.of(context).pushNamed(RouteGenerator.meditationHome, arguments: {"team": _team});
+    Navigator.of(context)
+        .pushNamed(RouteGenerator.meditationHome, arguments: {"team": _team});
   }
 
   Widget getMoodEmojisByState(BoxConstraints constraints) {
     /*if (!gottimerstate) {
       return Widgets.getDisabledMoodEmojis("Loading...", () {}, () {}, () {}, constraints, _currentSelectedMood);
-    } else 
+    } else
       */
     if (canSelect) {
       return Widgets.getMoodEmojis("Wie geht es dir heute?", () {}, () {
-        Navigator.of(context).pushNamed(RouteGenerator.moodSelect, arguments: {'selectedMood': _currentSelectedMood, "team": _team});
+        Navigator.of(context).pushNamed(RouteGenerator.moodSelect,
+            arguments: {'selectedMood': _currentSelectedMood, "team": _team});
       }, () {}, constraints, _currentSelectedMood);
     } else {
-      return Widgets.getDisabledMoodEmojis(_timemessage, () {}, () {}, () {}, constraints, _currentSelectedMood);
+      return Widgets.getDisabledMoodEmojis(
+          _timemessage, () {}, () {}, () {}, constraints, _currentSelectedMood);
     }
   }
 }

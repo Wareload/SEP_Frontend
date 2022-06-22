@@ -26,7 +26,8 @@ String _invitations = "";
 List<Invitation> invitations = [];
 
 class _TeamOverviewState extends State<TeamOverview> {
-  void initData(Profile loadedProfile, List loadedInvitations, List loadedTeams) {
+  void initData(
+      Profile loadedProfile, List loadedInvitations, List loadedTeams) {
     try {
       _profile = loadedProfile;
       invitations = loadedInvitations as List<Invitation>;
@@ -67,29 +68,33 @@ class _TeamOverviewState extends State<TeamOverview> {
             width: 50,
             height: 50,
           )
-        : Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+        : Scaffold(body:
+            SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
             return Column(
               children: [
-                Container(padding: EdgeInsets.only(top: constraints.maxWidth * 0.03)),
+                Container(
+                    padding: EdgeInsets.only(top: constraints.maxWidth * 0.03)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Widgets.getTextFieldH2C("Hallo " + _profile.firstname + "!", constraints),
+                    Widgets.getTextFieldH2C(
+                        "Hallo " + _profile.firstname + "!", constraints),
                     getInvitations(),
                     Widgets.getProfileIcon(constraints, _goToProfile),
                   ],
                 ),
-                Align(
+                /*Align(
                     alignment: Alignment.centerLeft,
                     child: Widgets.getTextButtonStyle1("Ausloggen", () async {
                       await Api.api.logout();
                       Navigator.pushReplacementNamed(context, RouteGenerator.login);
-                    }, constraints)),
+                    }, constraints)),*/
                 Container(
                   height: constraints.maxWidth * 0.1,
                 ),
                 Widgets.getTextFieldH2("Deine Teams", constraints),
-                Expanded(child: SingleChildScrollView(child: getTeams(constraints))),
+                Expanded(
+                    child: SingleChildScrollView(child: getTeams(constraints))),
                 Container(
                   height: 75,
                   child: Scaffold(
@@ -113,7 +118,8 @@ class _TeamOverviewState extends State<TeamOverview> {
   Widget getTeams(BoxConstraints constraints) {
     List<Widget> displayedTeams = [];
     for (var element in teams) {
-      displayedTeams.add(Widgets.getButtonStyle2(element.name, () => _goToTeam(element), constraints));
+      displayedTeams.add(Widgets.getButtonStyle2(
+          element.name, () => _goToTeam(element), constraints));
     }
     return Column(
       children: displayedTeams,
@@ -121,11 +127,13 @@ class _TeamOverviewState extends State<TeamOverview> {
   }
 
   void _goToTeam(Team team) {
-    Navigator.pushNamed(context, RouteGenerator.teamDetails, arguments: {"team": team, "leader": team.leader});
+    Navigator.pushNamed(context, RouteGenerator.teamDetails,
+        arguments: {"team": team, "leader": team.leader});
   }
 
   void _goToProfile() {
-    Navigator.pushNamed(context, RouteGenerator.profileOverview).then((value) => {apiCalls()});
+    Navigator.pushNamed(context, RouteGenerator.profileOverview)
+        .then((value) => {apiCalls()});
   }
 
   void _goToInvitations() {
@@ -134,12 +142,14 @@ class _TeamOverviewState extends State<TeamOverview> {
 
   @override
   void initState() {
-    initData(widget.data["profile"], widget.data["invitations"], widget.data["teams"]);
+    initData(widget.data["profile"], widget.data["invitations"],
+        widget.data["teams"]);
     super.initState();
   }
 
   void _onCreateTeam() {
-    Navigator.pushNamed(context, RouteGenerator.teamCreate).then((value) => {apiCalls()});
+    Navigator.pushNamed(context, RouteGenerator.teamCreate)
+        .then((value) => {apiCalls()});
   }
 
   Widget getInvitations() {
@@ -166,7 +176,10 @@ class _TeamOverviewState extends State<TeamOverview> {
                 padding: EdgeInsets.only(left: 45, top: 10),
                 child: Text(
                   "${_invitations}",
-                  style: TextStyle(color: Colors.pink, fontWeight: FontWeight.bold, fontSize: 22.0),
+                  style: TextStyle(
+                      color: Colors.pink,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22.0),
                 )),
           ],
         ), //Icon(I

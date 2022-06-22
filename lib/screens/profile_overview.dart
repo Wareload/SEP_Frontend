@@ -46,7 +46,8 @@ class _ProfileOverviewState extends State<ProfileOverview> {
               width: 50,
               height: 50,
             ))
-        : Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+        : Scaffold(body:
+            SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
             _getTeams(constraints);
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -57,41 +58,67 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
+                      alignment: Alignment.topLeft,
                       margin: EdgeInsets.only(right: 10, top: 10),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                       ),
                       //color: Settings.blueAccent,
                       height: 60,
-                      width: 60,
+                      width: 120,
                       child: IconButton(
                           onPressed: _back,
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.arrow_back,
                             color: Colors.blue,
                             size: 40,
                           )),
                     ),
                     Center(
-                      child: Widgets.getNavHeaderText("Dein Profil", constraints),
+                      child:
+                          Widgets.getNavHeaderText("Dein Profil", constraints),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(right: 10, top: 10),
-                      decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.blueAccent),
-                      //color: Settings.blueAccent,
-                      height: 60,
-                      width: 60,
-                      child: IconButton(onPressed: _openSettingsMenu, icon: Icon(Icons.settings, color: Colors.white, size: 40)),
+                    Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(right: 10, top: 10),
+                          decoration: const BoxDecoration(
+                              shape: BoxShape.circle, color: Colors.blueAccent),
+                          //color: Settings.blueAccent,
+                          height: 60,
+                          width: 60,
+                          child: IconButton(
+                              onPressed: _openSettingsMenu,
+                              icon: Icon(Icons.settings,
+                                  color: Colors.white, size: 40)),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(right: 10, top: 10),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle, color: Colors.blueAccent),
+                          //color: Settings.blueAccent,
+                          height: 60,
+                          width: 60,
+                          child: IconButton(
+                              onPressed: _logout,
+                              icon: Icon(Icons.logout,
+                                  color: Colors.white, size: 40)),
+                        )
+                      ],
                     )
                   ],
                 ),
-                Widgets.getProfileImage("https://bugsbunnies.de/images/logo.png", constraints),
+                Widgets.getProfileImage(
+                    "https://bugsbunnies.de/images/logo.png", constraints),
                 Widgets.getTextFieldH2(_profile.getFullName(), constraints),
                 Widgets.getTextFieldH3(_profile.email, constraints),
                 displayTags(constraints),
                 Container(
                     margin: EdgeInsets.only(left: constraints.maxWidth * 0.05),
-                    child: Align(child: Widgets.getTextFieldH3("Deine Teams:", constraints), alignment: Alignment.centerLeft)),
+                    child: Align(
+                        child:
+                            Widgets.getTextFieldH3("Deine Teams:", constraints),
+                        alignment: Alignment.centerLeft)),
                 Expanded(
                     child: SingleChildScrollView(
                   child: _getTeams(constraints),
@@ -125,7 +152,8 @@ class _ProfileOverviewState extends State<ProfileOverview> {
       child: ListView.separated(
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
-          separatorBuilder: (BuildContext context, int index) => const Divider(),
+          separatorBuilder: (BuildContext context, int index) =>
+              const Divider(),
           itemCount: _profile.tags.length,
           itemBuilder: (context, int index) {
             print(_profile.tags[index]);
@@ -144,6 +172,11 @@ class _ProfileOverviewState extends State<ProfileOverview> {
     //TODO: Create a openSetting Menu
   }
 
+  Future<void> _logout() async {
+    await Api.api.logout();
+    Navigator.pushReplacementNamed(context, RouteGenerator.login);
+  }
+
   void _leaveTeam(Team team) async {
     try {
       //TODO change delete team to leave team
@@ -156,7 +189,8 @@ class _ProfileOverviewState extends State<ProfileOverview> {
   }
 
   void _goToTeam(Team team) {
-    Navigator.pushNamed(context, RouteGenerator.teamDetails, arguments: {"team": team});
+    Navigator.pushNamed(context, RouteGenerator.teamDetails,
+        arguments: {"team": team});
   }
 
   @override

@@ -35,14 +35,7 @@ class _TeamManageState extends State<TeamManage> {
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return SingleChildScrollView(
         child: Column(children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Widgets.getTextButtonStyle1("Back", _back, constraints),
-              Widgets.getTextFieldH3C(_team.name, constraints),
-              Widgets.getProfileIcon(constraints, _goToProfile),
-            ],
-          ),
+          Widgets.getNavBar(constraints, _back, _team.name, _goToProfile),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             //crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -77,12 +70,12 @@ class _TeamManageState extends State<TeamManage> {
     for (var element in _team.members) {
       if (top) {
         top = false;
-        widgetsTop.add(
-            displayImageOfMember(element.firstName + " " + element.lastName));
+        widgetsTop.add(displayImageOfMember(
+            element.firstName + " " + element.lastName, element.leader));
       } else {
         top = true;
-        widgetsBottom.add(
-            displayImageOfMember(element.firstName + " " + element.lastName));
+        widgetsBottom.add(displayImageOfMember(
+            element.firstName + " " + element.lastName, element.leader));
       }
     }
     return Container(
@@ -313,24 +306,7 @@ class _TeamManageState extends State<TeamManage> {
         data: theme.copyWith(checkboxTheme: newCheckBoxTheme),
         child: Column(
           children: [
-            CheckboxListTile(
-              title: const Text(
-                'Teamleader',
-                style: TextStyle(fontSize: 20),
-              ),
-              value: intToBool(_team.leader),
-              controlAffinity: ListTileControlAffinity.leading,
-              onChanged: (bool? value) {},
-            ),
-            CheckboxListTile(
-              title: const Text(
-                'Mitglied',
-                style: TextStyle(fontSize: 20),
-              ),
-              value: !intToBool(_team.leader),
-              controlAffinity: ListTileControlAffinity.leading,
-              onChanged: (bool? value) {},
-            ),
+            getRightCheckbox(),
           ],
         ),
       ),
@@ -389,7 +365,52 @@ class _TeamManageState extends State<TeamManage> {
     );
   }
 
-  displayImageOfMember(String name) {
+  displayImageOfMember(String name, int leader) {
+    if (leader == 1) {
+      return Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(left: 10, right: 5),
+            height: 70,
+            width: 70,
+            //color: Colors.red,
+            child: Stack(children: <Widget>[
+              CircleAvatar(
+                backgroundColor: Colors.yellow,
+                radius: 46.0,
+                child: ClipRRect(
+                  child: Container(
+                    margin: EdgeInsets.only(top: 20),
+                    width: 190.0,
+                    height: 190.0,
+                    decoration: const BoxDecoration(
+                        color: Settings.blue,
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            fit: BoxFit.fitHeight,
+                            image: NetworkImage(
+                                "https://bugsbunnies.de/images/logo.png"))),
+                  ),
+                ),
+              ),
+              Container(
+                height: 70,
+                width: 70,
+                child: IconButton(
+                    alignment: Alignment.bottomRight,
+                    onPressed: _back,
+                    icon: const Icon(
+                      Icons.star,
+                      color: Colors.yellow,
+                      size: 30,
+                    )),
+              ),
+            ]),
+          ),
+          Text(name),
+        ],
+      );
+    }
     return Column(
       children: [
         Container(
@@ -405,7 +426,7 @@ class _TeamManageState extends State<TeamManage> {
                 width: 190.0,
                 height: 190.0,
                 decoration: const BoxDecoration(
-                    color: Colors.blue,
+                    color: Settings.blue,
                     shape: BoxShape.circle,
                     image: DecorationImage(
                         fit: BoxFit.fitHeight,
@@ -431,18 +452,35 @@ class _TeamManageState extends State<TeamManage> {
   }
 
   Widget getTeamDeleteButton(BoxConstraints constraints) {
-    print("Du bist");
-    print("------------------------");
-    print(_team.leader);
     if (_team.leader == 1) {
       return Widgets.getButtonStyle2("Team löschen", () {
         _deleteTeam(_team);
       }, constraints);
     } else {
-      return Widgets.getButtonStyle2Disabled("Team löschen", () {
-        createAlertDialogNothing(context,
-            "Du hast keiner Berechtigung dafür! Melde dich bei deinem Teamadmin!");
-      }, constraints);
+      return SizedBox();
     }
+  }
+
+  Widget getRightCheckbox() {
+    if (intToBool(_team.leader)) {
+      return CheckboxListTile(
+        title: const Text(
+          'Teamleader',
+          style: TextStyle(fontSize: 20),
+        ),
+        value: true,
+        controlAffinity: ListTileControlAffinity.leading,
+        onChanged: (bool? value) {},
+      );
+    }
+    return CheckboxListTile(
+      title: const Text(
+        'Mitglied',
+        style: TextStyle(fontSize: 20),
+      ),
+      value: true,
+      controlAffinity: ListTileControlAffinity.leading,
+      onChanged: (bool? value) {},
+    );
   }
 }
