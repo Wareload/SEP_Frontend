@@ -61,7 +61,6 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
   Future<void> getInvitations() async {
     try {
       invitations = await Api.api.getInvitations();
-      print(invitations.length);
       setState(() {});
     } catch (e) {
       if (e.runtimeType == UserFeedbackException) {
@@ -169,7 +168,7 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
 
   Future<void> denyInvitation(Invitation invite) async {
     try {
-      //await Api.api.(invite.teamid);
+      await Api.api.denyInvitation(invite.teamid);
       invitations.remove(invite);
       setState(() {});
     } catch (e) {

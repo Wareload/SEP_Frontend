@@ -38,6 +38,8 @@ class ApiBackend implements ApiInterface {
       "/team/addTeamMember"; //TODO need to implement
   final String pathTeamAcceptInvitationTeamMember =
       "/team/acceptInvitation"; //TODO need to implement
+  final String pathTeamDenyInvitationTeamMember =
+      "/team/declineInvitation"; //TODO need to implement
 
   //profile routes
   final String pathProfileGetProfile =
@@ -211,7 +213,6 @@ class ApiBackend implements ApiInterface {
       default:
         throw UserFeedbackException("Server Fehler");
     }
-    throw UnimplementedError();
   }
 
   //Team
@@ -296,6 +297,29 @@ class ApiBackend implements ApiInterface {
   }
 
   @override
+  Future<void> denyInvitation(int teamId) async {
+    http.Response response;
+    try {
+      response = await http
+          .post(Uri.parse(pathUrl + pathTeamDenyInvitationTeamMember),
+              body: {"teamid": teamId.toString()}, headers: _headers)
+          .timeout(Duration(seconds: timeout));
+    } catch (e) {
+      throw UserFeedbackException("Server Error");
+    }
+    switch (response.statusCode) {
+      case 200:
+        updateCookie(response);
+        return;
+      case 400:
+        throw UserFeedbackException("Ungültige Eingaben");
+      case 401:
+        throw InvalidPermissionException("Keine Berechtigung");
+    }
+    throw UserFeedbackException("Server Fehler");
+  }
+
+  @override
   Future<String> addTeamMember(int teamId, String email) async {
     http.Response response;
     try {
@@ -313,13 +337,10 @@ class ApiBackend implements ApiInterface {
         return "Erfolgreich eingeladen";
       case 400:
         return "Ungültige Eingabe";
-        throw UserFeedbackException("Ungültige Eingaben");
       case 401:
         return "Keine Berechtigung!";
-        throw InvalidPermissionException("Keine Berechtigung");
     }
     return "Server Fehler";
-    throw UserFeedbackException("Server Fehler");
   }
 
   @override
@@ -368,10 +389,8 @@ class ApiBackend implements ApiInterface {
         throw UserFeedbackException("Ungültige Eingaben");
       case 401:
         return "Keine Berechtigung";
-        throw InvalidPermissionException("Keine Berechtigung");
     }
     return "Keine Berechtigung";
-    throw UserFeedbackException("Server Fehler");
   }
 
   @override
@@ -392,13 +411,10 @@ class ApiBackend implements ApiInterface {
 
           final replaced2 = replaced1.replaceFirst("]", '');
 
-          print(replaced2);
           var body = json.decode(rightresponse);
           invitations = Invitation.getSimpleInvitation(body);
           invitations.toString();
-        } catch (e) {
-          print(e);
-        }
+        } catch (e) {}
 
         await updateCookie(response);
         //invitations.sort((a, b) => a.teamname.toLowerCase().compareTo(b.teamname.toLowerCase()));
@@ -408,7 +424,6 @@ class ApiBackend implements ApiInterface {
       default:
         throw UserFeedbackException("Server Fehler");
     }
-    throw UnimplementedError();
   }
 
   @override
@@ -446,10 +461,6 @@ class ApiBackend implements ApiInterface {
   @override
   Future<void> setMood(int teamId, int mood, String note) async {
     http.Response response;
-    print(teamId.toString());
-    print(mood.toString());
-    print(note);
-
     try {
       response = await http
           .post(Uri.parse(pathUrl + pathSetMood),
@@ -480,7 +491,7 @@ class ApiBackend implements ApiInterface {
   @override
   Future<List<MoodObject>> getPersonalMood(
       int teamid, String startDate, String endDate) async {
-    print("Teamid:${teamid} Startdate:${startDate} ENDDATE:${endDate}");
+    print("Teamid:$teamid Startdate:$startDate ENDDATE:$endDate");
     http.Response response;
     try {
       response = await http
@@ -494,7 +505,6 @@ class ApiBackend implements ApiInterface {
               },
               headers: _headers)
           .timeout(Duration(seconds: timeout));
-      print(response.body);
     } catch (e) {
       print(e);
       throw UserFeedbackException("Server Error");

@@ -53,8 +53,13 @@ class _TeamOverviewState extends State<TeamOverview> {
     }
   }
 
+  Future<void> getInvites() async {
+    invitations = await Api.api.getInvitations();
+  }
+
   @override
   Widget build(BuildContext context) {
+    getInvites();
     if (invitations.length >= 1) {
       _invitations = invitations.length.toString();
     } else {

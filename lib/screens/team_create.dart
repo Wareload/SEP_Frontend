@@ -19,12 +19,16 @@ class _TeamCreateState extends State<TeamCreate> {
   bool isSending = false;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+    return Scaffold(
+        body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return Column(
         children: [
           Row(
             children: [
-              IconButton(onPressed: _onBack, icon: Icon(Icons.arrow_back, color: Colors.blue, size: constraints.maxWidth * 0.15)),
+              IconButton(
+                  onPressed: _onBack,
+                  icon: Icon(Icons.arrow_back,
+                      color: Colors.blue, size: constraints.maxWidth * 0.15)),
               Widgets.getTextFieldH3C("Team erstellen", constraints),
             ],
           ),
@@ -36,8 +40,15 @@ class _TeamCreateState extends State<TeamCreate> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Widgets.getInputFieldWithTitle(teamNameController, TextInputType.text, false, constraints, "Teamname", "Teamname hier eintragen"),
-                getButtonStyleOrangeWithAnimation(_onTeamCreate, constraints, "Fertig", isSending),
+                Widgets.getInputFieldWithTitle(
+                    teamNameController,
+                    TextInputType.text,
+                    false,
+                    constraints,
+                    "Teamname",
+                    "Teamname hier eintragen"),
+                getButtonStyleOrangeWithAnimation(
+                    _onTeamCreate, constraints, "Fertig", isSending),
               ],
             ),
           ),
@@ -56,23 +67,32 @@ class _TeamCreateState extends State<TeamCreate> {
   void _onTeamCreate() async {
     if (!isSending) {
       isSending = true;
-      try {
-        await Api.api.createTeam(teamNameController.text);
-        _onBack();
-      } catch (e) {
-        setState(() {
-          if (e.runtimeType == UserFeedbackException) {
-            _errorText = e.toString();
-          } else if (e.runtimeType == InvalidPermissionException) {
-            RouteGenerator.reset(context);
-          }
+      if (teamNameController.text != "") {
+        try {
+          await Api.api.createTeam(teamNameController.text);
+          _onBack();
+        } catch (e) {
+          setState(() {
+            if (e.runtimeType == UserFeedbackException) {
+              _errorText = e.toString();
+            } else if (e.runtimeType == InvalidPermissionException) {
+              RouteGenerator.reset(context);
+            }
+          });
+        }
+      } else {
+        isSending = false;
+        createAlertDialog(context, "Gib einen Teamnamen ein!", () {
+          Navigator.pop(context);
         });
+        setState(() {});
       }
     }
   }
 
   //button with a circularbtn animation for sending the mood to our backend
-  static Widget getButtonStyleOrangeWithAnimation(VoidCallback func, BoxConstraints constraints, String btnText, bool isLoading) {
+  static Widget getButtonStyleOrangeWithAnimation(VoidCallback func,
+      BoxConstraints constraints, String btnText, bool isLoading) {
     return Container(
       padding: EdgeInsets.all(10),
       margin: EdgeInsets.only(left: 10, right: 10),
@@ -103,9 +123,53 @@ class _TeamCreateState extends State<TeamCreate> {
                   alignment: Alignment.center,
                   child: Text(
                     btnText,
-                    style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.white),
+                    style: const TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   ),
                 ),
+        ),
+      ),
+    );
+  }
+
+  createAlertDialog(
+      BuildContext context, String response, VoidCallback callback) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(response),
+            actions: [
+              getButtonStyleOrange("", callback, "Verstanden"),
+            ],
+          );
+        });
+  }
+
+  static Widget getButtonStyleOrange(
+      String display, VoidCallback func, String btnText) {
+    return Container(
+      padding: EdgeInsets.all(10),
+      margin: EdgeInsets.only(left: 10, right: 10),
+      child: Material(
+        color: Colors.orange,
+        borderRadius: BorderRadius.circular(50),
+        child: InkWell(
+          onTap: func,
+          borderRadius: BorderRadius.circular(50),
+          child: Container(
+            height: 60,
+            alignment: Alignment.center,
+            child: Text(
+              btnText,
+              style: const TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+          ),
         ),
       ),
     );

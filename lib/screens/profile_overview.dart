@@ -70,7 +70,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                           onPressed: _back,
                           icon: const Icon(
                             Icons.arrow_back,
-                            color: Colors.blue,
+                            color: Colors.black,
                             size: 40,
                           )),
                     ),
@@ -95,7 +95,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                         Container(
                           margin: EdgeInsets.only(right: 10, top: 10),
                           decoration: BoxDecoration(
-                              shape: BoxShape.circle, color: Colors.blueAccent),
+                              shape: BoxShape.circle, color: Colors.redAccent),
                           //color: Settings.blueAccent,
                           height: 60,
                           width: 60,

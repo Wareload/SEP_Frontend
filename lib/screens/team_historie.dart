@@ -161,7 +161,7 @@ class _TeamHistorieState extends State<TeamHistorie> {
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18.0),
-                      side: BorderSide(color: Settings.blueAccent))))),
+                      side: const BorderSide(color: Settings.blueAccent))))),
     );
   }
 
