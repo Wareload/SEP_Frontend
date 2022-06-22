@@ -94,7 +94,7 @@ class _TeamOverviewState extends State<TeamOverview> {
                   height: 75,
                   child: Scaffold(
                     floatingActionButton: FloatingActionButton(
-                        elevation: 12,
+                        elevation: 8,
                         onPressed: _onCreateTeam,
                         child: const Text(
                           '+',
