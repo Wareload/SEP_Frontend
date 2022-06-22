@@ -34,7 +34,7 @@ class _MoodSelectState extends State<MoodSelect> {
             Widgets.getNavBar(constraints, _back, "Wie geht es dir heute?", _goToProfile),
             Widgets.displayInfoBoxWithTitle("Motivational Quote", "Persistance powers passion.", constraints),
             Widgets.getMoodEmojis("Wie geht es Dir heute?", () {}, _renderNew, () {}, constraints, _currentSelectedMood),
-            Widgets.getInputField(noteController, TextInputType.text, constraints, "Teamname"),
+            Widgets.getInputField(noteController, TextInputType.text, constraints),
             getButtonStyleOrangeWithAnimation(_submitMood, constraints, "Fertig", isLoading),
           ],
         ),
@@ -44,10 +44,6 @@ class _MoodSelectState extends State<MoodSelect> {
 
   Future<void> _submitMood() async {
     isLoading = !isLoading;
-    print("TODO SEND MOOD TO BACKEND");
-    print("Team: ${_team.id}");
-    print("ActiveMood: ${_currentSelectedMood.activeMood}");
-    print("Anmerkung:${noteController.text}");
     try {
       await Api.api.setMood(_team.id, _currentSelectedMood.activeMood, noteController.text);
     } catch (e) {

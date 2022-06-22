@@ -119,7 +119,7 @@ class Widgets {
         keyboardType: type,
         controller: ctr,
         inputFormatters: [
-          LengthLimitingTextInputFormatter(254),
+          LengthLimitingTextInputFormatter(322),
         ],
         decoration: InputDecoration(
             border: OutlineInputBorder(
@@ -780,7 +780,7 @@ class Widgets {
     );
   }
 
-  static Widget getInputField(TextEditingController noteController, TextInputType text, BoxConstraints constraints, String hint) {
+  static Widget getInputField(TextEditingController noteController, TextInputType text, BoxConstraints constraints) {
     return Container(
       height: 150,
       padding: EdgeInsets.all(5),
@@ -796,7 +796,7 @@ class Widgets {
             minLines: 10,
             maxLines: 20,
             inputFormatters: [
-              LengthLimitingTextInputFormatter(300),
+              LengthLimitingTextInputFormatter(200),
             ],
             decoration: const InputDecoration(hintText: "Anmerkungen", contentPadding: EdgeInsets.all(15), border: InputBorder.none),
             onChanged: (value) {},
