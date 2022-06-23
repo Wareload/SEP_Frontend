@@ -16,28 +16,43 @@ class ProfileInvitations extends StatefulWidget {
 }
 
 var refreshKey = GlobalKey<RefreshIndicatorState>();
+bool isLoading = true;
 
 class _ProfileInvitationsState extends State<ProfileInvitations> {
   TextEditingController teamNameController = TextEditingController();
   List<Invitation> invitations = [];
+  List<Widget> invitationWidgets = [];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return isLoading
+        ? Container(
+        color: Colors.white,
+        child: const SizedBox(
+          child: Align(
+            child: CircularProgressIndicator(),
+          ),
+          width: 50,
+          height: 50,
+        ))
+        : Scaffold(
+
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
-      return RefreshIndicator(
-        key: refreshKey,
-        onRefresh: refreshInvitations,
-        child: ListView(
-          children: [
-            Widgets.getNavBarWithoutProfile(
-                constraints, _onBack, "Deine Einladungen"),
-            Expanded(
-              child: SingleChildScrollView(
-                child: getInvitationwidgets(),
-              ),
-            ),
-          ],
-        ),
+          return RefreshIndicator(
+          key: refreshKey,
+          onRefresh: refreshInvitations,
+          child: Column (
+          children: <Widget>[
+          Widgets.getNavBarWithoutProfile(
+          constraints, _onBack, "Deine Einladungen"),
+          Expanded(
+            flex: 1,
+            child: ListView(
+            children: <Widget>[
+                getInvitationwidgets(),
+                ],
+          ),),
+
+      ] ),
       );
     })));
   }
@@ -54,14 +69,15 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
 
   @override
   void initState() {
-    super.initState();
     getInvitations();
+    super.initState();
+
   }
 
   Future<void> getInvitations() async {
     try {
       invitations = await Api.api.getInvitations();
-      setState(() {});
+      setState(() {isLoading = false;});
     } catch (e) {
       if (e.runtimeType == UserFeedbackException) {
         //TODO handle exception here
@@ -105,13 +121,12 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
   }
 
   Widget getInvitationwidgets() {
-    List<Widget> widgets = [];
+List<Widget> invitationWidgets = [];
     for (var element in invitations) {
-      widgets.add(getInvitationWidget(element));
+      invitationWidgets.add(getInvitationWidget(element));
     }
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: widgets,
+      children: invitationWidgets,
     );
   }
 

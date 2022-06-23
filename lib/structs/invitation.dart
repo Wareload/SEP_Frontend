@@ -10,9 +10,7 @@ class Invitation {
   }
 
   static List<Invitation> getSimpleInvitation(List invitations) {
-    print("Here");
     var toReturn = <Invitation>[];
-    print("invitations");
     for (var element in invitations) {
       toReturn.add(Invitation(element["id"], element["name"]));
     }

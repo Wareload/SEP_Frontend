@@ -42,6 +42,7 @@ class _TeamOverviewState extends State<TeamOverview> {
 
   void apiCalls() async {
     try {
+      print("Bin ich hier?");
       _profile = await Api.api.getProfile();
       invitations = await Api.api.getInvitations();
       teams = await Api.api.getTeams();
@@ -53,26 +54,24 @@ class _TeamOverviewState extends State<TeamOverview> {
     }
   }
 
-  Future<void> getInvites() async {
-    invitations = await Api.api.getInvitations();
-  }
 
   @override
   Widget build(BuildContext context) {
-    getInvites();
     if (invitations.length >= 1) {
       _invitations = invitations.length.toString();
     } else {
       _invitations = "";
     }
     return isLoading
-        ? const SizedBox(
-            child: Align(
-              child: CircularProgressIndicator(),
-            ),
-            width: 50,
-            height: 50,
-          )
+        ? Container(
+        color: Colors.white,
+        child: const SizedBox(
+          child: Align(
+            child: CircularProgressIndicator(),
+          ),
+          width: 50,
+          height: 50,
+        ))
         : Scaffold(
             body:
                 SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
@@ -141,7 +140,8 @@ class _TeamOverviewState extends State<TeamOverview> {
   }
 
   void _goToInvitations() {
-    Navigator.pushNamed(context, RouteGenerator.showInvitations).then((value) => {apiCalls()});
+    isLoading = true;
+    Navigator.pushNamed(context, RouteGenerator.showInvitations).then((value) => {setState((){}), initInvitations()});
   }
 
   @override
@@ -154,6 +154,11 @@ class _TeamOverviewState extends State<TeamOverview> {
   void _onCreateTeam() {
     Navigator.pushNamed(context, RouteGenerator.teamCreate)
         .then((value) => {apiCalls()});
+  }
+
+  Future<void> initInvitations() async{
+    invitations = await Api.api.getInvitations();
+    setState(() { isLoading = false;});
   }
 
   Widget getInvitations() {

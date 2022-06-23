@@ -32,6 +32,7 @@ class _SplashState extends State<Splash> {
   List<Team> teams = [];
   Profile _profile = Profile.empty();
   List<Invitation> invitations = [];
+  bool isLoading = true;
 
   @override
   Widget build(BuildContext context) {
@@ -73,11 +74,22 @@ class _SplashState extends State<Splash> {
     return Container();
   }
 
-  Future<void> apiCalls() async{
+  Future<void> profileAsync() async{
+    _profile = await Api.api.getProfile();
+  }
+
+  Future<void> invitationsAsync() async{
+    invitations = await Api.api.getInvitations();
+  }
+
+  Future<void> teamsAsync() async{
+    teams = await Api.api.getTeams();
+  }
+
+  Future<void> apiCalls() async {
     try {
-      _profile = await Api.api.getProfile();
-      invitations = await Api.api.getInvitations();
-      teams = await Api.api.getTeams();
+      Future.wait([profileAsync(),invitationsAsync(),teamsAsync()]);
+      isLoading=false;
     } catch (e) {
       //no need to handle
     }
