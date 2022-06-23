@@ -73,10 +73,7 @@ class _TeamDetailsState extends State<TeamDetails> {
                     Widgets.getButtonStyle2(
                         "Atemübungen", _goToAtemUebung, constraints),
                     // Widgets.getButtonStyle2("Umfragen", () {}, constraints), //Not implemented
-                    Widgets.getButtonStyle2("Team", () {
-                      Navigator.pushNamed(context, RouteGenerator.teamManage,
-                          arguments: {"team": _team});
-                    }, constraints),
+                    Widgets.getButtonStyle2("Team", _goToTeam, constraints),
                   ]),
                 ))
               ],
@@ -114,6 +111,12 @@ class _TeamDetailsState extends State<TeamDetails> {
   void _goToMeditation() {
     Navigator.of(context)
         .pushNamed(RouteGenerator.meditationHome, arguments: {"team": _team});
+  }
+
+  void _goToTeam() {
+              isLoading = true;
+    Navigator.pushNamed(context, RouteGenerator.teamManage,
+        arguments: {"team": _team});
   }
 
   Widget getMoodEmojisByState(BoxConstraints constraints) {

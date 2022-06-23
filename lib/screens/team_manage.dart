@@ -29,7 +29,6 @@ class _TeamManageState extends State<TeamManage> {
         <String, dynamic>{}) as Map;
     _setTeam(args["team"]);
     _setProfile();
-    print(_team.members.length);
 
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
@@ -106,7 +105,6 @@ class _TeamManageState extends State<TeamManage> {
   void _setProfile() async {
     if (_profile.email != "email") {
     } else {
-      print("submiting request for the profile");
       try {
         _profile = await Api.api.getProfile();
         setState(() {});
@@ -314,8 +312,6 @@ class _TeamManageState extends State<TeamManage> {
   }
 
   intToBool(int input) {
-    print("Got input----------");
-    print(input);
     if (input == 1) {
       return true;
     } else {
