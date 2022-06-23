@@ -101,13 +101,12 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
         margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
         padding: EdgeInsets.all(15),
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.blue),
-            color: Settings.blueAccent,
+            border: Border.all(color: Colors.blue,width: 3),
+            color: Colors.grey.withOpacity(0.5),
             borderRadius: BorderRadius.circular(
                 20) // use instead of BorderRadius.all(Radius.circular(20))
             ),
         child: Container(
-          color: Settings.blueAccent,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -129,7 +128,7 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
     return Text(
       teamname,
       style: TextStyle(
-          fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
+          fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
     );
   }
 
@@ -137,7 +136,7 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
     return Text(
       teamname,
       style: TextStyle(
-          fontWeight: FontWeight.normal, fontSize: 15, color: Colors.white),
+          fontWeight: FontWeight.normal, fontSize: 15, color: Colors.black),
     );
   }
 
