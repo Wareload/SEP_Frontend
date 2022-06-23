@@ -141,7 +141,7 @@ class _TeamOverviewState extends State<TeamOverview> {
   }
 
   void _goToInvitations() {
-    Navigator.pushNamed(context, RouteGenerator.showInvitations);
+    Navigator.pushNamed(context, RouteGenerator.showInvitations).then((value) => {apiCalls()});
   }
 
   @override
