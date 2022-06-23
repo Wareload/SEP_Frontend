@@ -323,6 +323,41 @@ class Widgets {
     );
   }
 
+  static Widget getButtonStyle3(
+      String display, VoidCallback func, BoxConstraints constraints) {
+    return Container(
+      width: constraints.maxWidth * 0.45,
+      height: 150,
+      margin: EdgeInsets.only(bottom: constraints.maxWidth * 0.03),
+      child: Material(
+        color: Settings.blue,
+        borderRadius: BorderRadius.circular(20),
+        child: InkWell(
+          onTap: func,
+          borderRadius: BorderRadius.circular(50),
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+              Image(image: AssetImage(
+                  "assets/smile.png")),
+              Text(
+              display,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  color: Settings.white),
+            ),],)
+          ),
+        ),
+      ),
+    );
+  }
+
   static Widget getTextButtonStyle1(
       String display, VoidCallback func, BoxConstraints constraints) {
     return TextButton(

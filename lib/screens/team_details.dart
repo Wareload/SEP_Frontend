@@ -65,18 +65,25 @@ class _TeamDetailsState extends State<TeamDetails> {
                 ),
                 Expanded(
                     child: SingleChildScrollView(
-                  child: Column(children: [
-                    Widgets.getButtonStyle2(
+                  child: Column(
+                      children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [Widgets.getButtonStyle3(
                         "Statistik", _goToStatistic, constraints),
-                    Widgets.getButtonStyle2(
-                        "Meditation", _goToMeditation, constraints),
-                    Widgets.getButtonStyle2(
-                        "Atemübungen", _goToAtemUebung, constraints),
-                    // Widgets.getButtonStyle2("Umfragen", () {}, constraints), //Not implemented
-                    Widgets.getButtonStyle2("Team", () {
-                      Navigator.pushNamed(context, RouteGenerator.teamManage,
-                          arguments: {"team": _team});
-                    }, constraints),
+                      Widgets.getButtonStyle3(
+                          "Meditation", _goToMeditation, constraints)],),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                      Widgets.getButtonStyle3(
+                          "Atemübungen", _goToAtemUebung, constraints),
+                      // Widgets.getButtonStyle2("Umfragen", () {}, constraints), //Not implemented
+                      Widgets.getButtonStyle3("Team", () {
+                        Navigator.pushNamed(context, RouteGenerator.teamManage,
+                            arguments: {"team": _team});
+                      }, constraints)
+                    ],)
                   ]),
                 ))
               ],
