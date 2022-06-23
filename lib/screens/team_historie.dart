@@ -175,7 +175,8 @@ class _TeamHistorieState extends State<TeamHistorie> {
     return Text(
       teamname,
       style: const TextStyle(
-          fontFamily: Settings.mainFont, 
+fontFamily: Settings.mainFont,
+           
 fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
     );
   }
@@ -184,7 +185,8 @@ fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
     return Text(
       teamname,
       style: const TextStyle(
-          fontFamily: Settings.mainFont, 
+fontFamily: Settings.mainFont,
+           
 fontWeight: FontWeight.normal, fontSize: 18, color: Colors.white),
     );
   }
@@ -193,7 +195,8 @@ fontWeight: FontWeight.normal, fontSize: 18, color: Colors.white),
     return Text(
       (4 - (average + 1)).toString(),
       style: TextStyle(
-          fontFamily: Settings.mainFont, 
+fontFamily: Settings.mainFont,
+           
 fontWeight: FontWeight.bold,
           fontSize: 30,
           color: getColorByMood(average)),
@@ -204,7 +207,8 @@ fontWeight: FontWeight.bold,
     return Text(
       "Abstimmungen: $submits",
       style: TextStyle(
-          fontFamily: Settings.mainFont, 
+fontFamily: Settings.mainFont,
+           
 fontWeight: FontWeight.bold, fontSize: 20, color: Settings.white),
     );
   }
@@ -337,9 +341,10 @@ fontWeight: FontWeight.bold, fontSize: 20, color: Settings.white),
             child: Text(
               text,
               style: TextStyle(
+fontFamily: Settings.mainFont,
                   color: Colors.transparent,
                   shadows: [Shadow(color: Colors.black, offset: Offset(0, -5))],
-                  fontFamily: Settings.mainFont, 
+                   
 fontWeight: FontWeight.normal,
                   decoration: getUnderlineByBool(active),
                   decorationColor: Colors.blue,

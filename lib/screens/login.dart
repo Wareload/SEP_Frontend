@@ -25,7 +25,7 @@ class _LoginState extends State<Login> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: Text("Anmelden"),
+          title: const Text("Anmelden"),
           centerTitle: true,
         ),
         body: LayoutBuilder(
@@ -57,7 +57,8 @@ class _LoginState extends State<Login> {
                         borderRadius: BorderRadius.circular(30.0),
                       ),
                       filled: true,
-                      hintStyle: TextStyle(color: Colors.grey[800]),
+                      hintStyle: TextStyle(
+fontFamily: Settings.mainFont,color: Colors.grey[800]),
                       hintText: "Password",
                       fillColor: Colors.white70,
                       suffixIcon: IconButton(
@@ -125,7 +126,8 @@ class _LoginState extends State<Login> {
       //padding: EdgeInsets.only(bottom: 30),
       child: Text(
         text,
-        style: TextStyle(color: Colors.black, fontFamily: Settings.mainFont, 
+        style: const TextStyle(
+fontFamily: Settings.mainFont,color: Colors.black,  
 fontWeight: FontWeight.bold, fontSize: 20),
       ),
       onPressed: func,

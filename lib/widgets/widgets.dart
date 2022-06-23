@@ -13,7 +13,8 @@ class Widgets {
       padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
       child: Text(
         display,
-        style: const TextStyle(fontFamily: Settings.mainFont,
+        style: const TextStyle(
+fontFamily: Settings.mainFont,
 fontWeight: FontWeight.bold, fontSize: 40),
       ),
     );
@@ -24,7 +25,8 @@ fontWeight: FontWeight.bold, fontSize: 40),
       padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
       child: Text(
         display,
-        style: const TextStyle(fontFamily: Settings.mainFont, 
+        style: const TextStyle(
+fontFamily: Settings.mainFont, 
 fontWeight: FontWeight.bold, fontSize: 30),
       ),
     );
@@ -35,7 +37,8 @@ fontWeight: FontWeight.bold, fontSize: 30),
       padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
       child: Text(
         display,
-        style: const TextStyle(color: Settings.blue, fontSize: 20),
+        style: const TextStyle(
+fontFamily: Settings.mainFont,color: Settings.blue, fontSize: 20),
       ),
     );
   }
@@ -47,7 +50,8 @@ fontWeight: FontWeight.bold, fontSize: 30),
       child: Text(
         display,
         style: const TextStyle(
-            color: Colors.black, fontSize: 20, fontFamily: Settings.mainFont, 
+fontFamily: Settings.mainFont,
+            color: Colors.black, fontSize: 20,  
 fontWeight: FontWeight.bold),
       ),
     );
@@ -58,7 +62,8 @@ fontWeight: FontWeight.bold),
       padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
       child: Text(
         display,
-        style: const TextStyle(fontFamily: Settings.mainFont, 
+        style: const TextStyle(
+fontFamily: Settings.mainFont, 
 fontWeight: FontWeight.bold, fontSize: 20),
       ),
     );
@@ -69,7 +74,8 @@ fontWeight: FontWeight.bold, fontSize: 20),
       padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
       child: Text(
         display,
-        style: const TextStyle(color: Settings.blue),
+        style: const TextStyle(
+fontFamily: Settings.mainFont,color: Settings.blue),
       ),
     );
   }
@@ -80,7 +86,8 @@ fontWeight: FontWeight.bold, fontSize: 20),
       padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
       child: Text(
         display,
-        style: const TextStyle(color: Settings.white),
+        style: const TextStyle(
+fontFamily: Settings.mainFont,color: Settings.white),
       ),
     );
   }
@@ -94,7 +101,8 @@ fontWeight: FontWeight.bold, fontSize: 20),
       padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
       child: Text(
         display,
-        style: const TextStyle(color: Settings.red),
+        style: const TextStyle(
+fontFamily: Settings.mainFont,color: Settings.red),
       ),
     );
   }
@@ -103,7 +111,8 @@ fontWeight: FontWeight.bold, fontSize: 20),
     return Text(
       text,
       style: const TextStyle(
-          fontSize: 18.0, fontFamily: Settings.mainFont, 
+fontFamily: Settings.mainFont,
+          fontSize: Settings.mainFontSize,  
 fontWeight: FontWeight.bold, color: Settings.white),
     );
   }
@@ -112,7 +121,8 @@ fontWeight: FontWeight.bold, color: Settings.white),
     return Text(
       text,
       style: const TextStyle(
-          fontSize: 15.0, fontFamily: Settings.mainFont, 
+fontFamily: Settings.mainFont,
+          fontSize: 15.0,  
 fontWeight: FontWeight.normal, color: Colors.black),
     );
   }
@@ -121,7 +131,8 @@ fontWeight: FontWeight.normal, color: Colors.black),
     return Text(
       display,
       style: const TextStyle(
-          fontFamily: Settings.mainFont, 
+fontFamily: Settings.mainFont,
+           
 fontWeight: FontWeight.bold, fontSize: 22, color: Colors.black),
     );
   }
@@ -151,7 +162,8 @@ fontWeight: FontWeight.bold, fontSize: 22, color: Colors.black),
               borderRadius: BorderRadius.circular(30.0),
             ),
             filled: true,
-            hintStyle: TextStyle(color: Colors.grey[800]),
+            hintStyle: TextStyle(
+fontFamily: Settings.mainFont,color: Colors.grey[800]),
             hintText: hint,
             fillColor: Colors.white70),
       ),
@@ -173,7 +185,8 @@ fontWeight: FontWeight.bold, fontSize: 22, color: Colors.black),
             borderRadius: BorderRadius.circular(30.0),
           ),
           filled: true,
-          hintStyle: TextStyle(color: Colors.grey[800]),
+          hintStyle: TextStyle(
+fontFamily: Settings.mainFont,color: Colors.grey[800]),
           hintText: hint,
           fillColor: Colors.white70,
         ),
@@ -206,8 +219,9 @@ fontWeight: FontWeight.bold, fontSize: 22, color: Colors.black),
                   child: Text(
                 title,
                 style: const TextStyle(
-                    fontSize: 18.0,
-                    fontFamily: Settings.mainFont, 
+fontFamily: Settings.mainFont,
+                    fontSize: Settings.mainFontSize,
+                     
 fontWeight: FontWeight.bold,
                     color: Settings.white),
               )),
@@ -261,8 +275,9 @@ fontWeight: FontWeight.bold,
             child: Text(
               btnText,
               style: const TextStyle(
-                  fontSize: 18.0,
-                  fontFamily: Settings.mainFont, 
+fontFamily: Settings.mainFont,
+                  fontSize: Settings.mainFontSize,
+                   
 fontWeight: FontWeight.bold,
                   color: Settings.white),
             ),
@@ -292,8 +307,9 @@ fontWeight: FontWeight.bold,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
+fontFamily: Settings.mainFont,
                   fontSize: 20.0,
-                  fontFamily: Settings.mainFont, 
+                   
 fontWeight: FontWeight.bold,
                   color: Settings.white),
             ),
@@ -323,8 +339,9 @@ fontWeight: FontWeight.bold,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
+fontFamily: Settings.mainFont,
                   fontSize: 20.0,
-                  fontFamily: Settings.mainFont, 
+                   
 fontWeight: FontWeight.bold,
                   color: Settings.white),
             ),
@@ -374,8 +391,8 @@ fontWeight: FontWeight.bold,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                    fontFamily: Settings.mainFont,
-                    fontSize: 18.0,
+fontFamily: Settings.mainFont,
+                    fontSize: Settings.mainFontSize,
 fontWeight: FontWeight.bold,
                     color: Settings.white),
             ),) ],),
@@ -393,7 +410,8 @@ fontWeight: FontWeight.bold,
         child: Text(
           display,
           style: const TextStyle(
-            fontFamily: Settings.mainFont, 
+fontFamily: Settings.mainFont,
+             
 fontWeight: FontWeight.bold,
             decoration: TextDecoration.underline,
           ),
@@ -407,8 +425,9 @@ fontWeight: FontWeight.bold,
         child: Text(
           display,
           style: const TextStyle(
+fontFamily: Settings.mainFont,
             color: Settings.white,
-            fontFamily: Settings.mainFont, 
+             
 fontWeight: FontWeight.bold,
             decoration: TextDecoration.underline,
           ),
@@ -433,8 +452,9 @@ fontWeight: FontWeight.bold,
             child: Text(
               display,
               style: const TextStyle(
+fontFamily: Settings.mainFont,
                   fontSize: 50.0,
-                  fontFamily: Settings.mainFont, 
+                   
 fontWeight: FontWeight.bold,
                   color: Settings.blue),
             ),
@@ -471,8 +491,9 @@ fontWeight: FontWeight.bold,
         child: Text(
           text,
           style: const TextStyle(
+fontFamily: Settings.mainFont,
               fontSize: 14.0,
-              fontFamily: Settings.mainFont, 
+               
 fontWeight: FontWeight.bold,
               color: Settings.white),
         ),
@@ -507,8 +528,9 @@ fontWeight: FontWeight.bold,
                     child: Text(
                       display,
                       style: const TextStyle(
+fontFamily: Settings.mainFont,
                           fontSize: 20.0,
-                          fontFamily: Settings.mainFont, 
+                           
 fontWeight: FontWeight.bold,
                           color: Settings.white),
                     ),
@@ -542,7 +564,8 @@ fontWeight: FontWeight.bold,
                   child: const Text(
                     "-",
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 40, color: Settings.white),
+                    style: TextStyle(
+fontFamily: Settings.mainFont,fontSize: 40, color: Settings.white),
                   ),
                 ),
               ),
@@ -805,7 +828,8 @@ fontWeight: FontWeight.bold,
           Text(
             "■",
             textAlign: TextAlign.center,
-            style: TextStyle(color: color, fontSize: 20),
+            style: TextStyle(
+fontFamily: Settings.mainFont,color: color, fontSize: 20),
           ),
           Text(mood),
         ],

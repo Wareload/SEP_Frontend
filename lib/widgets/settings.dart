@@ -6,6 +6,7 @@ class Settings {
   Settings._();
 
   static const mainFont = "Chivo";
+  static const mainFontSize = 18.0;
 
   //colors
   static const red = Colors.red;

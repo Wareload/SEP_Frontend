@@ -89,9 +89,10 @@ class _MeditationHomeState extends State<MeditationHome> {
       child: Text(
         text,
         style: TextStyle(
+fontFamily: Settings.mainFont,
           fontSize: 20,
           color: Colors.black,
-          fontFamily: Settings.mainFont, 
+           
 fontWeight: FontWeight.bold,
         ),
       ),
@@ -116,7 +117,8 @@ fontWeight: FontWeight.bold,
             CheckboxListTile(
               title: const Text(
                 '5 Minuten',
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(
+fontFamily: Settings.mainFont,fontSize: 20),
               ),
               value: stateMinutes(5),
               controlAffinity: ListTileControlAffinity.leading,
@@ -128,7 +130,8 @@ fontWeight: FontWeight.bold,
             CheckboxListTile(
               title: const Text(
                 '10 Minuten',
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(
+fontFamily: Settings.mainFont,fontSize: 20),
               ),
               value: stateMinutes(10),
               controlAffinity: ListTileControlAffinity.leading,

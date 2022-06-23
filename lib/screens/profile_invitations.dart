@@ -119,7 +119,8 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
     return Text(
       teamname,
       style: TextStyle(
-          fontFamily: Settings.mainFont, 
+fontFamily: Settings.mainFont,
+           
 fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
     );
   }

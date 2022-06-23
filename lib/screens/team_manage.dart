@@ -226,8 +226,9 @@ class _TeamManageState extends State<TeamManage> {
             child: Text(
               btnText,
               style: const TextStyle(
-                  fontSize: 18.0,
-                  fontFamily: Settings.mainFont, 
+fontFamily: Settings.mainFont,
+                  fontSize: Settings.mainFontSize,
+                   
 fontWeight: FontWeight.bold,
                   color: Settings.white),
             ),
@@ -244,7 +245,8 @@ fontWeight: FontWeight.bold,
       child: Text(
         fullName,
         style: TextStyle(
-            fontSize: 26.0, fontFamily: Settings.mainFont, 
+fontFamily: Settings.mainFont,
+            fontSize: 26.0,  
 fontWeight: FontWeight.bold, color: Colors.black),
       ),
     );
@@ -290,7 +292,8 @@ fontWeight: FontWeight.bold, color: Colors.black),
         userFullName,
         textAlign: TextAlign.center,
         style: TextStyle(
-            fontSize: 20.0, fontFamily: Settings.mainFont, 
+fontFamily: Settings.mainFont,
+            fontSize: 20.0,  
 fontWeight: FontWeight.bold, color: Colors.black),
       ),
     );
@@ -333,8 +336,9 @@ fontWeight: FontWeight.bold, color: Colors.black),
           child: const Text(
             "Team löschen",
             style: TextStyle(
+fontFamily: Settings.mainFont,
                 color: Colors.black,
-                fontFamily: Settings.mainFont, 
+                 
 fontWeight: FontWeight.normal,
                 fontSize: 20),
           ),
@@ -446,7 +450,8 @@ fontWeight: FontWeight.normal,
       child: Text(
         btnText,
         style: TextStyle(
-            fontSize: 20.0, fontFamily: Settings.mainFont, 
+fontFamily: Settings.mainFont,
+            fontSize: 20.0,  
 fontWeight: FontWeight.bold, color: Colors.white),
       ),
     );
@@ -467,7 +472,8 @@ fontWeight: FontWeight.bold, color: Colors.white),
       return CheckboxListTile(
         title: const Text(
           'Teamleader',
-          style: TextStyle(fontSize: 20),
+          style: TextStyle(
+fontFamily: Settings.mainFont,fontSize: 20),
         ),
         value: true,
         controlAffinity: ListTileControlAffinity.leading,
@@ -477,7 +483,8 @@ fontWeight: FontWeight.bold, color: Colors.white),
     return CheckboxListTile(
       title: const Text(
         'Mitglied',
-        style: TextStyle(fontSize: 20),
+        style: TextStyle(
+fontFamily: Settings.mainFont,fontSize: 20),
       ),
       value: true,
       controlAffinity: ListTileControlAffinity.leading,
