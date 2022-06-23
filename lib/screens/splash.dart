@@ -73,7 +73,7 @@ class _SplashState extends State<Splash> {
     return Container();
   }
 
-  void apiCalls() async {
+  Future<void> apiCalls() async{
     try {
       _profile = await Api.api.getProfile();
       invitations = await Api.api.getInvitations();
@@ -85,8 +85,8 @@ class _SplashState extends State<Splash> {
 
   void init() async {
     await Api.setApi();
-    apiCalls();
-    Future.delayed(const Duration(seconds: 3), () async {
+    await apiCalls();
+    Future.delayed(const Duration(seconds: 1), () async {
       //await Settings.api.logout(); //use to force clear flutter secure storage at start
       if (await Api.api.isLoggedIn()) {
         Navigator.pushReplacementNamed(context, RouteGenerator.teamOverview,
