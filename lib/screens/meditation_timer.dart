@@ -103,7 +103,8 @@ class _MeditationTimerState extends State<MeditationTimer> {
         style: TextStyle(
           fontSize: 20,
           color: Settings.white,
-          fontWeight: FontWeight.bold,
+          fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.bold,
         ),
       ),
     );
@@ -171,7 +172,8 @@ class _MeditationTimerState extends State<MeditationTimer> {
               btnText,
               style: const TextStyle(
                   fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
+                  fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.bold,
                   color: Settings.white),
             ),
           ),

@@ -5,6 +5,7 @@ import 'package:moody/widgets/widgets.dart';
 
 import '../api/exception/user_feedback_exception.dart';
 import '../structs/team.dart';
+import '../widgets/settings.dart';
 
 class MoodSelect extends StatefulWidget {
   const MoodSelect({Key? key}) : super(key: key);
@@ -107,7 +108,8 @@ class _MoodSelectState extends State<MoodSelect> {
                   alignment: Alignment.center,
                   child: Text(
                     btnText,
-                    style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.white),
+                    style: const TextStyle(fontSize: 18.0, fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                 ),
         ),
@@ -123,7 +125,8 @@ Container(
             child: Text(btnText,
               style: const TextStyle(
                   fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
+                  fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.bold,
                   color: Colors.white),
             ),
           ),

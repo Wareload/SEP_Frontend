@@ -5,6 +5,7 @@ class Settings {
 //TODO define colors, fonts, etc here
   Settings._();
 
+  static const mainFont = "Chivo";
 
   //colors
   static const red = Colors.red;

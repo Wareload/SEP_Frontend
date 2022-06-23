@@ -175,7 +175,8 @@ class _TeamHistorieState extends State<TeamHistorie> {
     return Text(
       teamname,
       style: const TextStyle(
-          fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
+          fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
     );
   }
 
@@ -183,7 +184,8 @@ class _TeamHistorieState extends State<TeamHistorie> {
     return Text(
       teamname,
       style: const TextStyle(
-          fontWeight: FontWeight.normal, fontSize: 18, color: Colors.white),
+          fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.normal, fontSize: 18, color: Colors.white),
     );
   }
 
@@ -191,7 +193,8 @@ class _TeamHistorieState extends State<TeamHistorie> {
     return Text(
       (4 - (average + 1)).toString(),
       style: TextStyle(
-          fontWeight: FontWeight.bold,
+          fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.bold,
           fontSize: 30,
           color: getColorByMood(average)),
     );
@@ -201,7 +204,8 @@ class _TeamHistorieState extends State<TeamHistorie> {
     return Text(
       "Abstimmungen: $submits",
       style: TextStyle(
-          fontWeight: FontWeight.bold, fontSize: 20, color: Settings.white),
+          fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.bold, fontSize: 20, color: Settings.white),
     );
   }
 
@@ -335,7 +339,8 @@ class _TeamHistorieState extends State<TeamHistorie> {
               style: TextStyle(
                   color: Colors.transparent,
                   shadows: [Shadow(color: Colors.black, offset: Offset(0, -5))],
-                  fontWeight: FontWeight.normal,
+                  fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.normal,
                   decoration: getUnderlineByBool(active),
                   decorationColor: Colors.blue,
                   decorationThickness: 4,

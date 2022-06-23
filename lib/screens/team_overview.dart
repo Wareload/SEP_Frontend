@@ -182,7 +182,8 @@ class _TeamOverviewState extends State<TeamOverview> {
                   "${_invitations}",
                   style: TextStyle(
                       color: Colors.pink,
-                      fontWeight: FontWeight.bold,
+                      fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.bold,
                       fontSize: 22.0),
                 )),
           ],

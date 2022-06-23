@@ -125,7 +125,8 @@ class _LoginState extends State<Login> {
       //padding: EdgeInsets.only(bottom: 30),
       child: Text(
         text,
-        style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
+        style: TextStyle(color: Colors.black, fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.bold, fontSize: 20),
       ),
       onPressed: func,
     );

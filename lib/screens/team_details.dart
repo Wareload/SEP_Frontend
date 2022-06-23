@@ -65,26 +65,29 @@ class _TeamDetailsState extends State<TeamDetails> {
                 ),
                 Expanded(
                     child: SingleChildScrollView(
-                  child: Column(
-                      children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [Widgets.getButtonStyle3(
-                        "Statistik", _goToStatistic, constraints),
-                      Widgets.getButtonStyle3(
-                          "Meditation", _goToMeditation, constraints)],),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                      Widgets.getButtonStyle3(
-                          "Atemübungen", _goToAtemUebung, constraints),
-                      // Widgets.getButtonStyle2("Umfragen", () {}, constraints), //Not implemented
-                      Widgets.getButtonStyle3("Team", () {
-                        Navigator.pushNamed(context, RouteGenerator.teamManage,
-                            arguments: {"team": _team});
-                      }, constraints)
-                    ],)
-                  ]),
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                    child: Column(
+                        children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [Widgets.getButtonStyle3(
+                          "Statistik", "assets/statistik_view.png", _goToStatistic, constraints),
+                        Widgets.getButtonStyle3(
+                            "Meditation", "assets/trees.png", _goToMeditation, constraints)],),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                        Widgets.getButtonStyle3(
+                            "Atemübungen", "assets/windy.png", _goToAtemUebung, constraints),
+                        // Widgets.getButtonStyle2("Umfragen", () {}, constraints), //Not implemented
+                        Widgets.getButtonStyle3("Team", "assets/users.png", () {
+                          Navigator.pushNamed(context, RouteGenerator.teamManage,
+                              arguments: {"team": _team});
+                        }, constraints)
+                      ],)
+                    ]),
+                  ),
                 ))
               ],
             );

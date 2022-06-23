@@ -86,7 +86,8 @@ class _MeditationStartState extends State<MeditationStart> {
         style: TextStyle(
           fontSize: 20,
           color: Settings.white,
-          fontWeight: FontWeight.bold,
+          fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.bold,
         ),
       ),
     );

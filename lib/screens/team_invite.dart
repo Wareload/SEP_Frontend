@@ -76,7 +76,8 @@ class _TeamInviteState extends State<TeamInvite> {
             alignment: Alignment.center,
             child: Text(
               btnText,
-              style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Settings.white),
+              style: const TextStyle(fontSize: 18.0, fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.bold, color: Settings.white),
             ),
           ),
         ),

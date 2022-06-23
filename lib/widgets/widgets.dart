@@ -13,7 +13,8 @@ class Widgets {
       padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
       child: Text(
         display,
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
+        style: const TextStyle(fontFamily: Settings.mainFont,
+fontWeight: FontWeight.bold, fontSize: 40),
       ),
     );
   }
@@ -23,7 +24,8 @@ class Widgets {
       padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
       child: Text(
         display,
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+        style: const TextStyle(fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.bold, fontSize: 30),
       ),
     );
   }
@@ -45,7 +47,8 @@ class Widgets {
       child: Text(
         display,
         style: const TextStyle(
-            color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+            color: Colors.black, fontSize: 20, fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -55,7 +58,8 @@ class Widgets {
       padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
       child: Text(
         display,
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        style: const TextStyle(fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.bold, fontSize: 20),
       ),
     );
   }
@@ -99,7 +103,8 @@ class Widgets {
     return Text(
       text,
       style: const TextStyle(
-          fontSize: 18.0, fontWeight: FontWeight.bold, color: Settings.white),
+          fontSize: 18.0, fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.bold, color: Settings.white),
     );
   }
 
@@ -107,7 +112,8 @@ class Widgets {
     return Text(
       text,
       style: const TextStyle(
-          fontSize: 15.0, fontWeight: FontWeight.normal, color: Colors.black),
+          fontSize: 15.0, fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.normal, color: Colors.black),
     );
   }
 
@@ -115,7 +121,8 @@ class Widgets {
     return Text(
       display,
       style: const TextStyle(
-          fontWeight: FontWeight.bold, fontSize: 22, color: Colors.black),
+          fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.bold, fontSize: 22, color: Colors.black),
     );
   }
 
@@ -200,7 +207,8 @@ class Widgets {
                 title,
                 style: const TextStyle(
                     fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
+                    fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.bold,
                     color: Settings.white),
               )),
             ),
@@ -254,7 +262,8 @@ class Widgets {
               btnText,
               style: const TextStyle(
                   fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
+                  fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.bold,
                   color: Settings.white),
             ),
           ),
@@ -284,7 +293,8 @@ class Widgets {
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                   fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
+                  fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.bold,
                   color: Settings.white),
             ),
           ),
@@ -314,7 +324,8 @@ class Widgets {
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                   fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
+                  fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.bold,
                   color: Settings.white),
             ),
           ),
@@ -324,34 +335,51 @@ class Widgets {
   }
 
   static Widget getButtonStyle3(
-      String display, VoidCallback func, BoxConstraints constraints) {
+      String display, String path, VoidCallback func, BoxConstraints constraints) {
     return Container(
-      width: constraints.maxWidth * 0.45,
+      width: constraints.maxWidth * 0.40,
       height: 150,
       margin: EdgeInsets.only(bottom: constraints.maxWidth * 0.03),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(40),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(1),
+            blurRadius: 5,
+            offset: const Offset(0, 2), // changes position of shadow
+          ),
+        ],),
       child: Material(
         color: Settings.blue,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(40),
         child: InkWell(
           onTap: func,
-          borderRadius: BorderRadius.circular(50),
           child: Container(
             padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
             alignment: Alignment.center,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-              Image(image: AssetImage(
-                  "assets/smile.png")),
-              Text(
-              display,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  color: Settings.white),
-            ),],)
+
+              Container(
+                padding: EdgeInsets.only(top: 15),
+                child: Image(image: AssetImage(
+                    path)),
+              ),
+
+              Container(
+                padding: EdgeInsets.only(bottom: 15),
+                child: Text(
+                display,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                    fontFamily: Settings.mainFont,
+                    fontSize: 18.0,
+fontWeight: FontWeight.bold,
+                    color: Settings.white),
+            ),) ],),
+
           ),
         ),
       ),
@@ -365,7 +393,8 @@ class Widgets {
         child: Text(
           display,
           style: const TextStyle(
-            fontWeight: FontWeight.bold,
+            fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.bold,
             decoration: TextDecoration.underline,
           ),
         ));
@@ -379,7 +408,8 @@ class Widgets {
           display,
           style: const TextStyle(
             color: Settings.white,
-            fontWeight: FontWeight.bold,
+            fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.bold,
             decoration: TextDecoration.underline,
           ),
         ));
@@ -404,7 +434,8 @@ class Widgets {
               display,
               style: const TextStyle(
                   fontSize: 50.0,
-                  fontWeight: FontWeight.bold,
+                  fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.bold,
                   color: Settings.blue),
             ),
           ),
@@ -441,7 +472,8 @@ class Widgets {
           text,
           style: const TextStyle(
               fontSize: 14.0,
-              fontWeight: FontWeight.bold,
+              fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.bold,
               color: Settings.white),
         ),
       ),
@@ -476,7 +508,8 @@ class Widgets {
                       display,
                       style: const TextStyle(
                           fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
+                          fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.bold,
                           color: Settings.white),
                     ),
                   ),

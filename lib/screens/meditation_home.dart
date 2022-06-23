@@ -4,6 +4,7 @@ import 'package:moody/route/route_generator.dart';
 import 'package:moody/widgets/widgets.dart';
 
 import '../structs/team.dart';
+import '../widgets/settings.dart';
 
 class MeditationHome extends StatefulWidget {
   const MeditationHome({Key? key}) : super(key: key);
@@ -90,7 +91,8 @@ class _MeditationHomeState extends State<MeditationHome> {
         style: TextStyle(
           fontSize: 20,
           color: Colors.black,
-          fontWeight: FontWeight.bold,
+          fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.bold,
         ),
       ),
     );

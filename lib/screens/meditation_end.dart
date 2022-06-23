@@ -93,7 +93,8 @@ class _MeditationEndState extends State<MeditationEnd> {
         style: TextStyle(
           fontSize: 20,
           color: Settings.white,
-          fontWeight: FontWeight.bold,
+          fontFamily: Settings.mainFont, 
+fontWeight: FontWeight.bold,
         ),
       ),
     );

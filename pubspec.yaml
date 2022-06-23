@@ -77,6 +77,10 @@ flutter:
     - assets/bad.png
     - assets/verybad.png
     - assets/king.png
+    - assets/statistik_view.png
+    - assets/trees.png
+    - assets/users.png
+    - assets/windy.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -89,7 +93,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
+  fonts:
+     - family: Chivo
+       fonts:
+         - asset: fonts/Chivo/Chivo-Light.ttf
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf
