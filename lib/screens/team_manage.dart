@@ -224,8 +224,10 @@ class _TeamManageState extends State<TeamManage> {
             child: Text(
               btnText,
               style: const TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
+fontFamily: Settings.mainFont,
+                  fontSize: Settings.mainFontSize,
+                   
+fontWeight: FontWeight.bold,
                   color: Settings.white),
             ),
           ),
@@ -241,7 +243,9 @@ class _TeamManageState extends State<TeamManage> {
       child: Text(
         fullName,
         style: TextStyle(
-            fontSize: 26.0, fontWeight: FontWeight.bold, color: Colors.black),
+fontFamily: Settings.mainFont,
+            fontSize: 26.0,  
+fontWeight: FontWeight.bold, color: Colors.black),
       ),
     );
   }
@@ -286,7 +290,9 @@ class _TeamManageState extends State<TeamManage> {
         userFullName,
         textAlign: TextAlign.center,
         style: TextStyle(
-            fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.black),
+fontFamily: Settings.mainFont,
+            fontSize: 20.0,  
+fontWeight: FontWeight.bold, color: Colors.black),
       ),
     );
   }
@@ -328,8 +334,10 @@ class _TeamManageState extends State<TeamManage> {
           child: const Text(
             "Team löschen",
             style: TextStyle(
+fontFamily: Settings.mainFont,
                 color: Colors.black,
-                fontWeight: FontWeight.normal,
+                 
+fontWeight: FontWeight.normal,
                 fontSize: 20),
           ),
           onPressed: () {},
@@ -440,7 +448,9 @@ class _TeamManageState extends State<TeamManage> {
       child: Text(
         btnText,
         style: TextStyle(
-            fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white),
+fontFamily: Settings.mainFont,
+            fontSize: 20.0,  
+fontWeight: FontWeight.bold, color: Colors.white),
       ),
     );
   }
@@ -460,7 +470,8 @@ class _TeamManageState extends State<TeamManage> {
       return CheckboxListTile(
         title: const Text(
           'Teamleader',
-          style: TextStyle(fontSize: 20),
+          style: TextStyle(
+fontFamily: Settings.mainFont,fontSize: 20),
         ),
         value: true,
         controlAffinity: ListTileControlAffinity.leading,
@@ -470,7 +481,8 @@ class _TeamManageState extends State<TeamManage> {
     return CheckboxListTile(
       title: const Text(
         'Mitglied',
-        style: TextStyle(fontSize: 20),
+        style: TextStyle(
+fontFamily: Settings.mainFont,fontSize: 20),
       ),
       value: true,
       controlAffinity: ListTileControlAffinity.leading,

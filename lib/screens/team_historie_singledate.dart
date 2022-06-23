@@ -128,7 +128,8 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
     return Text(
       teamname,
       style: TextStyle(
-          fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
+fontFamily: Settings.mainFont,
+fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
     );
   }
 
@@ -136,7 +137,8 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
     return Text(
       teamname,
       style: TextStyle(
-          fontWeight: FontWeight.normal, fontSize: 15, color: Colors.black),
+fontFamily: Settings.mainFont,
+fontWeight: FontWeight.normal, fontSize: 15, color: Colors.black),
     );
   }
 

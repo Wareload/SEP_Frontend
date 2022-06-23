@@ -72,7 +72,8 @@ class _RegisterState extends State<Register> {
                             borderRadius: BorderRadius.circular(30.0),
                           ),
                           filled: true,
-                          hintStyle: TextStyle(color: Colors.grey[800]),
+                          hintStyle: TextStyle(
+fontFamily: Settings.mainFont,color: Colors.grey[800]),
                           hintText: "Password *",
                           fillColor: Colors.white70,
                           suffixIcon: IconButton(
@@ -102,7 +103,8 @@ class _RegisterState extends State<Register> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),
                           filled: true,
-                          hintStyle: TextStyle(color: Colors.grey[800]),
+                          hintStyle: TextStyle(
+fontFamily: Settings.mainFont,color: Colors.grey[800]),
                           hintText: "Password wiederholen *",
                           fillColor: Colors.white70,
                           suffixIcon: IconButton(
@@ -126,7 +128,8 @@ class _RegisterState extends State<Register> {
                             padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                             child: Text(
                               "Passwort muss mind. 8 Zeichen lang sein, eine Zahl & einen Großbuchstaben enthalten.",
-                              style: TextStyle(color: Colors.grey[600]),
+                              style: TextStyle(
+fontFamily: Settings.mainFont,color: Colors.grey[600]),
                             ),
                           ),
                         ),
@@ -191,7 +194,9 @@ class _RegisterState extends State<Register> {
       //padding: EdgeInsets.only(bottom: 30),
       child: Text(
         text,
-        style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
+        style: TextStyle(
+fontFamily: Settings.mainFont,color: Colors.black,  
+fontWeight: FontWeight.bold, fontSize: 20),
       ),
       onPressed: func,
     );

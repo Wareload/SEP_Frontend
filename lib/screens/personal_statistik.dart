@@ -175,7 +175,8 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
     return Text(
       teamname,
       style: TextStyle(
-          fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
+fontFamily: Settings.mainFont,
+fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
     );
   }
 
@@ -183,7 +184,8 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
     return Text(
       teamname,
       style: TextStyle(
-          fontWeight: FontWeight.normal, fontSize: 15, color: Colors.black),
+fontFamily: Settings.mainFont,
+fontWeight: FontWeight.normal, fontSize: 15, color: Colors.black),
     );
   }
 
@@ -248,9 +250,11 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
             child: Text(
               text,
               style: TextStyle(
+fontFamily: Settings.mainFont,
                   color: Colors.transparent,
                   shadows: [Shadow(color: Colors.black, offset: Offset(0, -5))],
-                  fontWeight: FontWeight.normal,
+                   
+fontWeight: FontWeight.normal,
                   decoration: getUnderlineByBool(active),
                   decorationColor: Colors.blue,
                   decorationThickness: 4,

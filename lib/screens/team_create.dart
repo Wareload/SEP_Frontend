@@ -4,6 +4,7 @@ import 'package:moody/api/exception/invalid_permission_exception.dart';
 import 'package:moody/route/route_generator.dart';
 
 import '../api/exception/user_feedback_exception.dart';
+import '../widgets/settings.dart';
 import '../widgets/widgets.dart';
 
 class TeamCreate extends StatefulWidget {
@@ -100,7 +101,8 @@ class _TeamCreateState extends State<TeamCreate> {
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             primary: Colors.orange,
-            textStyle: TextStyle(fontSize: 20),
+            textStyle: TextStyle(
+fontFamily: Settings.mainFont,fontSize: 20),
             shape: StadiumBorder(),
           ),
           onPressed: func,
@@ -124,8 +126,10 @@ class _TeamCreateState extends State<TeamCreate> {
                   child: Text(
                     btnText,
                     style: const TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
+fontFamily: Settings.mainFont,
+                        fontSize: Settings.mainFontSize,
+                         
+fontWeight: FontWeight.bold,
                         color: Colors.white),
                   ),
                 ),
@@ -165,8 +169,10 @@ class _TeamCreateState extends State<TeamCreate> {
             child: Text(
               btnText,
               style: const TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
+fontFamily: Settings.mainFont,
+                  fontSize: Settings.mainFontSize,
+                   
+fontWeight: FontWeight.bold,
                   color: Colors.white),
             ),
           ),

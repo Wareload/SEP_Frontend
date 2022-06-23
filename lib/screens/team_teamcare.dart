@@ -9,6 +9,7 @@ import '../api/exception/user_feedback_exception.dart';
 import '../route/route_generator.dart';
 import '../structs/profile.dart';
 import '../structs/team.dart';
+import '../widgets/settings.dart';
 
 class TeamCare extends StatefulWidget {
   const TeamCare({Key? key}) : super(key: key);
@@ -98,7 +99,9 @@ class _TeamCareState extends State<TeamCare> {
       child: Text(
         fullName,
         style: TextStyle(
-            fontSize: 26.0, fontWeight: FontWeight.bold, color: Colors.black),
+fontFamily: Settings.mainFont,
+            fontSize: 26.0,  
+fontWeight: FontWeight.bold, color: Colors.black),
       ),
     );
   }
@@ -164,7 +167,9 @@ class _TeamCareState extends State<TeamCare> {
       child: Text(
         btnText,
         style: TextStyle(
-            fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white),
+fontFamily: Settings.mainFont,
+            fontSize: 20.0,  
+fontWeight: FontWeight.bold, color: Colors.white),
       ),
     );
   }

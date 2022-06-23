@@ -4,6 +4,7 @@ import 'package:moody/route/route_generator.dart';
 import 'package:moody/widgets/widgets.dart';
 
 import '../structs/team.dart';
+import '../widgets/settings.dart';
 
 class MeditationHome extends StatefulWidget {
   const MeditationHome({Key? key}) : super(key: key);
@@ -88,9 +89,11 @@ class _MeditationHomeState extends State<MeditationHome> {
       child: Text(
         text,
         style: TextStyle(
+fontFamily: Settings.mainFont,
           fontSize: 20,
           color: Colors.black,
-          fontWeight: FontWeight.bold,
+           
+fontWeight: FontWeight.bold,
         ),
       ),
     );
@@ -114,7 +117,8 @@ class _MeditationHomeState extends State<MeditationHome> {
             CheckboxListTile(
               title: const Text(
                 '5 Minuten',
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(
+fontFamily: Settings.mainFont,fontSize: 20),
               ),
               value: stateMinutes(5),
               controlAffinity: ListTileControlAffinity.leading,
@@ -126,7 +130,8 @@ class _MeditationHomeState extends State<MeditationHome> {
             CheckboxListTile(
               title: const Text(
                 '10 Minuten',
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(
+fontFamily: Settings.mainFont,fontSize: 20),
               ),
               value: stateMinutes(10),
               controlAffinity: ListTileControlAffinity.leading,

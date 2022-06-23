@@ -95,9 +95,11 @@ class _MeditationInfoState extends State<MeditationInfo> {
       child: Text(
         text,
         style: TextStyle(
+fontFamily: Settings.mainFont,
           fontSize: 20,
           color: Settings.white,
-          fontWeight: FontWeight.bold,
+           
+fontWeight: FontWeight.bold,
         ),
       ),
     );
