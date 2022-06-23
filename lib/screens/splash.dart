@@ -32,6 +32,7 @@ class _SplashState extends State<Splash> {
   List<Team> teams = [];
   Profile _profile = Profile.empty();
   List<Invitation> invitations = [];
+  bool isLoading = true;
 
   @override
   Widget build(BuildContext context) {
@@ -73,27 +74,50 @@ class _SplashState extends State<Splash> {
     return Container();
   }
 
-  Future<void> apiCalls() async{
+
+  Future<void> profileAsync() async{
+    _profile = await Api.api.getProfile();
+  }
+
+  Future<void> invitationsAsync() async{
+    invitations = await Api.api.getInvitations();
+  }
+
+  Future<void> teamsAsync() async{
+    teams = await Api.api.getTeams();
+  }
+
+  void apiCalls() async {
     try {
-      _profile = await Api.api.getProfile();
-      invitations = await Api.api.getInvitations();
-      teams = await Api.api.getTeams();
+      Future.wait([profileAsync(),invitationsAsync(),teamsAsync()]);
+      isLoading=false;
     } catch (e) {
       //no need to handle
     }
   }
 
+  Future<void> checkCurrentState() async {
+    if (isLoading) {
+      Future.delayed(const Duration(milliseconds: 100), () async {
+        print("checkCurrentState");
+        checkCurrentState();
+      });
+    } else {
+      print("Got everything!!!");
+      if (await Api.api.isLoggedIn ()) {
+        Navigator.pushReplacementNamed(context, RouteGenerator.teamOverview,
+        arguments: {"teams": teams, "profile": _profile, "invitations": invitations});
+      } else {
+      Navigator.pushReplacementNamed(context, RouteGenerator.login);
+    }
+  }
+  }
+
   void init() async {
     await Api.setApi();
-    await apiCalls();
+    apiCalls();
     Future.delayed(const Duration(seconds: 1), () async {
-      //await Settings.api.logout(); //use to force clear flutter secure storage at start
-      if (await Api.api.isLoggedIn()) {
-        Navigator.pushReplacementNamed(context, RouteGenerator.teamOverview,
-            arguments: {"teams": teams, "profile": _profile, "invitations": invitations});
-      } else {
-        Navigator.pushReplacementNamed(context, RouteGenerator.login);
-      }
+      checkCurrentState();
     });
   }
 }

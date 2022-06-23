@@ -314,6 +314,8 @@ class _TeamManageState extends State<TeamManage> {
   }
 
   intToBool(int input) {
+    print("Got input----------");
+    print(input);
     if (input == 1) {
       return true;
     } else {
@@ -448,7 +450,7 @@ class _TeamManageState extends State<TeamManage> {
   }
 
   Widget getTeamDeleteButton(BoxConstraints constraints) {
-    if (_team.leader == 1) {
+    if (intToBool(_team.leader)) {
       return Widgets.getButtonStyle2("Team löschen", () {
         _deleteTeam(_team);
       }, constraints);
