@@ -21,7 +21,6 @@ Team _team = Team.empty();
 bool canSelect = false;
 String _timemessage = "Du hast heute schon abgestimmt";
 bool gottimerstate = false;
-int leaderState = 0;
 
 class _TeamDetailsState extends State<TeamDetails> {
   Mood _currentSelectedMood = Mood();
@@ -32,8 +31,9 @@ class _TeamDetailsState extends State<TeamDetails> {
       canSelect = await Api.api.getMoodTimer(team.id);
       gottimerstate = true;
       //teamapi
+      leaderstate= team.leader;
       _team = await Api.api.getTeam(team.id);
-      _team.leader = leaderState;
+      _team.leader = leaderstate;
       setState(() {
         isLoading = false;
       });
@@ -86,7 +86,7 @@ class _TeamDetailsState extends State<TeamDetails> {
 
   @override
   void initState() {
-    loadData(widget.data["team"], widget.data["leaderstate"]);
+    loadData(widget.data["team"], widget.data["leader"]);
     super.initState();
   }
 
