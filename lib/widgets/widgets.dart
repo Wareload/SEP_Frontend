@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:moody/structs/team.dart';
 import 'package:moody/widgets/settings.dart';
+
+import '../structs/profile.dart';
 
 //TODO Mood Logik mit der Map an neues Design (4 Emojis) anpassen
 
@@ -485,6 +488,21 @@ fontWeight: FontWeight.bold,
     );
   }
 
+
+  static Widget getProfilePictureInitials(String fullName, bool isLarge, BoxConstraints constraints){
+    if(isLarge){
+      return ProfilePicture(
+        name:fullName,
+        count: 2,
+        radius:51,
+        fontsize:41,
+      );
+    } else { return ProfilePicture(
+    name:fullName,
+    count: 2,
+    radius:28,
+    fontsize:18,);}
+  }
   static Widget getProfileTeam(display, VoidCallback click, VoidCallback leave,
       BoxConstraints constraints, Team team) {
     return Container(
@@ -846,7 +864,7 @@ fontWeight: FontWeight.bold,
   }
 
   static Widget getNavBar(constraints, VoidCallback callbackBack, String title,
-      VoidCallback callbackProfile) {
+      VoidCallback callbackProfile, Profile currentProfile) {
     return Column(children: [
       Container(
         height: 10,
@@ -857,7 +875,7 @@ fontWeight: FontWeight.bold,
         children: [
           Container(
             alignment: Alignment.topLeft,
-            margin: EdgeInsets.only(right: 10, top: 10),
+            margin: const EdgeInsets.only(right: 10, top: 10),
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
             ),
@@ -875,7 +893,7 @@ fontWeight: FontWeight.bold,
           Center(
             child: Widgets.getNavHeaderText(title, constraints),
           ),
-          Widgets.getProfileIcon(constraints, callbackProfile),
+          Widgets.getProfilePictureNavBar(currentProfile, constraints, callbackProfile),
         ],
       ),
       Container(
@@ -933,7 +951,7 @@ fontWeight: FontWeight.bold,
                 )),
           ),
           Widgets.getNavHeaderText(title, constraints),
-          SizedBox(
+          const SizedBox(
             width: 70,
           )
         ],
@@ -944,19 +962,14 @@ fontWeight: FontWeight.bold,
     ]);
   }
 
-  static Widget getProfileIcon(constraints, VoidCallback callback) {
-    return Container(
-      child: ElevatedButton(
-        onPressed: callback,
-        child: Icon(Icons.account_circle,
-            color: Colors.grey, size: constraints.maxWidth * 0.15),
-        style: ElevatedButton.styleFrom(
-          shape: CircleBorder(),
-          primary: Colors.white, // <-- Button color
-          onPrimary: Colors.red,
-        ),
-      ),
-    );
+  static Widget getProfilePictureNavBar(Profile profile, constraints, VoidCallback callback) {
+    return InkWell(
+        onTap: (){callback();},
+        child: SizedBox(
+          width: 56,
+            height: 56,
+            child: getProfilePictureInitials(profile.getFullName(), false, constraints)
+        ), );
   }
 
   static Widget getInputField(TextEditingController noteController,

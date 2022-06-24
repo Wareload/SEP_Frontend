@@ -18,13 +18,6 @@ class Profile {
     //this.tags=tags; //TODO: Add Tag function
   }
 
-  printData() {
-    print(email);
-    print(firstname);
-    print(lastname);
-    print(tags);
-  }
-
   static Profile empty() {
     return Profile("email", "firstname", "lastname", []);
   }

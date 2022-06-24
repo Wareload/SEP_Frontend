@@ -4,6 +4,7 @@ import 'package:moody/api/api.dart';
 import 'package:moody/route/route_generator.dart';
 import 'package:moody/widgets/widgets.dart';
 
+import '../structs/profile.dart';
 import '../structs/team.dart';
 
 class TeamDetails extends StatefulWidget {
@@ -17,6 +18,7 @@ class TeamDetails extends StatefulWidget {
 
 bool isLoading = true;
 Team _team = Team.empty();
+Profile _profile = Profile.empty();
 
 bool canSelect = false;
 String _timemessage = "Du hast heute schon abgestimmt";
@@ -25,7 +27,7 @@ bool gottimerstate = false;
 class _TeamDetailsState extends State<TeamDetails> {
   Mood _currentSelectedMood = Mood();
 
-  void loadData(team, leaderstate) async {
+  void loadData(team, leaderstate, profile) async {
     try {
       //timerstate
       canSelect = await Api.api.getMoodTimer(team.id);
@@ -34,6 +36,7 @@ class _TeamDetailsState extends State<TeamDetails> {
       leaderstate= team.leader;
       _team = await Api.api.getTeam(team.id);
       _team.leader = leaderstate;
+      _profile = profile;
       setState(() {
         isLoading = false;
       });
@@ -58,7 +61,7 @@ class _TeamDetailsState extends State<TeamDetails> {
             SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
             return Column(
               children: [
-                Widgets.getNavBar(constraints, _back, _team.name, _goToProfile),
+                Widgets.getNavBar(constraints, _back, _team.name, _goToProfile, _profile),
                 getMoodEmojisByState(constraints),
                 Container(
                   height: 30,
@@ -96,7 +99,7 @@ class _TeamDetailsState extends State<TeamDetails> {
 
   @override
   void initState() {
-    loadData(widget.data["team"], widget.data["leader"]);
+    loadData(widget.data["team"], widget.data["leader"], widget.data["profile"]);
     super.initState();
   }
 
@@ -113,7 +116,7 @@ class _TeamDetailsState extends State<TeamDetails> {
 
   void _goToStatistic() {
     Navigator.of(context)
-        .pushNamed(RouteGenerator.teamHistorie, arguments: {"team": _team});
+        .pushNamed(RouteGenerator.teamHistorie, arguments: {"team": _team, "profile": _profile});
   }
 
   void _goToAtemUebung() {
@@ -123,7 +126,7 @@ class _TeamDetailsState extends State<TeamDetails> {
 
   void _goToMeditation() {
     Navigator.of(context)
-        .pushNamed(RouteGenerator.meditationHome, arguments: {"team": _team});
+        .pushNamed(RouteGenerator.meditationHome, arguments: {"team": _team, "profile": _profile});
   }
 
   void _goToTeam() {
@@ -133,14 +136,10 @@ class _TeamDetailsState extends State<TeamDetails> {
   }
 
   Widget getMoodEmojisByState(BoxConstraints constraints) {
-    /*if (!gottimerstate) {
-      return Widgets.getDisabledMoodEmojis("Loading...", () {}, () {}, () {}, constraints, _currentSelectedMood);
-    } else
-      */
     if (canSelect) {
       return Widgets.getMoodEmojis("Wie geht es dir heute?", () {}, () {
         Navigator.of(context).pushNamed(RouteGenerator.moodSelect,
-            arguments: {'selectedMood': _currentSelectedMood, "team": _team});
+            arguments: {'selectedMood': _currentSelectedMood, "team": _team, "profile": _profile});
       }, () {}, constraints, _currentSelectedMood);
     } else {
       return Widgets.getDisabledMoodEmojis(

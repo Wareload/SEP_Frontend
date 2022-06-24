@@ -86,7 +86,7 @@ class _TeamOverviewState extends State<TeamOverview> {
                       Widgets.getTextFieldH2Black(
                           "Hallo " + _profile.firstname + "!", constraints),
                       getInvitations(),
-                      Widgets.getProfileIcon(constraints, _goToProfile),
+                      Widgets.getProfilePictureNavBar(_profile, constraints, _goToProfile),
                     ],
                   ),
                   /*Align(
@@ -131,7 +131,7 @@ class _TeamOverviewState extends State<TeamOverview> {
 
   void _goToTeam(Team team) {
     Navigator.pushNamed(context, RouteGenerator.teamDetails,
-        arguments: {"team": team, "leader": team.leader});
+        arguments: {"team": team, "leader": team.leader, "profile": _profile});
   }
 
   void _goToProfile() {

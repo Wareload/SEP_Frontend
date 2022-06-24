@@ -4,6 +4,7 @@ import 'package:moody/route/route_generator.dart';
 import 'package:moody/widgets/widgets.dart';
 
 import '../api/exception/user_feedback_exception.dart';
+import '../structs/profile.dart';
 import '../structs/team.dart';
 import '../widgets/settings.dart';
 
@@ -16,6 +17,7 @@ class MoodSelect extends StatefulWidget {
 
 class _MoodSelectState extends State<MoodSelect> {
   Team _team = Team.empty();
+  Profile _profile = Profile.empty();
   TextEditingController noteController = TextEditingController();
   Mood _currentSelectedMood = Mood();
 
@@ -26,13 +28,14 @@ class _MoodSelectState extends State<MoodSelect> {
     var args = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
     _currentSelectedMood = args['selectedMood'];
     _setTeam(args["team"]);
+    _setProfile(args["profile"]);
 
     return Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Widgets.getNavBar(constraints, _back, "Wie geht es dir heute?", _goToProfile),
+            Widgets.getNavBar(constraints, _back, "Wie geht es dir heute?", _goToProfile, _profile),
             Widgets.displayInfoBoxWithTitle("Motivational Quote", "Persistance powers passion.", constraints),
             Widgets.getMoodEmojis("Wie geht es Dir heute?", () {}, _renderNew, () {}, constraints, _currentSelectedMood),
             Widgets.getInputField(noteController, TextInputType.text, constraints),
@@ -50,7 +53,7 @@ class _MoodSelectState extends State<MoodSelect> {
     } catch (e) {
       print(e);
     }
-    Navigator.pushNamed(context, RouteGenerator.teamDetails, arguments: {"team": _team});
+    Navigator.pop(context);
     setState(() {});
   }
 
@@ -65,6 +68,11 @@ class _MoodSelectState extends State<MoodSelect> {
 
   void _setTeam(Team team) async {
     _team = team;
+    setState(() {});
+  }
+
+  void _setProfile(Profile profile) async {
+    _profile = profile;
     setState(() {});
   }
 

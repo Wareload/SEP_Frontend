@@ -33,7 +33,7 @@ class _TeamCareState extends State<TeamCare> {
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return SingleChildScrollView(
         child: Column(children: <Widget>[
-          Widgets.getNavBar(constraints, _back, "Team-Care", _goToProfile),
+          Widgets.getNavBar(constraints, _back, "Team-Care", _goToProfile, _profile),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             //crossAxisAlignment: CrossAxisAlignment.stretch,

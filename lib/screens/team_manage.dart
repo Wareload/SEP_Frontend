@@ -34,7 +34,7 @@ class _TeamManageState extends State<TeamManage> {
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return SingleChildScrollView(
         child: Column(children: <Widget>[
-          Widgets.getNavBar(constraints, _back, _team.name, _goToProfile),
+          Widgets.getNavBar(constraints, _back, _team.name, _goToProfile, _profile),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             //crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -69,12 +69,10 @@ class _TeamManageState extends State<TeamManage> {
     for (var element in _team.members) {
       if (top) {
         top = false;
-        widgetsTop.add(displayImageOfMember(
-            element.firstName + " " + element.lastName, element.leader));
+        widgetsTop.add(displayImageOfMember(element.firstName + " " + element.lastName, element.leader, constraints));
       } else {
         top = true;
-        widgetsBottom.add(displayImageOfMember(
-            element.firstName + " " + element.lastName, element.leader));
+        widgetsBottom.add(displayImageOfMember(element.firstName + " " + element.lastName, element.leader, constraints));
       }
     }
     return Container(
@@ -367,75 +365,12 @@ fontWeight: FontWeight.normal,
     );
   }
 
-  displayImageOfMember(String name, int leader) {
-    if (leader == 1) {
-      return Column(
-        children: [
-          Container(
-            margin: EdgeInsets.only(left: 10, right: 5),
-            height: 70,
-            width: 70,
-            //color: Colors.red,
-            child: Stack(children: <Widget>[
-              CircleAvatar(
-                backgroundColor: Colors.black,
-                radius: 46.0,
-                child: ClipRRect(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                        color: Colors.black,
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                            fit: BoxFit.fitHeight,
-                            image: AssetImage(
-                                "assets/king.png") /*NetworkImage(
-                                "https://bugsbunnies.de/images/logo.png")*/
-                            )),
-                  ),
-                ),
-              ),
-              /* Container(
-                height: 70,
-                width: 70,
-                child: IconButton(
-                    alignment: Alignment.bottomRight,
-                    onPressed: _back,
-                    icon: const Icon(
-                      Icons.star,
-                      color: Colors.yellow,
-                      size: 30,
-                    )),
-              ),*/
-            ]),
-          ),
-          Text(name),
-        ],
-      );
-    }
+  displayImageOfMember(String name, int leader, BoxConstraints constraints) {
     return Column(
-      children: [
-        Container(
-          margin: EdgeInsets.only(left: 10, right: 5),
-          height: 70,
-          width: 70,
-          //color: Colors.red,
-          child: CircleAvatar(
-            radius: 16.0,
-            child: ClipRRect(
-              child: Container(
-                decoration: const BoxDecoration(
-                    color: Settings.blue,
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        fit: BoxFit.fitHeight,
-                        image: NetworkImage(
-                            "https://bugsbunnies.de/images/logo.png"))),
-              ),
-            ),
-          ),
-        ),
-        Text(name),
-      ],
+      children: <Widget>[
+        Widgets.getProfilePictureInitials(name, false, constraints),
+      Text(name),
+      ]
     );
   }
 
