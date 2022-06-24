@@ -41,7 +41,7 @@ class _TeamHistorieState extends State<TeamHistorie> {
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return Column(children: <Widget>[
-        Widgets.getNavBar(constraints, _back, "Team-Historie", _goToProfile),
+        Widgets.getNavBar(constraints, _back, "Team-Historie", _goToProfile, _profile),
         Expanded(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

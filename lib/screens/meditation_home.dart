@@ -22,7 +22,6 @@ class _MeditationHomeState extends State<MeditationHome> {
   Widget build(BuildContext context) {
     var args = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
-    print(args);
     _setTeam(args['team']);
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
@@ -31,21 +30,19 @@ class _MeditationHomeState extends State<MeditationHome> {
           SliverFillRemaining(
             hasScrollBody: false,
             child: Center(
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Widgets.getNavBar(
-                        constraints, _back, "Meditation", _goToProfile),
-                    textWidgetCentered("Setz dich gemütlich hin."),
-                    textWidgetCentered("Wie lange möchtest du meditieren?"),
-                    selectTime(),
-                    Widgets.getButtonStyle2(
-                        "Los geht's", _startMeditation, constraints),
-                    SizedBox(),
-                  ],
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Widgets.getNavBar(
+                      constraints, _back, "Meditation", _goToProfile, args[""]),
+                  textWidgetCentered("Setz dich gemütlich hin."),
+                  textWidgetCentered("Wie lange möchtest du meditieren?"),
+                  selectTime(),
+                  Widgets.getButtonStyle2(
+                      "Los geht's", _startMeditation, constraints),
+                  SizedBox(),
+                ],
               ),
             ),
           ),

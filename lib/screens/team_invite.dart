@@ -4,6 +4,7 @@ import 'package:moody/route/route_generator.dart';
 import 'package:moody/widgets/widgets.dart';
 
 import '../route/route_generator.dart';
+import '../structs/profile.dart';
 import '../structs/team.dart';
 import '../widgets/settings.dart';
 
@@ -16,18 +17,20 @@ class TeamInvite extends StatefulWidget {
 
 class _TeamInviteState extends State<TeamInvite> {
   Team _team = Team.empty();
+  Profile _profile = Profile.empty();
 
   TextEditingController emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     var args = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
     _setTeam(args["team"]);
+    _setProfile(args["profile"]);
     return Scaffold(
       body: SafeArea(
         child: LayoutBuilder(
           builder: (builder, constraints) {
             return Column(children: <Widget>[
-              Widgets.getNavBar(constraints, _back, "Teammitglied hinzufügen", _goToProfile),
+              Widgets.getNavBar(constraints, _back, "Teammitglied hinzufügen", _goToProfile, _profile),
               Widgets.getInputFieldLoginStyle("Email *", emailController, TextInputType.emailAddress),
               Widgets.getButtonStyleOrange("", _sendInvitation, constraints, "Einladung senden"),
             ]);
@@ -99,6 +102,11 @@ fontWeight: FontWeight.bold, color: Settings.white),
 
   void _setTeam(Team team) async {
     _team = team;
+    setState(() {});
+  }
+
+  void _setProfile(Profile profile) async {
+    _profile = profile;
     setState(() {});
   }
 

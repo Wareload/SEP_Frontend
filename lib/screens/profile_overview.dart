@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:moody/widgets/widgets.dart';
 
 import '../api/api.dart';
@@ -108,8 +109,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                     )
                   ],
                 ),
-                Widgets.getProfileImage(
-                    "https://bugsbunnies.de/images/logo.png", constraints),
+                Widgets.getProfilePictureInitials(_profile.getFullName(), true, constraints),
                 Widgets.getTextFieldH2(_profile.getFullName(), constraints),
                 Widgets.getTextFieldH3(_profile.email, constraints),
                 displayTags(constraints),

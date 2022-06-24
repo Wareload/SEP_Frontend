@@ -4,6 +4,7 @@ import 'package:moody/route/route_generator.dart';
 import 'package:moody/widgets/settings.dart';
 import 'package:moody/widgets/widgets.dart';
 
+import '../structs/profile.dart';
 import '../structs/team.dart';
 
 class PersonalStatistic extends StatefulWidget {
@@ -15,6 +16,7 @@ class PersonalStatistic extends StatefulWidget {
 
 class _PersonalStatisticState extends State<PersonalStatistic> {
   Team _team = Team.empty();
+  Profile _profile = Profile.empty();
   TextEditingController noteController = TextEditingController();
   bool moodsLoaded = false;
   List<MoodObject> moods = [];
@@ -25,16 +27,17 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
     var args = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
     _setTeam(args["team"]);
+    _setProfile(args["profile"]);
     if (!moodsLoaded && _team.id != 0) {
       _getPersonalMoods();
       moodsLoaded = true;
     }
-    print(args);
+
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return Column(children: <Widget>[
         Widgets.getNavBar(
-            constraints, _back, "Personal Statistic", _goToProfile),
+            constraints, _back, "Personal Statistic", _goToProfile, _profile),
         Expanded(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -76,6 +79,11 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
 
   void _setTeam(Team team) async {
     _team = team;
+    setState(() {});
+  }
+
+  void _setProfile(Profile profile) async {
+    _profile = profile;
     setState(() {});
   }
 

@@ -4,6 +4,7 @@ import 'package:moody/route/route_generator.dart';
 import 'package:moody/widgets/settings.dart';
 import 'package:moody/widgets/widgets.dart';
 
+import '../structs/profile.dart';
 import '../structs/team.dart';
 
 class HistorySingleDate extends StatefulWidget {
@@ -15,6 +16,7 @@ class HistorySingleDate extends StatefulWidget {
 
 class _HistorySingleDateState extends State<HistorySingleDate> {
   Team _team = Team.empty();
+  Profile _profile = Profile.empty();
   TextEditingController noteController = TextEditingController();
   bool moodsLoaded = false;
   List<MoodObject> moods = [];
@@ -25,10 +27,11 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
         <String, dynamic>{}) as Map;
     _setTeam(args["team"]);
     _setMoodList(args["moodList"]);
+    _setProfile(args["profile"]);
     if (!moodsLoaded && _team.id != 0) {
       moodsLoaded = true;
     }
-    print(args);
+
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return SingleChildScrollView(
@@ -36,7 +39,7 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Widgets.getNavBar(
-                constraints, _back, "Personal Statistic", _goToProfile),
+                constraints, _back, "Personal Statistic", _goToProfile, _profile),
             //Text(moods),
             getMoodWidgets()
           ],
@@ -67,6 +70,11 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
 
   void _setTeam(Team team) async {
     _team = team;
+    setState(() {});
+  }
+
+  void _setProfile(Profile profile) async {
+    _profile = profile;
     setState(() {});
   }
 
