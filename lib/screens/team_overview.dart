@@ -124,7 +124,7 @@ class _TeamOverviewState extends State<TeamOverview> {
   Widget getTeams(BoxConstraints constraints) {
     List<Widget> displayedTeams = [];
     for (var element in teams) {
-      displayedTeams.add(Widgets.getButtonStyle2(
+      displayedTeams.add(Widgets.getButtonStyle2WithShadows(
           element.name, () => _goToTeam(element), constraints));
     }
     return Column(

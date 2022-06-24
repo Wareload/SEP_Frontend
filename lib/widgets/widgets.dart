@@ -334,6 +334,46 @@ fontWeight: FontWeight.bold,
     );
   }
 
+  static Widget getButtonStyle2WithShadows(
+      String display, VoidCallback func, BoxConstraints constraints) {
+    return Container(
+      width: constraints.maxWidth * 0.9,
+      height: 50,
+      margin: EdgeInsets.only(bottom: constraints.maxWidth * 0.03),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(40),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(1),
+            blurRadius: 5,
+            offset: const Offset(0, 2), // changes position of shadow
+          ),
+        ],),
+      child: Material(
+        color: Settings.blue,
+        borderRadius: BorderRadius.circular(50),
+        child: InkWell(
+          onTap: func,
+          borderRadius: BorderRadius.circular(50),
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+            alignment: Alignment.center,
+            child: Text(
+              display,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                  fontSize: 20.0,
+
+                  fontWeight: FontWeight.bold,
+                  color: Settings.white),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   static Widget getButtonStyle3(
       String display, String path, VoidCallback func, BoxConstraints constraints) {
     return Container(
