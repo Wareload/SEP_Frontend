@@ -111,9 +111,12 @@ class _TeamOverviewState extends State<TeamOverview> {
             floatingActionButton: FloatingActionButton(
                 elevation: 8,
                 onPressed: _onCreateTeam,
-                child: const Text(
-                  '+',
-                  style: TextStyle(fontSize: 40),
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(1, 0, 0, 6),
+                  child: const Text(
+                    '+',
+                    style: TextStyle(fontSize: 40),
+                  ),
                 )),
           );
   }
