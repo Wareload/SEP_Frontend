@@ -72,8 +72,7 @@ class _RegisterState extends State<Register> {
                             borderRadius: BorderRadius.circular(30.0),
                           ),
                           filled: true,
-                          hintStyle: TextStyle(
-fontFamily: Settings.mainFont,color: Colors.grey[800]),
+                          hintStyle: TextStyle(color: Colors.grey[800]),
                           hintText: "Password *",
                           fillColor: Colors.white70,
                           suffixIcon: IconButton(
@@ -103,8 +102,7 @@ fontFamily: Settings.mainFont,color: Colors.grey[800]),
                         decoration: InputDecoration(
                           border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),
                           filled: true,
-                          hintStyle: TextStyle(
-fontFamily: Settings.mainFont,color: Colors.grey[800]),
+                          hintStyle: TextStyle(color: Colors.grey[800]),
                           hintText: "Password wiederholen *",
                           fillColor: Colors.white70,
                           suffixIcon: IconButton(
@@ -128,8 +126,7 @@ fontFamily: Settings.mainFont,color: Colors.grey[800]),
                             padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                             child: Text(
                               "Passwort muss mind. 8 Zeichen lang sein, eine Zahl & einen Großbuchstaben enthalten.",
-                              style: TextStyle(
-fontFamily: Settings.mainFont,color: Colors.grey[600]),
+                              style: TextStyle(color: Colors.grey[600]),
                             ),
                           ),
                         ),
@@ -194,8 +191,7 @@ fontFamily: Settings.mainFont,color: Colors.grey[600]),
       //padding: EdgeInsets.only(bottom: 30),
       child: Text(
         text,
-        style: TextStyle(
-fontFamily: Settings.mainFont,color: Colors.black,  
+        style: TextStyle(color: Colors.black,  
 fontWeight: FontWeight.bold, fontSize: 20),
       ),
       onPressed: func,

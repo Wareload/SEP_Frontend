@@ -85,7 +85,6 @@ class _AtemuebungState extends State<Atemuebung> {
       child: Text(
         text,
         style: const TextStyle(
-fontFamily: Settings.mainFont,
           fontSize: 20,
           color: Colors.black,
            
@@ -110,8 +109,7 @@ fontWeight: FontWeight.bold,
             child: Center(
                 child: Text(
               second.toString(),
-              style: const TextStyle(
-fontFamily: Settings.mainFont,fontSize: 50,  
+              style: const TextStyle(fontSize: 50,  
 fontWeight: FontWeight.bold),
             ))),
       ),

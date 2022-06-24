@@ -175,7 +175,6 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
     return Text(
       teamname,
       style: TextStyle(
-fontFamily: Settings.mainFont,
 fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
     );
   }
@@ -184,7 +183,6 @@ fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
     return Text(
       teamname,
       style: TextStyle(
-fontFamily: Settings.mainFont,
 fontWeight: FontWeight.normal, fontSize: 15, color: Colors.black),
     );
   }
@@ -250,7 +248,6 @@ fontWeight: FontWeight.normal, fontSize: 15, color: Colors.black),
             child: Text(
               text,
               style: TextStyle(
-fontFamily: Settings.mainFont,
                   color: Colors.transparent,
                   shadows: [Shadow(color: Colors.black, offset: Offset(0, -5))],
                    

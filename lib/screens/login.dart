@@ -57,8 +57,7 @@ class _LoginState extends State<Login> {
                         borderRadius: BorderRadius.circular(30.0),
                       ),
                       filled: true,
-                      hintStyle: TextStyle(
-fontFamily: Settings.mainFont,color: Colors.grey[800]),
+                      hintStyle: TextStyle(color: Colors.grey[800]),
                       hintText: "Password",
                       fillColor: Colors.white70,
                       suffixIcon: IconButton(
@@ -126,8 +125,7 @@ fontFamily: Settings.mainFont,color: Colors.grey[800]),
       //padding: EdgeInsets.only(bottom: 30),
       child: Text(
         text,
-        style: const TextStyle(
-fontFamily: Settings.mainFont,color: Colors.black,  
+        style: const TextStyle(color: Colors.black,  
 fontWeight: FontWeight.bold, fontSize: 20),
       ),
       onPressed: func,

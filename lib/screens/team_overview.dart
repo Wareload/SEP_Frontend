@@ -113,8 +113,7 @@ class _TeamOverviewState extends State<TeamOverview> {
                 onPressed: _onCreateTeam,
                 child: const Text(
                   '+',
-                  style: TextStyle(
-fontFamily: Settings.mainFont,fontSize: 40),
+                  style: TextStyle(fontSize: 40),
                 )),
           );
   }
@@ -187,7 +186,6 @@ fontFamily: Settings.mainFont,fontSize: 40),
                 child: Text(
                   "${_invitations}",
                   style: TextStyle(
-fontFamily: Settings.mainFont,
                       color: Colors.pink,
                        
 fontWeight: FontWeight.bold,

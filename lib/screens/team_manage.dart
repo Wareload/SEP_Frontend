@@ -224,7 +224,6 @@ class _TeamManageState extends State<TeamManage> {
             child: Text(
               btnText,
               style: const TextStyle(
-fontFamily: Settings.mainFont,
                   fontSize: Settings.mainFontSize,
                    
 fontWeight: FontWeight.bold,
@@ -243,7 +242,6 @@ fontWeight: FontWeight.bold,
       child: Text(
         fullName,
         style: TextStyle(
-fontFamily: Settings.mainFont,
             fontSize: 26.0,  
 fontWeight: FontWeight.bold, color: Colors.black),
       ),
@@ -290,7 +288,6 @@ fontWeight: FontWeight.bold, color: Colors.black),
         userFullName,
         textAlign: TextAlign.center,
         style: TextStyle(
-fontFamily: Settings.mainFont,
             fontSize: 20.0,  
 fontWeight: FontWeight.bold, color: Colors.black),
       ),
@@ -334,7 +331,6 @@ fontWeight: FontWeight.bold, color: Colors.black),
           child: const Text(
             "Team löschen",
             style: TextStyle(
-fontFamily: Settings.mainFont,
                 color: Colors.black,
                  
 fontWeight: FontWeight.normal,
@@ -448,7 +444,6 @@ fontWeight: FontWeight.normal,
       child: Text(
         btnText,
         style: TextStyle(
-fontFamily: Settings.mainFont,
             fontSize: 20.0,  
 fontWeight: FontWeight.bold, color: Colors.white),
       ),
@@ -470,8 +465,7 @@ fontWeight: FontWeight.bold, color: Colors.white),
       return CheckboxListTile(
         title: const Text(
           'Teamleader',
-          style: TextStyle(
-fontFamily: Settings.mainFont,fontSize: 20),
+          style: TextStyle(fontSize: 20),
         ),
         value: true,
         controlAffinity: ListTileControlAffinity.leading,
@@ -481,8 +475,7 @@ fontFamily: Settings.mainFont,fontSize: 20),
     return CheckboxListTile(
       title: const Text(
         'Mitglied',
-        style: TextStyle(
-fontFamily: Settings.mainFont,fontSize: 20),
+        style: TextStyle(fontSize: 20),
       ),
       value: true,
       controlAffinity: ListTileControlAffinity.leading,

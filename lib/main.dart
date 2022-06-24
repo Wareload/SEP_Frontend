@@ -16,7 +16,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      theme: ThemeData(
+        fontFamily: 'Chivo',
+        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.blue),
+        primaryColor: Colors.white,
+      ),
       title: "Moody",
       onGenerateRoute: RouteGenerator.generateRoute,
       initialRoute: RouteGenerator.splash,

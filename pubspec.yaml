@@ -97,6 +97,26 @@ flutter:
      - family: Chivo
        fonts:
          - asset: fonts/Chivo/Chivo-Light.ttf
+           weight: 300
+         - asset: fonts/Chivo/Chivo-LightItalic.ttf
+           weight: 300
+           style: italic
+         - asset: fonts/Chivo/Chivo-Regular.ttf
+         - asset: fonts/Chivo/Chivo-Italic.ttf
+           style: italic
+         - asset: fonts/Chivo/Chivo-Bold.ttf
+           weight: 700
+         - asset: fonts/Chivo/Chivo-BoldItalic.ttf
+           weight: 700
+           style: italic
+         - asset: fonts/Chivo/Chivo-Black.ttf
+           weight: 900
+         - asset: fonts/Chivo/Chivo-BlackItalic.ttf
+           weight: 900
+           style: italic
+     - family: Test
+       fonts:
+         - asset: fonts/Six_Caps/SixCaps-Regular.ttf
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

@@ -101,7 +101,6 @@ class _MeditationTimerState extends State<MeditationTimer> {
       child: Text(
         text,
         style: TextStyle(
-fontFamily: Settings.mainFont,
           fontSize: 20,
           color: Settings.white,
            
@@ -118,8 +117,7 @@ fontWeight: FontWeight.bold,
 
     return Text(
       '$minutes:$seconds',
-      style: TextStyle(
-fontFamily: Settings.mainFont,fontSize: 80, color: Settings.white),
+      style: TextStyle(fontSize: 80, color: Settings.white),
     );
   }
 
@@ -173,7 +171,6 @@ fontFamily: Settings.mainFont,fontSize: 80, color: Settings.white),
             child: Text(
               btnText,
               style: const TextStyle(
-fontFamily: Settings.mainFont,
                   fontSize: Settings.mainFontSize,
                    
 fontWeight: FontWeight.bold,

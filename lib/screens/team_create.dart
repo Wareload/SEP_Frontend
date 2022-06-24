@@ -101,8 +101,7 @@ class _TeamCreateState extends State<TeamCreate> {
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             primary: Colors.orange,
-            textStyle: TextStyle(
-fontFamily: Settings.mainFont,fontSize: 20),
+            textStyle: TextStyle(fontSize: 20),
             shape: StadiumBorder(),
           ),
           onPressed: func,
@@ -126,7 +125,6 @@ fontFamily: Settings.mainFont,fontSize: 20),
                   child: Text(
                     btnText,
                     style: const TextStyle(
-fontFamily: Settings.mainFont,
                         fontSize: Settings.mainFontSize,
                          
 fontWeight: FontWeight.bold,
@@ -169,7 +167,6 @@ fontWeight: FontWeight.bold,
             child: Text(
               btnText,
               style: const TextStyle(
-fontFamily: Settings.mainFont,
                   fontSize: Settings.mainFontSize,
                    
 fontWeight: FontWeight.bold,

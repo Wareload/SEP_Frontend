@@ -99,7 +99,6 @@ class _TeamCareState extends State<TeamCare> {
       child: Text(
         fullName,
         style: TextStyle(
-fontFamily: Settings.mainFont,
             fontSize: 26.0,  
 fontWeight: FontWeight.bold, color: Colors.black),
       ),
@@ -167,7 +166,6 @@ fontWeight: FontWeight.bold, color: Colors.black),
       child: Text(
         btnText,
         style: TextStyle(
-fontFamily: Settings.mainFont,
             fontSize: 20.0,  
 fontWeight: FontWeight.bold, color: Colors.white),
       ),

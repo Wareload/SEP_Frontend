@@ -134,7 +134,6 @@ List<Widget> invitationWidgets = [];
     return Text(
       teamname,
       style: TextStyle(
-fontFamily: Settings.mainFont,
            
 fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
     );

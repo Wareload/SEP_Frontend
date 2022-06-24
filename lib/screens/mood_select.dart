@@ -85,8 +85,7 @@ class _MoodSelectState extends State<MoodSelect> {
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             primary: Colors.orange,
-            textStyle: TextStyle(
-fontFamily: Settings.mainFont,fontSize: 20),
+            textStyle: TextStyle(fontSize: 20),
             shape: StadiumBorder(),
           ),
           onPressed: func,
@@ -109,8 +108,7 @@ fontFamily: Settings.mainFont,fontSize: 20),
                   alignment: Alignment.center,
                   child: Text(
                     btnText,
-                    style: const TextStyle(
-fontFamily: Settings.mainFont,fontSize: Settings.mainFontSize,  
+                    style: const TextStyle(fontSize: Settings.mainFontSize,  
 fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                 ),
@@ -126,7 +124,6 @@ Container(
             alignment: Alignment.center,
             child: Text(btnText,
               style: const TextStyle(
-fontFamily: Settings.mainFont,
                   fontSize: Settings.mainFontSize,
                    
 fontWeight: FontWeight.bold,
