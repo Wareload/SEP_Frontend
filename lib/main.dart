@@ -17,12 +17,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Chivo',
         colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.blue),
         primaryColor: Colors.white,
       ),
+      debugShowCheckedModeBanner: false,
       title: "Moody",
       onGenerateRoute: RouteGenerator.generateRoute,
       initialRoute: RouteGenerator.splash,
