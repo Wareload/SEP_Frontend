@@ -90,9 +90,19 @@ class RouteGenerator {
       case teamHistorieSingleDate:
         return MaterialPageRoute(settings: settings, builder: (_) => const HistorySingleDate());
       case moodSelect:
-        return MaterialPageRoute(settings: settings, builder: (_) => const MoodSelect());
+        if (args is Map) {
+          return MaterialPageRoute(
+              settings: settings, builder: (context) => MoodSelect(ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>));
+        }
+        return MaterialPageRoute(settings: settings, builder: (_) => const Splash());
+
       case meditationHome:
-        return MaterialPageRoute(settings: settings, builder: (_) => const MeditationHome());
+        if (args is Map) {
+          return MaterialPageRoute(
+              settings: settings, builder: (context) => MeditationHome(ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>));
+        }
+        return MaterialPageRoute(settings: settings, builder: (_) => const Splash());
+
       case meditationInfo:
         return MaterialPageRoute(settings: settings, builder: (_) => const MeditationInfo());
       case meditationStart:

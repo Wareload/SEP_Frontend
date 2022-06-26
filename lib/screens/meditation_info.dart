@@ -20,11 +20,9 @@ class _MeditationInfoState extends State<MeditationInfo> {
 
   @override
   Widget build(BuildContext context) {
-    var args = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
+    var args = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
     minutes = args['minutes'];
-    print(args);
-    _setTeam(args['team']);
+
     return Scaffold(
         backgroundColor: Colors.blueAccent,
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
@@ -38,9 +36,8 @@ class _MeditationInfoState extends State<MeditationInfo> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Widgets.getNavBarWithoutProfile(
-                            constraints, _back, "Meditation"),
-                        SizedBox(
+                        Widgets.getNavBarWithoutProfile(constraints, _back, "Meditation"),
+                        const SizedBox(
                           height: 100,
                         ),
                         textWidgetCentered("Setz dich gemütlich hin."),
@@ -52,9 +49,8 @@ class _MeditationInfoState extends State<MeditationInfo> {
                         textWidgetCentered("Konzentriere dich einfach wieder."),
                         textWidgetCentered("Wenn der Timer abläuft ertönt"),
                         textWidgetCentered("ein Signalton."),
-                        Widgets.getButtonStyleOrange("Los geht's",
-                            _goToMeditationStart, constraints, "Los geht's"),
-                        SizedBox(
+                        Widgets.getButtonStyleOrange(_goToMeditationStart, constraints, "Los geht's"),
+                        const SizedBox(
                           height: 100,
                         ),
                       ],
@@ -76,29 +72,22 @@ class _MeditationInfoState extends State<MeditationInfo> {
     super.initState();
   }
 
-  void _setTeam(Team team) async {
-    _team = team;
-    setState(() {});
-  }
-
   void _back() {
     Navigator.pop(context);
   }
 
   void _goToMeditationStart() {
-    Navigator.of(context).pushReplacementNamed(RouteGenerator.meditationStart,
-        arguments: {"minutes": minutes, "team": _team});
+    Navigator.of(context).pushReplacementNamed(RouteGenerator.meditationStart, arguments: {"minutes": minutes});
   }
 
   textWidgetCentered(String text) {
     return Center(
       child: Text(
         text,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 20,
           color: Settings.white,
-           
-fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.bold,
         ),
       ),
     );

@@ -27,16 +27,15 @@ bool gottimerstate = false;
 class _TeamDetailsState extends State<TeamDetails> {
   Mood _currentSelectedMood = Mood();
 
-  void loadData(team, leaderstate, profile) async {
+  void loadData(Team team, int leaderstate) async {
     try {
-      //timerstate
       canSelect = await Api.api.getMoodTimer(team.id);
       gottimerstate = true;
-      //teamapi
-      leaderstate= team.leader;
-      _team = await Api.api.getTeam(team.id);
+      leaderstate = team.leader;
+      // _team = await Api.api.getTeam(team.id);
+      _team = team;
       _team.leader = leaderstate;
-      _profile = profile;
+      _profile = await Api.api.getProfile();
       setState(() {
         isLoading = false;
       });
@@ -57,8 +56,7 @@ class _TeamDetailsState extends State<TeamDetails> {
               width: 50,
               height: 50,
             ))
-        : Scaffold(body:
-            SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+        : Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
             return Column(
               children: [
                 Widgets.getNavBar(constraints, _back, _team.name, _goToProfile, _profile),
@@ -70,25 +68,22 @@ class _TeamDetailsState extends State<TeamDetails> {
                     child: SingleChildScrollView(
                   child: Container(
                     padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-                    child: Column(
-                        children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [Widgets.getButtonStyle3(
-                          "Statistik", "assets/statistik_view.png", _goToStatistic, constraints),
-                        Widgets.getButtonStyle3(
-                            "Meditation", "assets/trees.png", _goToMeditation, constraints)],),
+                    child: Column(children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                        Widgets.getButtonStyle3(
-                            "Atemübungen", "assets/windy.png", _goToAtemUebung, constraints),
-                        // Widgets.getButtonStyle2("Umfragen", () {}, constraints), //Not implemented
-                        Widgets.getButtonStyle3("Team", "assets/users.png", () {
-                          Navigator.pushNamed(context, RouteGenerator.teamManage,
-                              arguments: {"team": _team});
-                        }, constraints)
-                      ],)
+                          Widgets.getButtonStyle3("Statistik", "assets/statistik_view.png", _goToStatistic, constraints),
+                          Widgets.getButtonStyle3("Meditation", "assets/trees.png", _goToMeditation, constraints)
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Widgets.getButtonStyle3("Atemübungen", "assets/windy.png", _goToAtemUebung, constraints),
+                          // Widgets.getButtonStyle2("Umfragen", () {}, constraints), //Not implemented
+                          Widgets.getButtonStyle3("Team", "assets/users.png", _goToTeam, constraints)
+                        ],
+                      )
                     ]),
                   ),
                 ))
@@ -99,7 +94,7 @@ class _TeamDetailsState extends State<TeamDetails> {
 
   @override
   void initState() {
-    loadData(widget.data["team"], widget.data["leader"], widget.data["profile"]);
+    loadData(widget.data["team"], widget.data["leader"]);
     super.initState();
   }
 
@@ -115,35 +110,44 @@ class _TeamDetailsState extends State<TeamDetails> {
   }
 
   void _goToStatistic() {
-    Navigator.of(context)
-        .pushNamed(RouteGenerator.teamHistorie, arguments: {"team": _team, "profile": _profile});
+    Navigator.of(context).pushNamed(RouteGenerator.teamHistorie, arguments: {"team": _team, "profile": _profile});
   }
 
   void _goToAtemUebung() {
-    Navigator.of(context)
-        .pushNamed(RouteGenerator.atemUebung, arguments: {"team": _team});
+    Navigator.of(context).pushNamed(RouteGenerator.atemUebung).then((value) => {
+          setState(() {}),
+          //to refresh the site when coming back
+          loadData(widget.data["team"], widget.data["leader"])
+        });
+    ;
   }
 
   void _goToMeditation() {
-    Navigator.of(context)
-        .pushNamed(RouteGenerator.meditationHome, arguments: {"team": _team, "profile": _profile});
+    Navigator.of(context).pushNamed(RouteGenerator.meditationHome, arguments: {"profile": _profile});
   }
 
   void _goToTeam() {
-              isLoading = true;
-    Navigator.pushNamed(context, RouteGenerator.teamManage,
-        arguments: {"team": _team});
+    isLoading = true;
+    Navigator.pushNamed(context, RouteGenerator.teamManage, arguments: {"team": _team});
+    ;
   }
 
   Widget getMoodEmojisByState(BoxConstraints constraints) {
     if (canSelect) {
       return Widgets.getMoodEmojis("Wie geht es dir heute?", () {}, () {
-        Navigator.of(context).pushNamed(RouteGenerator.moodSelect,
-            arguments: {'selectedMood': _currentSelectedMood, "team": _team, "profile": _profile});
+        //set boolean to display loading icon when coming back
+        isLoading = true;
+        Navigator.of(context).pushNamed(RouteGenerator.moodSelect, arguments: {'selectedMood': _currentSelectedMood, "team": _team}).then((value) => {
+              setState(() {
+                //to reset selected mood when going back
+                _currentSelectedMood = Mood();
+              }),
+              //to refresh the site when coming back
+              loadData(widget.data["team"], widget.data["leader"])
+            });
       }, () {}, constraints, _currentSelectedMood);
     } else {
-      return Widgets.getDisabledMoodEmojis(
-          _timemessage, () {}, () {}, () {}, constraints, _currentSelectedMood);
+      return Widgets.getDisabledMoodEmojis(_timemessage, () {}, () {}, () {}, constraints, _currentSelectedMood);
     }
   }
 }

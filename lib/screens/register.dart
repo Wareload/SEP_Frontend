@@ -137,7 +137,7 @@ class _RegisterState extends State<Register> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Widgets.getButtonStyleOrange("", _register, constraints, "Registrieren"),
+                          Widgets.getButtonStyleOrange(_register, constraints, "Registrieren"),
                           const SizedBox(
                             height: 5,
                           ),
@@ -191,8 +191,7 @@ class _RegisterState extends State<Register> {
       //padding: EdgeInsets.only(bottom: 30),
       child: Text(
         text,
-        style: TextStyle(color: Colors.black,  
-fontWeight: FontWeight.bold, fontSize: 20),
+        style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
       ),
       onPressed: func,
     );

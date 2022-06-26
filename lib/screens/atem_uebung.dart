@@ -16,7 +16,6 @@ class Atemuebung extends StatefulWidget {
 }
 
 class _AtemuebungState extends State<Atemuebung> {
-  Team _team = Team.empty();
   TextEditingController noteController = TextEditingController();
   int seconds = 4;
   Timer? timer;
@@ -25,12 +24,7 @@ class _AtemuebungState extends State<Atemuebung> {
 
   @override
   Widget build(BuildContext context) {
-    var args = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
-    _setTeam(args["team"]);
-
-    return Scaffold(
-        body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+    return Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return CustomScrollView(
         slivers: [
           SliverFillRemaining(
@@ -40,12 +34,10 @@ class _AtemuebungState extends State<Atemuebung> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Widgets.getNavBarWithoutProfile(
-                      constraints, _back, "Atemübung"),
+                  Widgets.getNavBarWithoutProfile(constraints, _back, "Atemübung"),
                   textWidgetCentered(getCurrentActivity()),
                   bubbleForSeconds(seconds),
-                  Widgets.getButtonStyleOrange(
-                      "Fertig", _goToTeamDetails, constraints, "Stopp"),
+                  Widgets.getButtonStyleOrange(_goToTeamDetails, constraints, "Stopp"),
                 ],
               ),
             ),
@@ -53,15 +45,6 @@ class _AtemuebungState extends State<Atemuebung> {
         ],
       );
     })));
-  }
-
-  void _setTeam(Team team) async {
-    try {
-      _team = await Api.api.getTeam(team.id);
-      setState(() {});
-    } catch (e) {
-      //no need to handle
-    }
   }
 
   @override
@@ -76,8 +59,7 @@ class _AtemuebungState extends State<Atemuebung> {
   }
 
   void _goToTeamDetails() {
-    Navigator.of(context).pushReplacementNamed(RouteGenerator.teamDetails,
-        arguments: {"team": _team});
+    Navigator.of(context).pop(context);
   }
 
   textWidgetCentered(String text) {
@@ -87,8 +69,7 @@ class _AtemuebungState extends State<Atemuebung> {
         style: const TextStyle(
           fontSize: 20,
           color: Colors.black,
-           
-fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.bold,
         ),
       ),
     );
@@ -109,8 +90,7 @@ fontWeight: FontWeight.bold,
             child: Center(
                 child: Text(
               second.toString(),
-              style: const TextStyle(fontSize: 50,  
-fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
             ))),
       ),
     );
@@ -131,7 +111,9 @@ fontWeight: FontWeight.bold),
   }
 
   updateSeconds(Timer timer) {
-    setState(() => seconds--);
+    if (mounted) {
+      setState(() => seconds--);
+    }
     if (seconds <= 0) {
       if (einatmen) {
         setHalten();

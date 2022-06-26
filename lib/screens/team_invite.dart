@@ -32,7 +32,7 @@ class _TeamInviteState extends State<TeamInvite> {
             return Column(children: <Widget>[
               Widgets.getNavBar(constraints, _back, "Teammitglied hinzufügen", _goToProfile, _profile),
               Widgets.getInputFieldLoginStyle("Email *", emailController, TextInputType.emailAddress),
-              Widgets.getButtonStyleOrange("", _sendInvitation, constraints, "Einladung senden"),
+              Widgets.getButtonStyleOrange(_sendInvitation, constraints, "Einladung senden"),
             ]);
           },
         ),
@@ -79,8 +79,7 @@ class _TeamInviteState extends State<TeamInvite> {
             alignment: Alignment.center,
             child: Text(
               btnText,
-              style: const TextStyle(fontSize: Settings.mainFontSize,  
-fontWeight: FontWeight.bold, color: Settings.white),
+              style: const TextStyle(fontSize: Settings.mainFontSize, fontWeight: FontWeight.bold, color: Settings.white),
             ),
           ),
         ),

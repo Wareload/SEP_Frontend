@@ -9,41 +9,62 @@ import '../structs/team.dart';
 import '../widgets/settings.dart';
 
 class MoodSelect extends StatefulWidget {
-  const MoodSelect({Key? key}) : super(key: key);
+  final Map data;
+
+  const MoodSelect(this.data, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _MoodSelectState();
 }
 
-class _MoodSelectState extends State<MoodSelect> {
-  Team _team = Team.empty();
-  Profile _profile = Profile.empty();
-  TextEditingController noteController = TextEditingController();
-  Mood _currentSelectedMood = Mood();
+bool isLoading = true;
+Team _team = Team.empty();
+Profile _profile = Profile.empty();
+Mood _currentSelectedMood = Mood();
 
-  bool isLoading = false;
+class _MoodSelectState extends State<MoodSelect> {
+  TextEditingController noteController = TextEditingController();
+
+  void loadData(Mood selectedMood, Team team) async {
+    try {
+      _currentSelectedMood = selectedMood;
+      // _team = await Api.api.getTeam(team.id);
+      _team = team;
+      _profile = await Api.api.getProfile();
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      //no need to handle
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    var args = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
-    _currentSelectedMood = args['selectedMood'];
-    _setTeam(args["team"]);
-    _setProfile(args["profile"]);
-
-    return Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
-      return SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Widgets.getNavBar(constraints, _back, "Wie geht es dir heute?", _goToProfile, _profile),
-            Widgets.displayInfoBoxWithTitle("Motivational Quote", "Persistance powers passion.", constraints),
-            Widgets.getMoodEmojis("Wie geht es Dir heute?", () {}, _renderNew, () {}, constraints, _currentSelectedMood),
-            Widgets.getInputField(noteController, TextInputType.text, constraints),
-            getButtonStyleOrangeWithAnimation(_submitMood, constraints, "Fertig", isLoading),
-          ],
-        ),
-      );
-    })));
+    return isLoading
+        ? Container(
+            color: Colors.white,
+            child: const SizedBox(
+              child: Align(
+                child: CircularProgressIndicator(),
+              ),
+              width: 50,
+              height: 50,
+            ))
+        : Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+            return SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Widgets.getNavBar(constraints, _back, "Wie geht es dir heute?", _goToProfile, _profile),
+                  Widgets.displayInfoBoxWithTitle("Motivational Quote", "Persistance powers passion.", constraints),
+                  Widgets.getMoodEmojis("Wie geht es Dir heute?", () {}, _renderNew, () {}, constraints, _currentSelectedMood),
+                  Widgets.getInputField(noteController, TextInputType.text, constraints),
+                  getButtonStyleOrangeWithAnimation(_submitMood, constraints, "Fertig", isLoading),
+                ],
+              ),
+            );
+          })));
   }
 
   Future<void> _submitMood() async {
@@ -63,17 +84,8 @@ class _MoodSelectState extends State<MoodSelect> {
 
   @override
   void initState() {
+    loadData(widget.data["selectedMood"], widget.data["team"]);
     super.initState();
-  }
-
-  void _setTeam(Team team) async {
-    _team = team;
-    setState(() {});
-  }
-
-  void _setProfile(Profile profile) async {
-    _profile = profile;
-    setState(() {});
   }
 
   void _back() {
@@ -116,8 +128,7 @@ class _MoodSelectState extends State<MoodSelect> {
                   alignment: Alignment.center,
                   child: Text(
                     btnText,
-                    style: const TextStyle(fontSize: Settings.mainFontSize,  
-fontWeight: FontWeight.bold, color: Colors.white),
+                    style: const TextStyle(fontSize: Settings.mainFontSize, fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                 ),
         ),

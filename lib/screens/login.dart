@@ -75,7 +75,7 @@ class _LoginState extends State<Login> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Widgets.getButtonStyleOrange("", _login, constraints, "Einloggen"),
+                      Widgets.getButtonStyleOrange(_login, constraints, "Einloggen"),
                       const SizedBox(
                         height: 25,
                       ),
@@ -125,8 +125,7 @@ class _LoginState extends State<Login> {
       //padding: EdgeInsets.only(bottom: 30),
       child: Text(
         text,
-        style: const TextStyle(color: Colors.black,  
-fontWeight: FontWeight.bold, fontSize: 20),
+        style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
       ),
       onPressed: func,
     );

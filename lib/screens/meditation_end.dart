@@ -14,15 +14,10 @@ class MeditationEnd extends StatefulWidget {
 }
 
 class _MeditationEndState extends State<MeditationEnd> {
-  Team _team = Team.empty();
   TextEditingController noteController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    var args = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
-    print(args);
-    _setTeam(args['team']);
     return Scaffold(
         backgroundColor: Colors.blueAccent,
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
@@ -31,31 +26,26 @@ class _MeditationEndState extends State<MeditationEnd> {
               SliverFillRemaining(
                 hasScrollBody: false,
                 child: Center(
-                  child: Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Widgets.getNavBarWithoutProfile(
-                            constraints, _back, "Meditation"),
-                        SizedBox(
-                          height: 100,
-                        ),
-                        textWidgetCentered("Sehr gut!"),
-                        textWidgetCentered("Nimm dir einen Moment, achte auf "),
-                        textWidgetCentered(
-                            "alle Geräusche in deiner Umgebung. "),
-                        textWidgetCentered("Nimm wahr, wie sich dein Körper"),
-                        textWidgetCentered("in diesem Moment fühlt."),
-                        textWidgetCentered("Nimm deine Gedanken "),
-                        textWidgetCentered("und Gefühle wahr."),
-                        Widgets.getButtonStyleOrange(
-                            "Fertig", _goToHome, constraints, "Fertig"),
-                        SizedBox(
-                          height: 100,
-                        ),
-                      ],
-                    ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Widgets.getNavBarWithoutProfile(constraints, _back, "Meditation"),
+                      const SizedBox(
+                        height: 100,
+                      ),
+                      textWidgetCentered("Sehr gut!"),
+                      textWidgetCentered("Nimm dir einen Moment, achte auf "),
+                      textWidgetCentered("alle Geräusche in deiner Umgebung. "),
+                      textWidgetCentered("Nimm wahr, wie sich dein Körper"),
+                      textWidgetCentered("in diesem Moment fühlt."),
+                      textWidgetCentered("Nimm deine Gedanken "),
+                      textWidgetCentered("und Gefühle wahr."),
+                      Widgets.getButtonStyleOrange(_goToHome, constraints, "Fertig"),
+                      const SizedBox(
+                        height: 100,
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -73,11 +63,6 @@ class _MeditationEndState extends State<MeditationEnd> {
     super.initState();
   }
 
-  void _setTeam(Team team) async {
-    _team = team;
-    setState(() {});
-  }
-
   void _back() {
     Navigator.pop(context);
   }
@@ -90,11 +75,10 @@ class _MeditationEndState extends State<MeditationEnd> {
     return Center(
       child: Text(
         text,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 20,
           color: Settings.white,
-           
-fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.bold,
         ),
       ),
     );

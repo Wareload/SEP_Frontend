@@ -26,11 +26,7 @@ class _MeditationTimerState extends State<MeditationTimer> {
 
   @override
   Widget build(BuildContext context) {
-    var args = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
-    print(args);
-
-    _setTeam(args['team']);
+    var args = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
 
     minutesGlobal = args['minutes'];
     if (!initDone) {
@@ -52,13 +48,12 @@ class _MeditationTimerState extends State<MeditationTimer> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Widgets.getNavBarWithoutProfile(
-                            constraints, _back, "Meditation"),
+                        Widgets.getNavBarWithoutProfile(constraints, _back, "Meditation"),
                         Center(
                             child: Column(
                           children: [
                             buildTime(),
-                            SizedBox(
+                            const SizedBox(
                               height: 30,
                             ),
                             timerControlBtn(),
@@ -67,9 +62,7 @@ class _MeditationTimerState extends State<MeditationTimer> {
                         Center(
                           child: halfBtnOrange("Fertig", () {
                             timer?.cancel();
-                            Navigator.of(context).pushReplacementNamed(
-                                RouteGenerator.meditationEnd,
-                                arguments: {"team": _team});
+                            Navigator.of(context).pushReplacementNamed(RouteGenerator.meditationEnd);
                           }),
                         ),
                       ],
@@ -100,11 +93,10 @@ class _MeditationTimerState extends State<MeditationTimer> {
     return Center(
       child: Text(
         text,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 20,
           color: Settings.white,
-           
-fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.bold,
         ),
       ),
     );
@@ -117,7 +109,7 @@ fontWeight: FontWeight.bold,
 
     return Text(
       '$minutes:$seconds',
-      style: TextStyle(fontSize: 80, color: Settings.white),
+      style: const TextStyle(fontSize: 80, color: Settings.white),
     );
   }
 
@@ -138,16 +130,17 @@ fontWeight: FontWeight.bold,
 
   void countTime() {
     final addSeconds = 1;
-    setState(() {
-      final seconds = duration.inSeconds - addSeconds;
-      if (seconds < 0) {
-        timer?.cancel();
-        Navigator.of(context).pushReplacementNamed(RouteGenerator.meditationEnd,
-            arguments: {"team": _team});
-      } else {
-        duration = Duration(seconds: seconds);
-      }
-    });
+    if (mounted) {
+      setState(() {
+        final seconds = duration.inSeconds - addSeconds;
+        if (seconds < 0) {
+          timer?.cancel();
+          Navigator.of(context).pushReplacementNamed(RouteGenerator.meditationEnd);
+        } else {
+          duration = Duration(seconds: seconds);
+        }
+      });
+    }
   }
 
   void reset() {
@@ -170,11 +163,7 @@ fontWeight: FontWeight.bold,
             alignment: Alignment.center,
             child: Text(
               btnText,
-              style: const TextStyle(
-                  fontSize: Settings.mainFontSize,
-                   
-fontWeight: FontWeight.bold,
-                  color: Settings.white),
+              style: const TextStyle(fontSize: Settings.mainFontSize, fontWeight: FontWeight.bold, color: Settings.white),
             ),
           ),
         ),

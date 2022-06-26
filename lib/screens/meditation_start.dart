@@ -16,16 +16,12 @@ class MeditationStart extends StatefulWidget {
 }
 
 class _MeditationStartState extends State<MeditationStart> {
-  Team _team = Team.empty();
   TextEditingController noteController = TextEditingController();
   int minutes = 1;
 
   @override
   Widget build(BuildContext context) {
-    var args = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
-    print(args);
-    _setTeam(args['team']);
+    var args = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
 
     minutes = args['minutes'];
 
@@ -42,12 +38,11 @@ class _MeditationStartState extends State<MeditationStart> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Widgets.getNavBarWithoutProfile(
-                            constraints, _back, "Meditation"),
+                        Widgets.getNavBarWithoutProfile(constraints, _back, "Meditation"),
                         Center(
                           child: textWidgetCentered("Schließe deine Augen."),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 100,
                         )
                       ],
@@ -63,16 +58,7 @@ class _MeditationStartState extends State<MeditationStart> {
   @override
   void initState() {
     super.initState();
-    Timer(
-        Duration(seconds: 4),
-        () => Navigator.of(context).pushReplacementNamed(
-            RouteGenerator.meditationTimer,
-            arguments: {"minutes": minutes, "team": _team}));
-  }
-
-  void _setTeam(Team team) async {
-    _team = team;
-    setState(() {});
+    Timer(Duration(seconds: 4), () => Navigator.of(context).pushReplacementNamed(RouteGenerator.meditationTimer, arguments: {"minutes": minutes}));
   }
 
   void _back() {
@@ -83,11 +69,10 @@ class _MeditationStartState extends State<MeditationStart> {
     return Center(
       child: Text(
         text,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 20,
           color: Settings.white,
-           
-fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.bold,
         ),
       ),
     );
