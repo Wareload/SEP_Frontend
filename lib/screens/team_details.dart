@@ -109,6 +109,7 @@ class _TeamDetailsState extends State<TeamDetails> {
     Navigator.pushNamed(context, RouteGenerator.profileOverview);
   }
 
+  //TODO Routing statistic
   void _goToStatistic() {
     Navigator.of(context).pushNamed(RouteGenerator.teamHistorie, arguments: {"team": _team, "profile": _profile});
   }
@@ -128,8 +129,11 @@ class _TeamDetailsState extends State<TeamDetails> {
 
   void _goToTeam() {
     isLoading = true;
-    Navigator.pushNamed(context, RouteGenerator.teamManage, arguments: {"team": _team});
-    ;
+    Navigator.pushNamed(context, RouteGenerator.teamManage, arguments: {"team": _team, "profile": _profile}).then((value) => {
+          setState(() {}),
+          //to refresh the site when coming back
+          loadData(widget.data["team"], widget.data["leader"])
+        });
   }
 
   Widget getMoodEmojisByState(BoxConstraints constraints) {

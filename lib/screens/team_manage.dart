@@ -12,53 +12,67 @@ import '../structs/team.dart';
 import '../widgets/settings.dart';
 
 class TeamManage extends StatefulWidget {
-  const TeamManage({Key? key}) : super(key: key);
+  final Map data;
+  const TeamManage(this.data, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _TeamManageState();
 }
+
+bool isLoading = true;
 
 class _TeamManageState extends State<TeamManage> {
   List<Team> teams = [];
   Team _team = Team.empty();
   Profile _profile = Profile.empty();
 
+  void loadData(Team team, Profile profile) async {
+    _team = await Api.api.getTeam(team.id);
+    _profile = profile;
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    var args = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
-    _setTeam(args["team"]);
-    _setProfile();
-
-    return Scaffold(
-        body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
-      return SingleChildScrollView(
-        child: Column(children: <Widget>[
-          Widgets.getNavBar(constraints, _back, _team.name, _goToProfile, _profile),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              textCenteredHeader("Mitglieder"),
-              const SizedBox(height: 3),
-              _getMember(constraints),
-              const SizedBox(height: 25),
-              Widgets.getButtonStyle2(
-                  "Hinzufügen", _goToTeamInvite, constraints),
-              const SizedBox(height: 2),
-              Widgets.getButtonStyle2("Team Care", () {
-                _goToTeamCare(_team);
-              }, constraints),
-              const SizedBox(height: 2),
-              getTeamDeleteButton(constraints),
-              const SizedBox(height: 25),
-              displayName(_profile.firstname + " " + _profile.lastname),
-              checkBoxRole(),
-            ],
-          ),
-        ]),
-      );
-    })));
+    return isLoading
+        ? Container(
+            color: Colors.white,
+            child: const SizedBox(
+              child: Align(
+                child: CircularProgressIndicator(),
+              ),
+              width: 50,
+              height: 50,
+            ))
+        : Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+            return SingleChildScrollView(
+              child: Column(children: <Widget>[
+                Widgets.getNavBar(constraints, _back, _team.name, _goToProfile, _profile),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    textCenteredHeader("Mitglieder"),
+                    const SizedBox(height: 3),
+                    _getMember(constraints),
+                    const SizedBox(height: 25),
+                    Widgets.getButtonStyle2("Hinzufügen", _goToTeamInvite, constraints),
+                    const SizedBox(height: 2),
+                    Widgets.getButtonStyle2("Team Care", () {
+                      _goToTeamCare(_team);
+                    }, constraints),
+                    const SizedBox(height: 2),
+                    getTeamDeleteButton(constraints),
+                    const SizedBox(height: 25),
+                    displayName(_profile.firstname + " " + _profile.lastname),
+                    checkBoxRole(),
+                  ],
+                ),
+              ]),
+            );
+          })));
   }
 
   Widget _getMember(constraints) {
@@ -75,48 +89,27 @@ class _TeamManageState extends State<TeamManage> {
         widgetsBottom.add(displayImageOfMember(element.firstName + " " + element.lastName, element.leader, constraints));
       }
     }
-    return Container(
-      child: SingleChildScrollView(
-        child: RawScrollbar(
-          thumbColor: Colors.blue,
-          radius: Radius.circular(20),
-          thickness: 5,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Column(
-              children: [
-                Row(
-                  children: widgetsTop,
-                ),
-                Row(
-                  children: widgetsBottom,
-                )
-              ],
-            ),
+
+    return SingleChildScrollView(
+      child: RawScrollbar(
+        thumbColor: Colors.blue,
+        radius: const Radius.circular(20),
+        thickness: 5,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Column(
+            children: [
+              Row(
+                children: widgetsTop,
+              ),
+              Row(
+                children: widgetsBottom,
+              )
+            ],
           ),
         ),
       ),
     );
-  }
-
-  //Get Profile
-  void _setProfile() async {
-    if (_profile.email != "email") {
-    } else {
-      try {
-        _profile = await Api.api.getProfile();
-        setState(() {});
-      } catch (e) {
-        //no need to handle
-      }
-    }
-  }
-
-  //Teams
-  void _setTeam(Team team) async {
-    _team = team;
-
-    setState(() {});
   }
 
   createAlertDialog(BuildContext context, String response) {
@@ -151,17 +144,14 @@ class _TeamManageState extends State<TeamManage> {
     String response = "Lädt...";
     try {
       response = await Api.api.deleteTeam(team.id);
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
     createAlertDialog(context, response);
   }
 
   Widget getTeams(BoxConstraints constraints) {
     List<Widget> widgets = [];
     for (var element in teams) {
-      widgets.add(Widgets.getButtonStyle2(
-          element.name, () => _goToTeam(element), constraints));
+      widgets.add(Widgets.getButtonStyle2(element.name, () => _goToTeam(element), constraints));
     }
     widgets.add(Widgets.getProjectAddWidget("+", _onCreateTeam, constraints));
     return Column(
@@ -170,8 +160,7 @@ class _TeamManageState extends State<TeamManage> {
   }
 
   void _goToTeam(Team team) {
-    Navigator.pushNamed(context, RouteGenerator.teamDetails,
-        arguments: {"team": team});
+    Navigator.pushNamed(context, RouteGenerator.teamDetails, arguments: {"team": team});
   }
 
   void _goToHome() {
@@ -179,8 +168,7 @@ class _TeamManageState extends State<TeamManage> {
   }
 
   void _goToTeamCare(Team team) {
-    Navigator.pushNamed(context, RouteGenerator.teamCare,
-        arguments: {"team": team});
+    Navigator.pushNamed(context, RouteGenerator.teamCare, arguments: {"team": team});
   }
 
   void _goToProfile() {
@@ -188,16 +176,17 @@ class _TeamManageState extends State<TeamManage> {
   }
 
   void _goToTeamInvite() {
-    Navigator.of(context)
-        .pushNamed(RouteGenerator.teamInvite, arguments: {"team": _team});
+    Navigator.of(context).pushNamed(RouteGenerator.teamInvite, arguments: {"team": _team, "profile": _profile});
   }
 
   void _back() {
+    isLoading = true;
     Navigator.pop(context);
   }
 
   @override
   void initState() {
+    loadData(widget.data["team"], widget.data["profile"]);
     super.initState();
   }
 
@@ -205,11 +194,10 @@ class _TeamManageState extends State<TeamManage> {
     Navigator.pushNamed(context, RouteGenerator.teamCreate);
   }
 
-  static Widget getButtonStyleOrange(
-      String display, VoidCallback func, String btnText) {
+  static Widget getButtonStyleOrange(String display, VoidCallback func, String btnText) {
     return Container(
-      padding: EdgeInsets.all(10),
-      margin: EdgeInsets.only(left: 10, right: 10),
+      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.only(left: 10, right: 10),
       child: Material(
         color: Colors.orange,
         borderRadius: BorderRadius.circular(50),
@@ -221,11 +209,7 @@ class _TeamManageState extends State<TeamManage> {
             alignment: Alignment.center,
             child: Text(
               btnText,
-              style: const TextStyle(
-                  fontSize: Settings.mainFontSize,
-                   
-fontWeight: FontWeight.bold,
-                  color: Settings.white),
+              style: const TextStyle(fontSize: Settings.mainFontSize, fontWeight: FontWeight.bold, color: Settings.white),
             ),
           ),
         ),
@@ -239,9 +223,7 @@ fontWeight: FontWeight.bold,
       alignment: Alignment.center,
       child: Text(
         fullName,
-        style: TextStyle(
-            fontSize: 26.0,  
-fontWeight: FontWeight.bold, color: Colors.black),
+        style: TextStyle(fontSize: 26.0, fontWeight: FontWeight.bold, color: Colors.black),
       ),
     );
   }
@@ -285,9 +267,7 @@ fontWeight: FontWeight.bold, color: Colors.black),
       child: Text(
         userFullName,
         textAlign: TextAlign.center,
-        style: TextStyle(
-            fontSize: 20.0,  
-fontWeight: FontWeight.bold, color: Colors.black),
+        style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.black),
       ),
     );
   }
@@ -328,11 +308,7 @@ fontWeight: FontWeight.bold, color: Colors.black),
           padding: EdgeInsets.only(bottom: 30),
           child: const Text(
             "Team löschen",
-            style: TextStyle(
-                color: Colors.black,
-                 
-fontWeight: FontWeight.normal,
-                fontSize: 20),
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.normal, fontSize: 20),
           ),
           onPressed: () {},
         ),
@@ -366,21 +342,17 @@ fontWeight: FontWeight.normal,
   }
 
   displayImageOfMember(String name, int leader, BoxConstraints constraints) {
-    return Column(
-      children: <Widget>[
-        Widgets.getProfilePictureInitials(name, false, constraints),
+    return Column(children: <Widget>[
+      Widgets.getProfilePictureInitials(name, false, constraints),
       Text(name),
-      ]
-    );
+    ]);
   }
 
   Widget textOnRedirectBtn(String btnText) {
     return Container(
       child: Text(
         btnText,
-        style: TextStyle(
-            fontSize: 20.0,  
-fontWeight: FontWeight.bold, color: Colors.white),
+        style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white),
       ),
     );
   }

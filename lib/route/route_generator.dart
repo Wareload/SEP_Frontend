@@ -80,9 +80,17 @@ class RouteGenerator {
       case teamCreate:
         return MaterialPageRoute(settings: settings, builder: (_) => const TeamCreate());
       case teamManage:
-        return MaterialPageRoute(settings: settings, builder: (_) => const TeamManage());
+        if (args is Map) {
+          return MaterialPageRoute(
+              settings: settings, builder: (context) => TeamManage(ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>));
+        }
+        return MaterialPageRoute(settings: settings, builder: (_) => const Splash());
       case teamInvite:
-        return MaterialPageRoute(settings: settings, builder: (_) => const TeamInvite());
+        if (args is Map) {
+          return MaterialPageRoute(
+              settings: settings, builder: (context) => TeamInvite(ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>));
+        }
+        return MaterialPageRoute(settings: settings, builder: (_) => const Splash());
       case teamCare:
         return MaterialPageRoute(settings: settings, builder: (_) => const TeamCare());
       case teamHistorie:

@@ -9,22 +9,30 @@ import '../structs/team.dart';
 import '../widgets/settings.dart';
 
 class TeamInvite extends StatefulWidget {
-  const TeamInvite({Key? key}) : super(key: key);
+  final Map data;
+  const TeamInvite(this.data, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _TeamInviteState();
 }
 
-class _TeamInviteState extends State<TeamInvite> {
-  Team _team = Team.empty();
-  Profile _profile = Profile.empty();
+Team _team = Team.empty();
+Profile _profile = Profile.empty();
+bool isLoading = true;
 
+class _TeamInviteState extends State<TeamInvite> {
   TextEditingController emailController = TextEditingController();
+
+  void loadData(Team team, Profile profile) {
+    _team = team;
+    _profile = profile;
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    var args = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
-    _setTeam(args["team"]);
-    _setProfile(args["profile"]);
     return Scaffold(
       body: SafeArea(
         child: LayoutBuilder(
@@ -44,9 +52,7 @@ class _TeamInviteState extends State<TeamInvite> {
     String response = "Erfolgreich";
     try {
       response = await Api.api.addTeamMember(_team.id, emailController.text);
-    } catch (e) {
-      print("Error:" + e.toString());
-    }
+    } catch (e) {}
     createAlertDialog(context, response);
     setState(() {});
   }
@@ -55,19 +61,29 @@ class _TeamInviteState extends State<TeamInvite> {
     return showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
-            title: Text(response),
-            actions: [
-              getButtonStyleOrange("", _goToTeam, "Ok"),
-            ],
-          );
+          //sehr undynamisch gelöst hier,,, vl bessere lösung mit errorcode??
+          if (response == "Server Fehler") {
+            return AlertDialog(
+              title: const Text("Eingegebene Email ungültig."),
+              actions: [
+                getButtonStyleOrange("", _removeAlertDialog, "Ok"),
+              ],
+            );
+          } else {
+            return AlertDialog(
+              title: const Text("Einladung gesendet!"),
+              actions: [
+                getButtonStyleOrange("", _goToTeam, "Ok"),
+              ],
+            );
+          }
         });
   }
 
   static Widget getButtonStyleOrange(String display, VoidCallback func, String btnText) {
     return Container(
-      padding: EdgeInsets.all(10),
-      margin: EdgeInsets.only(left: 10, right: 10),
+      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.only(left: 10, right: 10),
       child: Material(
         color: Colors.orange,
         borderRadius: BorderRadius.circular(50),
@@ -91,26 +107,23 @@ class _TeamInviteState extends State<TeamInvite> {
     Navigator.pushReplacementNamed(context, RouteGenerator.profileOverview);
   }
 
+  void _removeAlertDialog() {
+    Navigator.pop(context);
+  }
+
   void _goToTeam() {
-    Navigator.pushReplacementNamed(context, RouteGenerator.teamManage, arguments: {"team": _team});
+    //zwei mal pop ist gewollt. Close Alertdialog und close screen.
+    Navigator.pop(context);
+    Navigator.pop(context);
   }
 
   void _back() {
     Navigator.pop(context);
   }
 
-  void _setTeam(Team team) async {
-    _team = team;
-    setState(() {});
-  }
-
-  void _setProfile(Profile profile) async {
-    _profile = profile;
-    setState(() {});
-  }
-
   @override
   void initState() {
+    loadData(widget.data["team"], widget.data["profile"]);
     super.initState();
   }
 }

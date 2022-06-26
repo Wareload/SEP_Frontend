@@ -859,11 +859,14 @@ class Widgets {
   }
 
   static Widget getProfilePictureNavBar(Profile profile, constraints, VoidCallback callback) {
-    return InkWell(
-      onTap: () {
-        callback();
-      },
-      child: SizedBox(width: 56, height: 56, child: getProfilePictureInitials(profile.getFullName(), false, constraints)),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
+      child: InkWell(
+        onTap: () {
+          callback();
+        },
+        child: SizedBox(width: 56, height: 56, child: getProfilePictureInitials(profile.getFullName(), false, constraints)),
+      ),
     );
   }
 
