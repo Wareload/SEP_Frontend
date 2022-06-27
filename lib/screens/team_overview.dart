@@ -170,10 +170,10 @@ class _TeamOverviewState extends State<TeamOverview> {
             ),
             Container(
                 alignment: Alignment.bottomRight,
-                padding: EdgeInsets.only(left: 45, top: 10),
+                padding: const EdgeInsets.only(left: 45, top: 10),
                 child: Text(
                   "${_invitations}",
-                  style: TextStyle(color: Colors.pink, fontWeight: FontWeight.bold, fontSize: 22.0),
+                  style: const TextStyle(color: Colors.pink, fontWeight: FontWeight.bold, fontSize: 22.0),
                 )),
           ],
         ), //Icon(I
