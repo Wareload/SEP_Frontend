@@ -373,14 +373,13 @@ class _TeamManageState extends State<TeamManage> {
     if (intToBool(_team.leader)) {
       return [
         SpeedDialChild(
-          child: const Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
-          label: "Mitglied hinzufügen",
-          backgroundColor: Settings.blue,
-          onTap: () => _goToTeamInvite(),
-        ),
+            child: const Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+            label: "Mitglied hinzufügen",
+            backgroundColor: Settings.blue,
+            onTap: () => {_goToTeamInvite(), isDialOpen.value = false}),
         SpeedDialChild(
             child: const Icon(
               Icons.delete,
