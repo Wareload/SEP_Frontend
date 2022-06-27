@@ -12,82 +12,73 @@ import '../structs/team.dart';
 import '../widgets/settings.dart';
 
 class TeamHistorie extends StatefulWidget {
-  const TeamHistorie({Key? key}) : super(key: key);
+  final Map data;
+
+  const TeamHistorie(this.data, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _TeamHistorieState();
 }
 
+bool isLoading = true;
+List<Team> teams = [];
+Team _team = Team.empty();
+Profile _profile = Profile.empty();
+List<MoodObject> moods = [];
+
 class _TeamHistorieState extends State<TeamHistorie> {
-  List<Team> teams = [];
-  Team _team = Team.empty();
-  Profile _profile = Profile.empty();
-  bool moodsLoaded = false;
-  List<MoodObject> moods = [];
   int _daysToShow = 0;
   Map<String, List<MoodObject>> moodDates = {};
 
+  void loadData(Team team, Profile profile) async {
+    _team = team;
+    _profile = profile;
+    await _getTeamMoods();
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    var args = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
-    _setTeam(args["team"]);
-    _setProfile();
-    if (!moodsLoaded && _team.id != 0) {
-      print("Gettingteammoods");
-      _getTeamMoods();
-      moodsLoaded = true;
-    }
-    return Scaffold(
-        body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
-      return Column(children: <Widget>[
-        Widgets.getNavBar(constraints, _back, "Team-Historie", _goToProfile, _profile),
-        Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  getTimeButtons(),
-                  Text("Letzte ${_daysToShow + 1} Tage werden angezeigt"),
-                  const SizedBox(height: 10),
-                  SingleChildScrollView(child: getHistoryMoodWidgets()),
-                ],
+    return isLoading
+        ? Container(
+            color: Colors.white,
+            child: const SizedBox(
+              child: Align(
+                child: CircularProgressIndicator(),
               ),
-              getBottomBar(_goToPersonalStatistic, () {}),
-            ],
-          ),
-        ),
-      ]);
-    })));
-  }
-
-  //Get Profile
-  void _setProfile() async {
-    if (_profile.email != "email") {
-    } else {
-      print("submiting request for the profile");
-      try {
-        _profile = await Api.api.getProfile();
-        setState(() {});
-      } catch (e) {
-        //no need to handle
-      }
-    }
-  }
-
-  //Teams
-  void _setTeam(Team team) async {
-    _team = team;
-    setState(() {});
+              width: 50,
+              height: 50,
+            ))
+        : Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+            return Column(children: <Widget>[
+              Widgets.getNavBar(constraints, _back, "Team-Historie", _goToProfile, _profile),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        getTimeButtons(),
+                        Text("Letzte ${_daysToShow + 1} Tage werden angezeigt"),
+                        const SizedBox(height: 10),
+                        SingleChildScrollView(child: getHistoryMoodWidgets()),
+                      ],
+                    ),
+                    getBottomBar(_goToPersonalStatistic, () {}),
+                  ],
+                ),
+              ),
+            ]);
+          })));
   }
 
   void _goToPersonalStatistic() {
-    Navigator.pushReplacementNamed(context, RouteGenerator.personalStatistic,
-        arguments: {"team": _team});
+    Navigator.pushReplacementNamed(context, RouteGenerator.personalStatistic, arguments: {"team": _team, "profile": _profile});
   }
 
   void _goToProfile() {
@@ -95,8 +86,7 @@ class _TeamHistorieState extends State<TeamHistorie> {
   }
 
   void _goToTeamHistorieSingleDate(List<MoodObject> moodList) {
-    Navigator.of(context).pushNamed(RouteGenerator.teamHistorieSingleDate,
-        arguments: {"team": _team, "moodList": moodList});
+    Navigator.of(context).pushNamed(RouteGenerator.teamHistorieSingleDate, arguments: {"team": _team, "moodList": moodList, "profile": _profile});
   }
 
   void _back() {
@@ -105,20 +95,18 @@ class _TeamHistorieState extends State<TeamHistorie> {
 
   @override
   void initState() {
+    loadData(widget.data["team"], widget.data["profile"]);
     super.initState();
   }
 
   Future<void> _getTeamMoods() async {
     String twoDigits(int n) => n.toString().padLeft(2, '0'); //9 would get to 09
     DateTime now = new DateTime.now();
-    String endDate =
-        "${now.year}-${twoDigits(now.month)}-${twoDigits(now.day)}";
+    String endDate = "${now.year}-${twoDigits(now.month)}-${twoDigits(now.day)}";
     DateTime startDateTime = new DateTime.now();
     startDateTime = startDateTime.subtract(Duration(days: _daysToShow));
-    String startDate =
-        "${startDateTime.year}-${twoDigits(startDateTime.month)}-${twoDigits(startDateTime.day)}";
+    String startDate = "${startDateTime.year}-${twoDigits(startDateTime.month)}-${twoDigits(startDateTime.day)}";
     try {
-      print("teamid: ${_team.id} ${startDate} ${endDate}");
       moods = await Api.api.getTeamMood(_team.id, startDate, endDate);
       moodDates = {};
       for (var element in moods) {
@@ -134,9 +122,7 @@ class _TeamHistorieState extends State<TeamHistorie> {
         }
       }
       setState(() {});
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 
   Widget getTimeButtons() {
@@ -159,9 +145,7 @@ class _TeamHistorieState extends State<TeamHistorie> {
           child: Text(display),
           style: ButtonStyle(
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18.0),
-                      side: const BorderSide(color: Settings.blueAccent))))),
+                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0), side: const BorderSide(color: Settings.blueAccent))))),
     );
   }
 
@@ -174,51 +158,33 @@ class _TeamHistorieState extends State<TeamHistorie> {
   Widget textWhiteH3(String teamname) {
     return Text(
       teamname,
-      style: const TextStyle(
-           
-fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
+      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
     );
   }
 
   Widget textWhiteH2(String teamname) {
     return Text(
       teamname,
-      style: const TextStyle(
-           
-fontWeight: FontWeight.normal, fontSize: 18, color: Colors.white),
+      style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 18, color: Colors.white),
     );
   }
 
   Widget getTeamAverage(double average) {
     return Text(
       (4 - (average + 1)).toString(),
-      style: TextStyle(
-           
-fontWeight: FontWeight.bold,
-          fontSize: 30,
-          color: getColorByMood(average)),
+      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: getColorByMood(average)),
     );
   }
 
   getSubmitCounter(int submits) {
     return Text(
       "Abstimmungen: $submits",
-      style: TextStyle(
-           
-fontWeight: FontWeight.bold, fontSize: 20, color: Settings.white),
+      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Settings.white),
     );
   }
 
-  static displayEmoji(String s, MaterialColor color, VoidCallback callback,
-      MoodObject selectedMood) {
-    List moodnames = <String>[
-      "Sehr gut",
-      "Gut",
-      "alles gut",
-      "naja",
-      "Schlecht",
-      "Sehr schlecht"
-    ];
+  static displayEmoji(String s, MaterialColor color, VoidCallback callback, MoodObject selectedMood) {
+    List moodnames = <String>["Sehr gut", "Gut", "alles gut", "naja", "Schlecht", "Sehr schlecht"];
     List moodPaths = <String>[
       "assets/verygood.png",
       "assets/good.png",
@@ -251,14 +217,13 @@ fontWeight: FontWeight.bold, fontSize: 20, color: Settings.white),
 
   Widget getHistoryMoodWidgets() {
     List<Widget> widgets = [];
-    moodDates.forEach((date, moodlist) {
+    moodDates.forEach((date, moodList) {
       double averageMood = 0;
-      for (var element in moodlist) {
+      for (var element in moodList) {
         averageMood += element.activeMood;
       }
-      averageMood = averageMood / moodlist.length;
-      print("-------------------------" + averageMood.toString());
-      widgets.add(getTeamMoodWidget(date, averageMood, moodlist));
+      averageMood = averageMood / moodList.length;
+      widgets.add(getTeamMoodWidget(date, averageMood, moodList));
     });
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -266,22 +231,18 @@ fontWeight: FontWeight.bold, fontSize: 20, color: Settings.white),
     );
   }
 
-  Widget getTeamMoodWidget(
-      String date, double averageMood, List<MoodObject> moodList) {
-    print("-------------------------" + averageMood.toInt().toString());
-
+  Widget getTeamMoodWidget(String date, double averageMood, List<MoodObject> moodList) {
     return InkWell(
       onTap: () {
         _goToTeamHistorieSingleDate(moodList);
       },
       child: Container(
-          margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
-          padding: EdgeInsets.all(15),
+          margin: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+          padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
               border: Border.all(color: Colors.blue),
               color: Settings.blueAccent,
-              borderRadius: BorderRadius.circular(
-                  20) // use instead of BorderRadius.all(Radius.circular(20))
+              borderRadius: BorderRadius.circular(20) // use instead of BorderRadius.all(Radius.circular(20))
               ),
           child: Container(
             color: Settings.blueAccent,
@@ -296,8 +257,7 @@ fontWeight: FontWeight.bold, fontSize: 20, color: Settings.white),
                     getSubmitCounter(moodList.length),
                   ],
                 ),
-                displayEmoji("", Colors.green, () => {},
-                    MoodObject(averageMood.toInt(), date, "test")),
+                displayEmoji("", Colors.green, () => {}, MoodObject(averageMood.toInt(), date, "test")),
               ],
             ),
           )),
@@ -339,8 +299,7 @@ fontWeight: FontWeight.bold, fontSize: 20, color: Settings.white),
               style: TextStyle(
                   color: Colors.transparent,
                   shadows: [Shadow(color: Colors.black, offset: Offset(0, -5))],
-                   
-fontWeight: FontWeight.normal,
+                  fontWeight: FontWeight.normal,
                   decoration: getUnderlineByBool(active),
                   decorationColor: Colors.blue,
                   decorationThickness: 4,

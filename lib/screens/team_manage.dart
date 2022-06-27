@@ -172,7 +172,7 @@ class _TeamManageState extends State<TeamManage> {
   }
 
   void _goToProfile() {
-    Navigator.pushNamed(context, RouteGenerator.profileOverview);
+    Navigator.popAndPushNamed(context, RouteGenerator.profileOverview);
   }
 
   void _goToTeamInvite() {

@@ -94,9 +94,19 @@ class RouteGenerator {
       case teamCare:
         return MaterialPageRoute(settings: settings, builder: (_) => const TeamCare());
       case teamHistorie:
-        return MaterialPageRoute(settings: settings, builder: (_) => const TeamHistorie());
+        if (args is Map) {
+          return MaterialPageRoute(
+              settings: settings, builder: (context) => TeamHistorie(ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>));
+        }
+        return MaterialPageRoute(settings: settings, builder: (_) => const Splash());
+
       case teamHistorieSingleDate:
-        return MaterialPageRoute(settings: settings, builder: (_) => const HistorySingleDate());
+        if (args is Map) {
+          return MaterialPageRoute(
+              settings: settings, builder: (context) => HistorySingleDate(ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>));
+        }
+        return MaterialPageRoute(settings: settings, builder: (_) => const Splash());
+
       case moodSelect:
         if (args is Map) {
           return MaterialPageRoute(
@@ -122,7 +132,11 @@ class RouteGenerator {
       case atemUebung:
         return MaterialPageRoute(settings: settings, builder: (_) => const Atemuebung());
       case personalStatistic:
-        return MaterialPageRoute(settings: settings, builder: (_) => const PersonalStatistic());
+        if (args is Map) {
+          return MaterialPageRoute(
+              settings: settings, builder: (context) => PersonalStatistic(ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>));
+        }
+        return MaterialPageRoute(settings: settings, builder: (_) => const Splash());
       case showInvitations:
         return MaterialPageRoute(settings: settings, builder: (_) => const ProfileInvitations());
       default:

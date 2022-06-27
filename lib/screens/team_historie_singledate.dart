@@ -8,44 +8,55 @@ import '../structs/profile.dart';
 import '../structs/team.dart';
 
 class HistorySingleDate extends StatefulWidget {
-  const HistorySingleDate({Key? key}) : super(key: key);
+  final Map data;
+
+  const HistorySingleDate(this.data, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _HistorySingleDateState();
 }
 
+Team _team = Team.empty();
+Profile _profile = Profile.empty();
+List<MoodObject> moods = [];
+bool isLoading = true;
+
 class _HistorySingleDateState extends State<HistorySingleDate> {
-  Team _team = Team.empty();
-  Profile _profile = Profile.empty();
   TextEditingController noteController = TextEditingController();
-  bool moodsLoaded = false;
-  List<MoodObject> moods = [];
+
+  void loadData(Team team, List<MoodObject> moodList, Profile profile) {
+    _team = team;
+    _profile = profile;
+    moods = moodList;
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    var args = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
-    _setTeam(args["team"]);
-    _setMoodList(args["moodList"]);
-    _setProfile(args["profile"]);
-    if (!moodsLoaded && _team.id != 0) {
-      moodsLoaded = true;
-    }
-
-    return Scaffold(
-        body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
-      return SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Widgets.getNavBar(
-                constraints, _back, "Personal Statistic", _goToProfile, _profile),
-            //Text(moods),
-            getMoodWidgets()
-          ],
-        ),
-      );
-    })));
+    return isLoading
+        ? Container(
+            color: Colors.white,
+            child: const SizedBox(
+              child: Align(
+                child: CircularProgressIndicator(),
+              ),
+              width: 50,
+              height: 50,
+            ))
+        : Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+            return SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Widgets.getNavBar(constraints, _back, "Personal Statistic", _goToProfile, _profile),
+                  //Text(moods),
+                  getMoodWidgets()
+                ],
+              ),
+            );
+          })));
   }
 
   Widget getMoodWidgets() {
@@ -59,27 +70,10 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
     );
   }
 
-  void _renderNew() {
-    setState(() {});
-  }
-
   @override
   void initState() {
+    loadData(widget.data["team"], widget.data["moodList"], widget.data["profile"]);
     super.initState();
-  }
-
-  void _setTeam(Team team) async {
-    _team = team;
-    setState(() {});
-  }
-
-  void _setProfile(Profile profile) async {
-    _profile = profile;
-    setState(() {});
-  }
-
-  void _setMoodList(List<MoodObject> moodList) async {
-    moods = moodList;
   }
 
   void _back() {
@@ -87,20 +81,19 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
   }
 
   void _goToProfile() {
+    Navigator.pop(context);
     Navigator.popAndPushNamed(context, RouteGenerator.profileOverview);
   }
 
   timeButton(String display, VoidCallback func) {
     return Container(
-      padding: EdgeInsets.only(left: 5),
+      padding: const EdgeInsets.only(left: 5),
       child: ElevatedButton(
           onPressed: func,
           child: Text(display),
           style: ButtonStyle(
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18.0),
-                      side: BorderSide(color: Settings.blueAccent))))),
+                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0), side: BorderSide(color: Settings.blueAccent))))),
     );
   }
 
@@ -109,10 +102,9 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
         margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
         padding: EdgeInsets.all(15),
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.blue,width: 3),
+            border: Border.all(color: Colors.blue, width: 3),
             color: Colors.grey.withOpacity(0.5),
-            borderRadius: BorderRadius.circular(
-                20) // use instead of BorderRadius.all(Radius.circular(20))
+            borderRadius: BorderRadius.circular(20) // use instead of BorderRadius.all(Radius.circular(20))
             ),
         child: Container(
           child: Row(
@@ -135,29 +127,19 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
   Widget textWhiteH3(String teamname) {
     return Text(
       teamname,
-      style: TextStyle(
-fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
+      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
     );
   }
 
   Widget textWhiteH2(String teamname) {
     return Text(
       teamname,
-      style: TextStyle(
-fontWeight: FontWeight.normal, fontSize: 15, color: Colors.black),
+      style: TextStyle(fontWeight: FontWeight.normal, fontSize: 15, color: Colors.black),
     );
   }
 
-  static displayEmoji(String s, MaterialColor color, VoidCallback callback,
-      MoodObject selectedMood, int id) {
-    List moodnames = <String>[
-      "Sehr gut",
-      "Gut",
-      "alles gut",
-      "naja",
-      "Schlecht",
-      "Sehr schlecht"
-    ];
+  static displayEmoji(String s, MaterialColor color, VoidCallback callback, MoodObject selectedMood, int id) {
+    List moodnames = <String>["Sehr gut", "Gut", "alles gut", "naja", "Schlecht", "Sehr schlecht"];
     List moodPaths = <String>[
       "assets/verygood.png",
       "assets/good.png",

@@ -8,57 +8,70 @@ import '../structs/profile.dart';
 import '../structs/team.dart';
 
 class PersonalStatistic extends StatefulWidget {
-  const PersonalStatistic({Key? key}) : super(key: key);
+  final Map data;
+
+  const PersonalStatistic(this.data, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _PersonalStatisticState();
 }
 
+Team _team = Team.empty();
+Profile _profile = Profile.empty();
+List<MoodObject> moods = [];
+bool isLoading = true;
+
 class _PersonalStatisticState extends State<PersonalStatistic> {
-  Team _team = Team.empty();
-  Profile _profile = Profile.empty();
   TextEditingController noteController = TextEditingController();
   bool moodsLoaded = false;
-  List<MoodObject> moods = [];
+
   int _daysToShow = 0;
+
+  void loadData(Team team, Profile profile) {
+    _team = team;
+    _profile = profile;
+    _getPersonalMoods();
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    var args = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
-    _setTeam(args["team"]);
-    _setProfile(args["profile"]);
-    if (!moodsLoaded && _team.id != 0) {
-      _getPersonalMoods();
-      moodsLoaded = true;
-    }
-
-    return Scaffold(
-        body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
-      return Column(children: <Widget>[
-        Widgets.getNavBar(
-            constraints, _back, "Personal Statistic", _goToProfile, _profile),
-        Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  getTimeButtons(),
-                  Text("Letzte ${_daysToShow + 1} Tage werden angezeigt"),
-                  const SizedBox(height: 10),
-                  getMoodWidgets()
-                ],
+    return isLoading
+        ? Container(
+            color: Colors.white,
+            child: const SizedBox(
+              child: Align(
+                child: CircularProgressIndicator(),
               ),
-              getBottomBar(() {}, _goToHistory),
-            ],
-          ),
-        ),
-      ]);
-    })));
+              width: 50,
+              height: 50,
+            ))
+        : Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+            return Column(children: <Widget>[
+              Widgets.getNavBar(constraints, _back, "Personal Statistic", _goToProfile, _profile),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        getTimeButtons(),
+                        Text("Letzte ${_daysToShow + 1} Tage werden angezeigt"),
+                        const SizedBox(height: 10),
+                        getMoodWidgets()
+                      ],
+                    ),
+                    getBottomBar(() {}, _goToHistory),
+                  ],
+                ),
+              ),
+            ]);
+          })));
   }
 
   Widget getMoodWidgets() {
@@ -74,6 +87,7 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
 
   @override
   void initState() {
+    loadData(widget.data["team"], widget.data["profile"]);
     super.initState();
   }
 
@@ -90,18 +104,14 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
   Future<void> _getPersonalMoods() async {
     String twoDigits(int n) => n.toString().padLeft(2, '0'); //9 would get to 09
     DateTime now = new DateTime.now();
-    String endDate =
-        "${now.year}-${twoDigits(now.month)}-${twoDigits(now.day)}";
+    String endDate = "${now.year}-${twoDigits(now.month)}-${twoDigits(now.day)}";
     DateTime startDateTime = new DateTime.now();
     startDateTime = startDateTime.subtract(Duration(days: _daysToShow));
-    String startDate =
-        "${startDateTime.year}-${twoDigits(startDateTime.month)}-${twoDigits(startDateTime.day)}";
+    String startDate = "${startDateTime.year}-${twoDigits(startDateTime.month)}-${twoDigits(startDateTime.day)}";
     try {
       moods = await Api.api.getPersonalMood(_team.id, startDate, endDate);
       setState(() {});
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 
   void _back() {
@@ -113,8 +123,7 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
   }
 
   void _goToHistory() {
-    Navigator.pushReplacementNamed(context, RouteGenerator.teamHistorie,
-        arguments: {"team": _team});
+    Navigator.pushReplacementNamed(context, RouteGenerator.teamHistorie, arguments: {"team": _team, "profile": _profile});
   }
 
   Widget getTimeButtons() {
@@ -137,9 +146,7 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
           child: Text(display),
           style: ButtonStyle(
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18.0),
-                      side: BorderSide(color: Settings.blueAccent))))),
+                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0), side: BorderSide(color: Settings.blueAccent))))),
     );
   }
 
@@ -154,10 +161,9 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
         margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
         padding: EdgeInsets.all(15),
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.blue,width: 3),
+            border: Border.all(color: Colors.blue, width: 3),
             color: Colors.grey.withOpacity(0.5),
-            borderRadius: BorderRadius.circular(
-                20) // use instead of BorderRadius.all(Radius.circular(20))
+            borderRadius: BorderRadius.circular(20) // use instead of BorderRadius.all(Radius.circular(20))
             ),
         child: Container(
           //color: Colors.grey.withOpacity(0.5),
@@ -165,8 +171,7 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              displayEmoji(
-                  "assets/verygood.png", Colors.green, () => {}, element, 0),
+              displayEmoji("assets/verygood.png", Colors.green, () => {}, element, 0),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -182,29 +187,19 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
   Widget textWhiteH3(String teamname) {
     return Text(
       teamname,
-      style: TextStyle(
-fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
+      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
     );
   }
 
   Widget textWhiteH2(String teamname) {
     return Text(
       teamname,
-      style: TextStyle(
-fontWeight: FontWeight.normal, fontSize: 15, color: Colors.black),
+      style: TextStyle(fontWeight: FontWeight.normal, fontSize: 15, color: Colors.black),
     );
   }
 
-  static displayEmoji(String s, MaterialColor color, VoidCallback callback,
-      MoodObject selectedMood, int id) {
-    List moodnames = <String>[
-      "Sehr gut",
-      "Gut",
-      "alles gut",
-      "naja",
-      "Schlecht",
-      "Sehr schlecht"
-    ];
+  static displayEmoji(String s, MaterialColor color, VoidCallback callback, MoodObject selectedMood, int id) {
+    List moodnames = <String>["Sehr gut", "Gut", "alles gut", "naja", "Schlecht", "Sehr schlecht"];
     List moodPaths = <String>[
       "assets/verygood.png",
       "assets/good.png",
@@ -258,8 +253,7 @@ fontWeight: FontWeight.normal, fontSize: 15, color: Colors.black),
               style: TextStyle(
                   color: Colors.transparent,
                   shadows: [Shadow(color: Colors.black, offset: Offset(0, -5))],
-                   
-fontWeight: FontWeight.normal,
+                  fontWeight: FontWeight.normal,
                   decoration: getUnderlineByBool(active),
                   decorationColor: Colors.blue,
                   decorationThickness: 4,
