@@ -78,7 +78,6 @@ class _TeamOverviewState extends State<TeamOverview> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Widgets.getTextFieldH2Black("Hallo " + _profile.firstname + "!", constraints),
-                      getInvitations(),
                       Widgets.getProfilePictureNavBar(_profile, constraints, _goToProfile),
                     ],
                   ),
@@ -139,7 +138,7 @@ class _TeamOverviewState extends State<TeamOverview> {
   }
 
   void _onCreateTeam() {
-    Navigator.pushNamed(context, RouteGenerator.teamCreate).then((value) => {apiCalls()});
+    Navigator.pushNamed(context, RouteGenerator.teamCreate, arguments: {"invitations": invitations}).then((value) => {apiCalls()});
   }
 
   Future<void> initInvitations() async {
@@ -157,7 +156,7 @@ class _TeamOverviewState extends State<TeamOverview> {
           shape: RoundedRectangleBorder(
               //to set border radius to button
               borderRadius: BorderRadius.circular(10)),
-          padding: EdgeInsets.all(0) //content padding inside button
+          padding: const EdgeInsets.all(0) //content padding inside button
           ),
       onPressed: _goToInvitations,
       child: Center(
