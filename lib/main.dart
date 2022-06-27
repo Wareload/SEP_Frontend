@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:moody/widgets/settings.dart';
 
 import 'route/route_generator.dart';
 
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         fontFamily: 'Chivo',
-        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.blue),
+        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Settings.blue),
         primaryColor: Colors.white,
       ),
       debugShowCheckedModeBanner: false,

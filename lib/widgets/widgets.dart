@@ -197,7 +197,7 @@ fontWeight: FontWeight.bold, fontSize: 22, color: Colors.black),
             Container(
               padding: EdgeInsets.all(10),
               decoration: const BoxDecoration(
-                  color: Colors.blue,
+                  color: Settings.blue,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.elliptical(20.0, 20),
                     topRight: Radius.elliptical(20.0, 20),
@@ -604,7 +604,7 @@ fontWeight: FontWeight.bold,
                     Container(
                       padding: const EdgeInsets.all(5),
                       decoration: const BoxDecoration(
-                          color: Colors.blue,
+                          color: Settings.blue,
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.elliptical(20.0, 20),
                             topRight: Radius.elliptical(20.0, 20),
@@ -678,7 +678,7 @@ fontWeight: FontWeight.bold,
                     Container(
                       padding: const EdgeInsets.all(5),
                       decoration: const BoxDecoration(
-                          color: Colors.blue,
+                          color: Settings.blue,
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.elliptical(20.0, 20),
                             topRight: Radius.elliptical(20.0, 20),
@@ -862,7 +862,7 @@ fontWeight: FontWeight.bold,
             Container(
               padding: EdgeInsets.all(5),
               decoration: const BoxDecoration(
-                  color: Colors.blue,
+                  color: Settings.blue,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.elliptical(20.0, 20),
                     topRight: Radius.elliptical(20.0, 20),
@@ -1087,7 +1087,7 @@ static Widget getMoodEmojisOld(display, VoidCallback click, VoidCallback select1
                   Container(
                     padding: const EdgeInsets.all(5),
                     decoration: const BoxDecoration(
-                        color: Colors.blue,
+                        color: Settings.blue,
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.elliptical(20.0, 20),
                           topRight: Radius.elliptical(20.0, 20),
@@ -1111,7 +1111,7 @@ static Widget getMoodEmojisOld(display, VoidCallback click, VoidCallback select1
                           children: [
                             displayEmoji("assets/smile.png", Colors.green, select1, feelingStatus, 0),
                             displayEmoji("assets/happy.png", Colors.orange, select1, feelingStatus, 1),
-                            displayEmoji("assets/steam.png", Colors.blue, select1, feelingStatus, 2),
+                            displayEmoji("assets/steam.png", Settings.blue, select1, feelingStatus, 2),
                             displayEmoji("assets/neutral.png", Colors.grey, select1, feelingStatus, 3),
                           ],
                         ),
@@ -1146,7 +1146,7 @@ static displayEmojiLegendeOld() {
             children: [
               displaySingeMood("glücklich", Colors.lightGreen),
               displaySingeMood("motiviert", Colors.orange),
-              displaySingeMood("frustriert", Colors.blue),
+              displaySingeMood("frustriert", Settings.blue),
               displaySingeMood("neutral", Colors.grey),
             ],
           ),

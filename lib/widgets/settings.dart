@@ -15,7 +15,7 @@ class Settings {
   static const whiteAccent = Colors.white70;
   static const grey = Colors.grey;
   static const greyAccent = Colors.blueGrey;
-  static const blue = Colors.blue;
+  static const blue = Color(0xFF5A7CF8);
   static const blueAccent = Colors.blueAccent;
   static const orange = Colors.orange;
   static const orangeAccent = Colors.orangeAccent;

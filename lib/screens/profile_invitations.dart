@@ -97,7 +97,7 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
         margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
         padding: EdgeInsets.all(15),
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.blue),
+            border: Border.all(color: Settings.blue),
             color: Settings.blueAccent,
             borderRadius: BorderRadius.circular(
                 20) // use instead of BorderRadius.all(Radius.circular(20))

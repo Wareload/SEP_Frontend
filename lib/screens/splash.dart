@@ -68,7 +68,7 @@ class _SplashState extends State<Splash> {
   Widget _startAnimation() {
     Future.delayed(const Duration(milliseconds: 10), () {
       setState(() {
-        bottomColor = Colors.blue;
+        bottomColor = Settings.blue;
       });
     });
     return Container();

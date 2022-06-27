@@ -29,7 +29,7 @@ class _TeamCreateState extends State<TeamCreate> {
               IconButton(
                   onPressed: _onBack,
                   icon: Icon(Icons.arrow_back,
-                      color: Colors.blue, size: constraints.maxWidth * 0.15)),
+                      color: Settings.blue, size: constraints.maxWidth * 0.15)),
               Widgets.getTextFieldH3C("Team erstellen", constraints),
             ],
           ),

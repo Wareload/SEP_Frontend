@@ -146,7 +146,7 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
         margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
         padding: EdgeInsets.all(15),
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.blue,width: 3),
+            border: Border.all(color: Settings.blue,width: 3),
             color: Colors.grey.withOpacity(0.5),
             borderRadius: BorderRadius.circular(
                 20) // use instead of BorderRadius.all(Radius.circular(20))
@@ -253,7 +253,7 @@ fontWeight: FontWeight.normal, fontSize: 15, color: Colors.black),
                    
 fontWeight: FontWeight.normal,
                   decoration: getUnderlineByBool(active),
-                  decorationColor: Colors.blue,
+                  decorationColor: Settings.blue,
                   decorationThickness: 4,
                   fontSize: 20),
             ),

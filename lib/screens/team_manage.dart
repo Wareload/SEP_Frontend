@@ -80,7 +80,7 @@ class _TeamManageState extends State<TeamManage> {
     return Container(
       child: SingleChildScrollView(
         child: RawScrollbar(
-          thumbColor: Colors.blue,
+          thumbColor: Settings.blue,
           radius: Radius.circular(20),
           thickness: 5,
           child: SingleChildScrollView(
@@ -253,7 +253,7 @@ fontWeight: FontWeight.bold, color: Colors.black),
     return Container(
       child: SingleChildScrollView(
         child: RawScrollbar(
-          thumbColor: Colors.blue,
+          thumbColor: Settings.blue,
           radius: Radius.circular(20),
           thickness: 5,
           child: SingleChildScrollView(
@@ -346,7 +346,7 @@ fontWeight: FontWeight.normal,
     return Container(
       padding: const EdgeInsets.only(left: 25, right: 25),
       child: Material(
-        color: Colors.blue,
+        color: Settings.blue,
         borderRadius: BorderRadius.circular(50),
         child: InkWell(
           onTap: () {

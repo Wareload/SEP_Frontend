@@ -278,7 +278,7 @@ fontWeight: FontWeight.bold, fontSize: 20, color: Settings.white),
           margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
           padding: EdgeInsets.all(15),
           decoration: BoxDecoration(
-              border: Border.all(color: Colors.blue),
+              border: Border.all(color: Settings.blue),
               color: Settings.blueAccent,
               borderRadius: BorderRadius.circular(
                   20) // use instead of BorderRadius.all(Radius.circular(20))
@@ -342,7 +342,7 @@ fontWeight: FontWeight.bold, fontSize: 20, color: Settings.white),
                    
 fontWeight: FontWeight.normal,
                   decoration: getUnderlineByBool(active),
-                  decorationColor: Colors.blue,
+                  decorationColor: Settings.blue,
                   decorationThickness: 4,
                   fontSize: 20),
             ),
