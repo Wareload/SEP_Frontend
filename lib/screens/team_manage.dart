@@ -209,85 +209,12 @@ class _TeamManageState extends State<TeamManage> {
     );
   }
 
-  Widget displayName(String userFullName) {
-    return Container(
-      padding: EdgeInsets.fromLTRB(0, 5, 0, 10),
-      alignment: Alignment.center,
-      child: Text(
-        userFullName,
-        textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.black),
-      ),
-    );
-  }
-
-  checkBoxRole() {
-    final theme = Theme.of(context);
-    final oldCheckboxTheme = theme.checkboxTheme;
-
-    final newCheckBoxTheme = oldCheckboxTheme.copyWith(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-    );
-    return Container(
-      padding: const EdgeInsets.only(left: 50, right: 50),
-      child: Theme(
-        data: theme.copyWith(checkboxTheme: newCheckBoxTheme),
-        child: Column(
-          children: [
-            getRightCheckbox(),
-          ],
-        ),
-      ),
-    );
-  }
-
   intToBool(int input) {
     if (input == 1) {
       return true;
     } else {
       return false;
     }
-  }
-
-  btnDeleteTeam() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        FlatButton(
-          padding: EdgeInsets.only(bottom: 30),
-          child: const Text(
-            "Team löschen",
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.normal, fontSize: 20),
-          ),
-          onPressed: () {},
-        ),
-      ],
-    );
-  }
-
-  btnRedirect(String btnText, Widget widgetTo) {
-    return Container(
-      padding: const EdgeInsets.only(left: 25, right: 25),
-      child: Material(
-        color: Colors.blue,
-        borderRadius: BorderRadius.circular(50),
-        child: InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => widgetTo),
-            );
-          },
-          borderRadius: BorderRadius.circular(50),
-          child: Container(
-            width: 200,
-            height: 50,
-            alignment: Alignment.center,
-            child: textOnRedirectBtn(btnText),
-          ),
-        ),
-      ),
-    );
   }
 
   displayImageOfMember(String name, int leader, BoxConstraints constraints) {
@@ -327,46 +254,6 @@ class _TeamManageState extends State<TeamManage> {
         ]),
       );
     }
-  }
-
-  Widget textOnRedirectBtn(String btnText) {
-    return Text(
-      btnText,
-      style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white),
-    );
-  }
-
-  Widget getTeamDeleteButton(BoxConstraints constraints) {
-    if (intToBool(_team.leader)) {
-      return Widgets.getButtonStyle2("Team löschen", () {
-        _deleteTeam(_team);
-      }, constraints);
-    } else {
-      return const SizedBox();
-    }
-  }
-
-  Widget getRightCheckbox() {
-    if (intToBool(_team.leader)) {
-      return CheckboxListTile(
-        title: const Text(
-          'Teamleader',
-          style: TextStyle(fontSize: 20),
-        ),
-        value: true,
-        controlAffinity: ListTileControlAffinity.leading,
-        onChanged: (bool? value) {},
-      );
-    }
-    return CheckboxListTile(
-      title: const Text(
-        'Mitglied',
-        style: TextStyle(fontSize: 20),
-      ),
-      value: true,
-      controlAffinity: ListTileControlAffinity.leading,
-      onChanged: (bool? value) {},
-    );
   }
 
   getSpeedDialList() {
