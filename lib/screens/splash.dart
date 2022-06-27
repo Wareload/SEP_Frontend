@@ -74,24 +74,22 @@ class _SplashState extends State<Splash> {
     return Container();
   }
 
-
-  Future<void> profileAsync() async{
+  Future<void> profileAsync() async {
     _profile = await Api.api.getProfile();
   }
 
-  Future<void> invitationsAsync() async{
+  Future<void> invitationsAsync() async {
     invitations = await Api.api.getInvitations();
   }
 
-  Future<void> teamsAsync() async{
+  Future<void> teamsAsync() async {
     teams = await Api.api.getTeams();
   }
 
-
   void apiCalls() async {
     try {
-      Future.wait([profileAsync(),invitationsAsync(),teamsAsync()]);
-      isLoading=false;
+      Future.wait([profileAsync(), invitationsAsync(), teamsAsync()]);
+      isLoading = false;
     } catch (e) {
       //no need to handle
     }
@@ -100,18 +98,17 @@ class _SplashState extends State<Splash> {
   Future<void> checkCurrentState() async {
     if (isLoading) {
       Future.delayed(const Duration(milliseconds: 100), () async {
-        print("checkCurrentState");
         checkCurrentState();
       });
     } else {
       print("Got everything!!!");
-      if (await Api.api.isLoggedIn ()) {
+      if (await Api.api.isLoggedIn()) {
         Navigator.pushReplacementNamed(context, RouteGenerator.teamOverview,
-        arguments: {"teams": teams, "profile": _profile, "invitations": invitations});
+            arguments: {"teams": teams, "profile": _profile, "invitations": invitations});
       } else {
-      Navigator.pushReplacementNamed(context, RouteGenerator.login);
+        Navigator.pushReplacementNamed(context, RouteGenerator.login);
+      }
     }
-  }
   }
 
   void init() async {

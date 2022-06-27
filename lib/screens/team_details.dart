@@ -31,7 +31,6 @@ class _TeamDetailsState extends State<TeamDetails> {
     try {
       canSelect = await Api.api.getMoodTimer(team.id);
       gottimerstate = true;
-      leaderstate = team.leader;
       // _team = await Api.api.getTeam(team.id);
       _team = team;
       _team.leader = leaderstate;
@@ -129,11 +128,12 @@ class _TeamDetailsState extends State<TeamDetails> {
 
   void _goToTeam() {
     isLoading = true;
-    Navigator.pushNamed(context, RouteGenerator.teamManage, arguments: {"team": _team, "profile": _profile}).then((value) => {
-          setState(() {}),
-          //to refresh the site when coming back
-          loadData(widget.data["team"], widget.data["leader"])
-        });
+    Navigator.pushNamed(context, RouteGenerator.teamManage, arguments: {"team": _team, "profile": _profile, "leaderstate": _team.leader})
+        .then((value) => {
+              setState(() {}),
+              //to refresh the site when coming back
+              loadData(widget.data["team"], widget.data["leader"])
+            });
   }
 
   Widget getMoodEmojisByState(BoxConstraints constraints) {

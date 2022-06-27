@@ -6,8 +6,6 @@ import 'package:moody/widgets/settings.dart';
 
 import '../structs/profile.dart';
 
-//TODO Mood Logik mit der Map an neues Design (4 Emojis) anpassen
-
 class Widgets {
   Widgets._();
 
@@ -798,28 +796,6 @@ class Widgets {
       ),
     ]);
   }
-
-  /* static Widget getNavBarWithoutProfileWhite(
-      constraints, VoidCallback callbackBack, String title) {
-    return Column(children: [
-      Container(
-        height: 10,
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Widgets.getTextButtonStyle1White("Back", callbackBack, constraints),
-          Widgets.getTextFieldH3CWhite(title, constraints),
-          SizedBox(
-            width: 70,
-          )
-        ],
-      ),
-      Container(
-        height: 10,
-      ),
-    ]);
-  }*/
 
   static Widget getNavBarWithoutProfile(constraints, VoidCallback callbackBack, String title) {
     return Column(children: [
