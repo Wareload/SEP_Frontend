@@ -46,7 +46,7 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
                   flex: 1,
                   child: ListView(
                     children: <Widget>[
-                      getInvitationwidgets(),
+                      getInvitationwidgets(constraints),
                     ],
                   ),
                 ),
@@ -91,41 +91,116 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
     setState(() {});
   }
 
-  Widget getInvitationWidget(Invitation invite) {
-    return Container(
-        margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
-        padding: EdgeInsets.all(15),
-        decoration: BoxDecoration(
-            border: Border.all(color: Colors.blue),
-            color: Settings.blueAccent,
-            borderRadius: BorderRadius.circular(
-                20) // use instead of BorderRadius.all(Radius.circular(20))
-            ),
-        child: Container(
-          color: Settings.blueAccent,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              textWhiteH3(invite.teamname),
-              Row(
-                children: [
-                  acceptBtn(invite),
-                  declineBtn(invite),
-                ],
-              ),
-            ],
-          ),
-        ));
+  void toggleActive(Invitation invite) {
+    invite.toggleActive();
+    _renderNew();
   }
 
-  Widget getInvitationwidgets() {
+  Widget getInvitationWidget(Invitation invite, BoxConstraints constraints) {
+    return Container(
+      margin: EdgeInsets.all(10),
+      //height: 300,
+      decoration: getBoxDecoration(invite.active),
+      child: Column(
+        children: [
+          GestureDetector(
+            onTap: () => {toggleActive(invite)},
+            child: Container(
+                //margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.blue),
+                    color: Settings.blueAccent,
+                    borderRadius: BorderRadius.circular(
+                        20) // use instead of BorderRadius.all(Radius.circular(20))
+                    ),
+                child: Container(
+                  color: Settings.blueAccent,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      textWhiteH3(invite.teamname),
+                      /* Row(
+                        children: [
+                          acceptBtn(invite),
+                          declineBtn(invite),
+                        ],
+                      ),*/
+                    ],
+                  ),
+                )),
+          ),
+          showActive(constraints, invite),
+          /*Container(
+            width: 300,
+            child: Text("Du wurdest zu dem Team " +
+                invitations[1].teamname +
+                " eingeladen!"),
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              getButtonStyleOrangeMini(() => {}, "Annehmen", constraints),
+              getButtonStyleOrangeMini(() => {}, "Ablehnen", constraints),
+            ],
+          )*/
+        ],
+      ),
+    );
+  }
+
+  BoxDecoration getBoxDecoration(bool active) {
+    if (!active) return BoxDecoration();
+    return BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        color: Settings.white,
+        borderRadius: BorderRadius.circular(
+            20) // use instead of BorderRadius.all(Radius.circular(20))
+        );
+  }
+
+  Widget showActive(BoxConstraints constraints, Invitation invite) {
+    if (!invite.active) return Container();
+    return Column(
+      children: [
+        SizedBox(
+          height: 30,
+        ),
+        Container(
+          width: 270,
+          child: Text(
+            "Du wurdest zu dem Team " + invite.teamname + " eingeladen!",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            getButtonStyleOrangeMini(
+                () => {acceptInvitation(invite)}, "Annehmen", constraints),
+            getButtonStyleOrangeMini(
+                () => {denyInvitation(invite)}, "Ablehnen", constraints),
+          ],
+        ),
+        SizedBox(
+          height: 10,
+        ),
+      ],
+    );
+  }
+
+  Widget getInvitationwidgets(BoxConstraints constraints) {
     List<Widget> invitationWidgets = [];
     for (var element in invitations) {
-      invitationWidgets.add(getInvitationWidget(element));
+      invitationWidgets.add(getInvitationWidget(element, constraints));
     }
     if (invitations.length == 0) {
-      print("ja");
       return Column(
         children: [
           Text("Du hast aktuell keine Einladungen"),
@@ -145,7 +220,8 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
     );
   }
 
-  Widget acceptBtn(Invitation invite) {
+  /*Widget acceptBtn(Invitation invite) {
+    return getButtonStyleOrangeMini(()=>{},c)
     return IconButton(
         icon: const Icon(Icons.check),
         tooltip: 'TestToolTip',
@@ -159,7 +235,7 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
         onPressed: () {
           acceptInvitation(invite);
         });
-  }
+  }*/
 
   declineBtn(Invitation invite) {
     return IconButton(
@@ -175,6 +251,37 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
         onPressed: () {
           denyInvitation(invite);
         });
+  }
+
+  static Widget getButtonStyleOrangeMini(
+      VoidCallback func, String btnText, BoxConstraints constraints) {
+    return Container(
+      padding: EdgeInsets.all(10),
+      //margin: EdgeInsets.only(left: 10, right: 10),
+      child: Material(
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: Colors.orange,
+            textStyle: TextStyle(fontSize: 20),
+            shape: StadiumBorder(),
+          ),
+          onPressed: func,
+          //borderRadius: BorderRadius.circular(50),
+          child: Container(
+            height: 40,
+            width: constraints.maxWidth * 0.3,
+            alignment: Alignment.center,
+            child: Text(
+              btnText,
+              style: const TextStyle(
+                  fontSize: Settings.mainFontSize,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   Future<void> acceptInvitation(Invitation invite) async {
