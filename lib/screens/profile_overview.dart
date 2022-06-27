@@ -174,7 +174,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
   }
 
   void _goToTeam(Team team) {
-    Navigator.pushNamed(context, RouteGenerator.teamDetails, arguments: {"team": team, "leader": team.leader});
+    Navigator.popAndPushNamed(context, RouteGenerator.teamDetails, arguments: {"team": team, "leader": team.leader});
   }
 
   @override
