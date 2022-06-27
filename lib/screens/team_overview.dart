@@ -54,7 +54,6 @@ class _TeamOverviewState extends State<TeamOverview> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     if (invitations.length >= 1) {
@@ -64,14 +63,14 @@ class _TeamOverviewState extends State<TeamOverview> {
     }
     return isLoading
         ? Container(
-        color: Colors.white,
-        child: const SizedBox(
-          child: Align(
-            child: CircularProgressIndicator(),
-          ),
-          width: 50,
-          height: 50,
-        ))
+            color: Colors.white,
+            child: const SizedBox(
+              child: Align(
+                child: CircularProgressIndicator(),
+              ),
+              width: 50,
+              height: 50,
+            ))
         : Scaffold(
             body:
                 SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
@@ -141,7 +140,8 @@ class _TeamOverviewState extends State<TeamOverview> {
 
   void _goToInvitations() {
     isLoading = true;
-    Navigator.pushNamed(context, RouteGenerator.showInvitations).then((value) => {setState((){}), initInvitations()});
+    Navigator.pushNamed(context, RouteGenerator.showInvitations)
+        .then((value) => {setState(() {}), initInvitations()});
   }
 
   @override
@@ -152,13 +152,15 @@ class _TeamOverviewState extends State<TeamOverview> {
   }
 
   void _onCreateTeam() {
-    Navigator.pushNamed(context, RouteGenerator.teamCreate)
-        .then((value) => {apiCalls()});
+    Navigator.pushNamed(context, RouteGenerator.teamCreate,
+        arguments: {"invitations": invitations}).then((value) => {apiCalls()});
   }
 
-  Future<void> initInvitations() async{
+  Future<void> initInvitations() async {
     invitations = await Api.api.getInvitations();
-    setState(() { isLoading = false;});
+    setState(() {
+      isLoading = false;
+    });
   }
 
   Widget getInvitations() {
@@ -187,8 +189,7 @@ class _TeamOverviewState extends State<TeamOverview> {
                   "${_invitations}",
                   style: TextStyle(
                       color: Colors.pink,
-                       
-fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.bold,
                       fontSize: 22.0),
                 )),
           ],

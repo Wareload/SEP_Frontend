@@ -26,35 +26,33 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
   Widget build(BuildContext context) {
     return isLoading
         ? Container(
-        color: Colors.white,
-        child: const SizedBox(
-          child: Align(
-            child: CircularProgressIndicator(),
-          ),
-          width: 50,
-          height: 50,
-        ))
-        : Scaffold(
-
-        body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
-          return RefreshIndicator(
-          key: refreshKey,
-          onRefresh: refreshInvitations,
-          child: Column (
-          children: <Widget>[
-          Widgets.getNavBarWithoutProfile(
-          constraints, _onBack, "Deine Einladungen"),
-          Expanded(
-            flex: 1,
-            child: ListView(
-            children: <Widget>[
-                getInvitationwidgets(),
-                ],
-          ),),
-
-      ] ),
-      );
-    })));
+            color: Colors.white,
+            child: const SizedBox(
+              child: Align(
+                child: CircularProgressIndicator(),
+              ),
+              width: 50,
+              height: 50,
+            ))
+        : Scaffold(body:
+            SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+            return RefreshIndicator(
+              key: refreshKey,
+              onRefresh: refreshInvitations,
+              child: Column(children: <Widget>[
+                Widgets.getNavBarWithoutProfile(
+                    constraints, _onBack, "Deine Einladungen"),
+                Expanded(
+                  flex: 1,
+                  child: ListView(
+                    children: <Widget>[
+                      getInvitationwidgets(),
+                    ],
+                  ),
+                ),
+              ]),
+            );
+          })));
   }
 
   Future<void> refreshInvitations() async {
@@ -71,13 +69,14 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
   void initState() {
     getInvitations();
     super.initState();
-
   }
 
   Future<void> getInvitations() async {
     try {
       invitations = await Api.api.getInvitations();
-      setState(() {isLoading = false;});
+      setState(() {
+        isLoading = false;
+      });
     } catch (e) {
       if (e.runtimeType == UserFeedbackException) {
         //TODO handle exception here
@@ -121,9 +120,17 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
   }
 
   Widget getInvitationwidgets() {
-List<Widget> invitationWidgets = [];
+    List<Widget> invitationWidgets = [];
     for (var element in invitations) {
       invitationWidgets.add(getInvitationWidget(element));
+    }
+    if (invitations.length == 0) {
+      print("ja");
+      return Column(
+        children: [
+          Text("Du hast aktuell keine Einladungen"),
+        ],
+      );
     }
     return Column(
       children: invitationWidgets,
@@ -134,8 +141,7 @@ List<Widget> invitationWidgets = [];
     return Text(
       teamname,
       style: TextStyle(
-           
-fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
+          fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
     );
   }
 

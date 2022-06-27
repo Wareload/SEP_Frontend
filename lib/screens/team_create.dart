@@ -4,6 +4,7 @@ import 'package:moody/api/exception/invalid_permission_exception.dart';
 import 'package:moody/route/route_generator.dart';
 
 import '../api/exception/user_feedback_exception.dart';
+import '../structs/invitation.dart';
 import '../widgets/settings.dart';
 import '../widgets/widgets.dart';
 
@@ -18,24 +19,24 @@ class _TeamCreateState extends State<TeamCreate> {
   String _errorText = "";
   TextEditingController teamNameController = TextEditingController();
   bool isSending = false;
+  List<Invitation> invitations = [];
+
   @override
   Widget build(BuildContext context) {
+    var args = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    _setInvites(args["invitations"]);
     return Scaffold(
         body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return Column(
         children: [
-          Row(
-            children: [
-              IconButton(
-                  onPressed: _onBack,
-                  icon: Icon(Icons.arrow_back,
-                      color: Colors.blue, size: constraints.maxWidth * 0.15)),
-              Widgets.getTextFieldH3C("Team erstellen", constraints),
-            ],
-          ),
+          Widgets.getNavBarWithoutProfile(
+              constraints, _onBack, "Team erstellen"),
           SizedBox(
             height: 30,
           ),
+          getButtonStyle2WithNotification(
+              "Einladungen", _goToInvites, constraints),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -61,8 +62,16 @@ class _TeamCreateState extends State<TeamCreate> {
     })));
   }
 
+  void _setInvites(List<Invitation> invites) {
+    invitations = invites;
+  }
+
   void _onBack() {
     Navigator.pop(context);
+  }
+
+  void _goToInvites() {
+    Navigator.pushNamed(context, RouteGenerator.showInvitations);
   }
 
   void _onTeamCreate() async {
@@ -126,8 +135,7 @@ class _TeamCreateState extends State<TeamCreate> {
                     btnText,
                     style: const TextStyle(
                         fontSize: Settings.mainFontSize,
-                         
-fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.bold,
                         color: Colors.white),
                   ),
                 ),
@@ -168,14 +176,81 @@ fontWeight: FontWeight.bold,
               btnText,
               style: const TextStyle(
                   fontSize: Settings.mainFontSize,
-                   
-fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.bold,
                   color: Colors.white),
             ),
           ),
         ),
       ),
     );
+  }
+
+  Widget getButtonStyle2WithNotification(
+      String display, VoidCallback func, BoxConstraints constraints) {
+    return Stack(
+      children: [
+        Container(
+          height: 60,
+          margin: EdgeInsets.only(
+              bottom: constraints.maxWidth * 0.04, left: 10, right: 10),
+          child: Material(
+            color: Settings.blue,
+            borderRadius: BorderRadius.circular(50),
+            child: InkWell(
+              onTap: func,
+              borderRadius: BorderRadius.circular(50),
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                alignment: Alignment.center,
+                child: Text(
+                  display,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                      color: Settings.white),
+                ),
+              ),
+            ),
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            /* Container(
+              margin: EdgeInsets.only(right: 10),
+              alignment: Alignment.topRight,
+              width: 30.0,
+              height: 30,
+              decoration: new BoxDecoration(
+                color: Colors.orange,
+                shape: BoxShape.circle,
+              ),
+            ),*/
+            getNotification(),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget getNotification() {
+    if (invitations.length >= 1) {
+      return Container(
+        margin: EdgeInsets.only(right: 10),
+        alignment: Alignment.topRight,
+        width: 30.0,
+        height: 30,
+        decoration: new BoxDecoration(
+          color: Colors.orange,
+          shape: BoxShape.circle,
+        ),
+      );
+    } else {
+      return Container();
+    }
   }
 
   @override
