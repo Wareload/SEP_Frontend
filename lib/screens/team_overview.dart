@@ -84,7 +84,7 @@ class _TeamOverviewState extends State<TeamOverview> {
                     children: [
                       Widgets.getTextFieldH2Black(
                           "Hallo " + _profile.firstname + "!", constraints),
-                      getInvitations(),
+                      // getInvitations(),
                       Widgets.getProfileIcon(constraints, _goToProfile),
                     ],
                   ),
