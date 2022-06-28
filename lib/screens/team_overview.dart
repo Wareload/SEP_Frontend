@@ -86,10 +86,13 @@ class _TeamOverviewState extends State<TeamOverview> {
                     height: constraints.maxWidth * 0.1,
                   ),
                   Widgets.getTextFieldH2("Deine Teams", constraints),
-                  Expanded(child: SingleChildScrollView(child: getTeams(constraints))),
-                  Container(
-                    height: 10,
-                  )
+                  Expanded(
+                    child: SizedBox(
+                      height: constraints.maxHeight - 10,
+                      width: constraints.maxWidth,
+                      child: ListView(children: getTeams(constraints)),
+                    ),
+                  ),
                 ],
               );
             })),
@@ -103,14 +106,12 @@ class _TeamOverviewState extends State<TeamOverview> {
             ));
   }
 
-  Widget getTeams(BoxConstraints constraints) {
+  List<Widget> getTeams(BoxConstraints constraints) {
     List<Widget> displayedTeams = [];
     for (var element in teams) {
-      displayedTeams.add(Widgets.getButtonStyle2(element.name, () => _goToTeam(element), constraints));
+      displayedTeams.add(Widgets.getTeamWithPictures(element.name, () => _goToTeam(element), constraints));
     }
-    return Column(
-      children: displayedTeams,
-    );
+    return displayedTeams;
   }
 
   void _goToTeam(Team team) {

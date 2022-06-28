@@ -83,6 +83,21 @@ flutter:
     - assets/trees.png
     - assets/users.png
     - assets/windy.png
+    - assets/teampictures/moody_team_picture(1).jpg
+    - assets/teampictures/moody_team_picture(2).jpg
+    - assets/teampictures/moody_team_picture(3).jpg
+    - assets/teampictures/moody_team_picture(4).jpg
+    - assets/teampictures/moody_team_picture(5).jpg
+    - assets/teampictures/moody_team_picture(6).jpg
+    - assets/teampictures/moody_team_picture(7).jpg
+    - assets/teampictures/moody_team_picture(8).jpg
+    - assets/teampictures/moody_team_picture(9).jpg
+    - assets/teampictures/moody_team_picture(10).jpg
+    - assets/teampictures/moody_team_picture(11).jpg
+    - assets/teampictures/moody_team_picture(12).jpg
+    - assets/teampictures/moody_team_picture(13).jpg
+    - assets/teampictures/moody_team_picture(14).jpg
+    - assets/teampictures/moody_team_picture(15).jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

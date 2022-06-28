@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
@@ -265,6 +267,64 @@ class Widgets {
           ),
         ),
       ),
+    );
+  }
+
+  static Widget getTeamWithPictures(display, VoidCallback func, BoxConstraints constraints) {
+    dynamic listImages = [
+      "assets/teampictures/moody_team_picture(1).jpg",
+      "assets/teampictures/moody_team_picture(2).jpg",
+      "assets/teampictures/moody_team_picture(3).jpg",
+      "assets/teampictures/moody_team_picture(4).jpg",
+      "assets/teampictures/moody_team_picture(5).jpg",
+      "assets/teampictures/moody_team_picture(6).jpg",
+      "assets/teampictures/moody_team_picture(7).jpg",
+      "assets/teampictures/moody_team_picture(8).jpg",
+      "assets/teampictures/moody_team_picture(9).jpg",
+      "assets/teampictures/moody_team_picture(10).jpg",
+      "assets/teampictures/moody_team_picture(11).jpg",
+      "assets/teampictures/moody_team_picture(12).jpg",
+      "assets/teampictures/moody_team_picture(13).jpg",
+      "assets/teampictures/moody_team_picture(14).jpg",
+      "assets/teampictures/moody_team_picture(15).jpg"
+    ];
+    int min = 0;
+    int max = listImages.length - 1;
+    Random rnd = new Random();
+    int r = min + rnd.nextInt(max - min);
+    String imageName = listImages[r].toString();
+    return Column(
+      children: [
+        Container(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: const BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.elliptical(20.0, 20),
+                        topRight: Radius.elliptical(20.0, 20),
+                      )),
+                  child: Center(child: getTextWhiteH3(display, constraints)),
+                ),
+                Container(
+                  width: constraints.maxWidth,
+                  height: 100,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black12),
+                      color: Colors.white,
+                      borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.elliptical(20.0, 20),
+                        bottomRight: Radius.elliptical(20.0, 20),
+                      )),
+                  child: Image.asset(imageName, fit: BoxFit.cover),
+                ),
+              ],
+            )),
+      ],
     );
   }
 
