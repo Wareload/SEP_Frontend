@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:moody/api/api.dart';
 import 'package:moody/route/route_generator.dart';
 import 'package:moody/screens/team_invite.dart';
@@ -9,6 +10,7 @@ import '../api/exception/user_feedback_exception.dart';
 import '../route/route_generator.dart';
 import '../structs/profile.dart';
 import '../structs/team.dart';
+import '../widgets/custom_icons.dart';
 import '../widgets/settings.dart';
 
 class TeamManage extends StatefulWidget {
@@ -26,13 +28,16 @@ class _TeamManageState extends State<TeamManage> {
   Team _team = Team.empty();
   Profile _profile = Profile.empty();
 
-  void loadData(Team team, Profile profile) async {
+  void loadData(Team team, Profile profile, int leaderstate) async {
     _team = await Api.api.getTeam(team.id);
+    _team.leader = leaderstate;
     _profile = profile;
     setState(() {
       isLoading = false;
     });
   }
+
+  ValueNotifier<bool> isDialOpen = ValueNotifier(false);
 
   @override
   Widget build(BuildContext context) {
@@ -46,69 +51,44 @@ class _TeamManageState extends State<TeamManage> {
               width: 50,
               height: 50,
             ))
-        : Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
-            return SingleChildScrollView(
-              child: Column(children: <Widget>[
+        : Scaffold(
+            body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+              return Column(children: <Widget>[
                 Widgets.getNavBar(constraints, _back, _team.name, _goToProfile, _profile),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    textCenteredHeader("Mitglieder"),
-                    const SizedBox(height: 3),
-                    _getMember(constraints),
-                    const SizedBox(height: 25),
-                    Widgets.getButtonStyle2("Hinzufügen", _goToTeamInvite, constraints),
-                    const SizedBox(height: 2),
-                    Widgets.getButtonStyle2("Team Care", () {
-                      _goToTeamCare(_team);
-                    }, constraints),
-                    const SizedBox(height: 2),
-                    getTeamDeleteButton(constraints),
-                    const SizedBox(height: 25),
-                    displayName(_profile.firstname + " " + _profile.lastname),
-                    checkBoxRole(),
-                  ],
+                textCenteredHeader("Mitglieder"),
+                const SizedBox(
+                  height: 10,
                 ),
-              ]),
-            );
-          })));
+                Expanded(
+                  flex: 1,
+                  child: ListView(
+                    children: [
+                      _getMember(constraints),
+                    ],
+                  ),
+                ),
+              ]);
+            })),
+            floatingActionButton: SpeedDial(
+              animatedIcon: AnimatedIcons.menu_close,
+              overlayOpacity: 0.5,
+              elevation: 8,
+              spacing: 10,
+              closeManually: true,
+              openCloseDial: isDialOpen,
+              children: getSpeedDialList(),
+            ),
+          );
   }
 
   Widget _getMember(constraints) {
-    List<Widget> widgetsTop = [];
-    List<Widget> widgetsBottom = [];
+    List<Widget> members = [];
 
-    bool top = true;
     for (var element in _team.members) {
-      if (top) {
-        top = false;
-        widgetsTop.add(displayImageOfMember(element.firstName + " " + element.lastName, element.leader, constraints));
-      } else {
-        top = true;
-        widgetsBottom.add(displayImageOfMember(element.firstName + " " + element.lastName, element.leader, constraints));
-      }
+      members.add(displayImageOfMember(element.firstName + " " + element.lastName, element.leader, constraints));
     }
-
-    return SingleChildScrollView(
-      child: RawScrollbar(
-        thumbColor: Colors.blue,
-        radius: const Radius.circular(20),
-        thickness: 5,
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Column(
-            children: [
-              Row(
-                children: widgetsTop,
-              ),
-              Row(
-                children: widgetsBottom,
-              )
-            ],
-          ),
-        ),
-      ),
+    return Column(
+      children: members,
     );
   }
 
@@ -172,6 +152,7 @@ class _TeamManageState extends State<TeamManage> {
   }
 
   void _goToProfile() {
+    isLoading = true;
     Navigator.popAndPushNamed(context, RouteGenerator.profileOverview);
   }
 
@@ -186,7 +167,7 @@ class _TeamManageState extends State<TeamManage> {
 
   @override
   void initState() {
-    loadData(widget.data["team"], widget.data["profile"]);
+    loadData(widget.data["team"], widget.data["profile"], widget.data["leaderstate"]);
     super.initState();
   }
 
@@ -228,70 +209,6 @@ class _TeamManageState extends State<TeamManage> {
     );
   }
 
-  /*//Displays all Teammember in a team
-  displayTeamIcons(BoxConstraints constraints) {
-    return Container(
-      child: SingleChildScrollView(
-        child: RawScrollbar(
-          thumbColor: Colors.blue,
-          radius: Radius.circular(20),
-          thickness: 5,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    _getMember(constraints),
-                    displayImageOfMember("Hans"),
-                    displayImageOfMember("Hans"),
-                  ],
-                ),
-                Row(
-                  children: [
-                    displayImageOfMember("Hans"),
-                  ],
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }*/
-
-  Widget displayName(String userFullName) {
-    return Container(
-      padding: EdgeInsets.fromLTRB(0, 5, 0, 10),
-      alignment: Alignment.center,
-      child: Text(
-        userFullName,
-        textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.black),
-      ),
-    );
-  }
-
-  checkBoxRole() {
-    final theme = Theme.of(context);
-    final oldCheckboxTheme = theme.checkboxTheme;
-
-    final newCheckBoxTheme = oldCheckboxTheme.copyWith(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-    );
-    return Container(
-      padding: EdgeInsets.only(left: 50, right: 50),
-      child: Theme(
-        data: theme.copyWith(checkboxTheme: newCheckBoxTheme),
-        child: Column(
-          children: [
-            getRightCheckbox(),
-          ],
-        ),
-      ),
-    );
-  }
-
   intToBool(int input) {
     if (input == 1) {
       return true;
@@ -300,93 +217,84 @@ class _TeamManageState extends State<TeamManage> {
     }
   }
 
-  btnDeleteTeam() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        FlatButton(
-          padding: EdgeInsets.only(bottom: 30),
-          child: const Text(
-            "Team löschen",
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.normal, fontSize: 20),
-          ),
-          onPressed: () {},
-        ),
-      ],
-    );
-  }
-
-  btnRedirect(String btnText, Widget widgetTo) {
-    return Container(
-      padding: const EdgeInsets.only(left: 25, right: 25),
-      child: Material(
-        color: Colors.blue,
-        borderRadius: BorderRadius.circular(50),
-        child: InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => widgetTo),
-            );
-          },
-          borderRadius: BorderRadius.circular(50),
-          child: Container(
-            width: 200,
-            height: 50,
-            alignment: Alignment.center,
-            child: textOnRedirectBtn(btnText),
-          ),
-        ),
-      ),
-    );
-  }
-
   displayImageOfMember(String name, int leader, BoxConstraints constraints) {
-    return Column(children: <Widget>[
-      Widgets.getProfilePictureInitials(name, false, constraints),
-      Text(name),
-    ]);
-  }
-
-  Widget textOnRedirectBtn(String btnText) {
-    return Container(
-      child: Text(
-        btnText,
-        style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white),
-      ),
-    );
-  }
-
-  Widget getTeamDeleteButton(BoxConstraints constraints) {
-    if (intToBool(_team.leader)) {
-      return Widgets.getButtonStyle2("Team löschen", () {
-        _deleteTeam(_team);
-      }, constraints);
+    if (intToBool(leader)) {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(30, 10, 15, 5),
+        child: Row(children: <Widget>[
+          Widgets.getProfilePictureInitials(name, false, constraints),
+          const SizedBox(
+            width: 30,
+          ),
+          Text(
+            name,
+            style: const TextStyle(
+              fontSize: 20,
+              //decoration: TextDecoration.underline,
+            ),
+          ),
+          const Icon(
+            CustomIcons.queen_crown,
+            color: Colors.amber,
+          ),
+        ]),
+      );
     } else {
-      return SizedBox();
-    }
-  }
-
-  Widget getRightCheckbox() {
-    if (intToBool(_team.leader)) {
-      return CheckboxListTile(
-        title: const Text(
-          'Teamleader',
-          style: TextStyle(fontSize: 20),
-        ),
-        value: true,
-        controlAffinity: ListTileControlAffinity.leading,
-        onChanged: (bool? value) {},
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(30, 10, 15, 5),
+        child: Row(children: <Widget>[
+          Widgets.getProfilePictureInitials(name, false, constraints),
+          const SizedBox(
+            width: 30,
+          ),
+          Text(
+            name,
+            style: const TextStyle(fontSize: 20),
+          ),
+        ]),
       );
     }
-    return CheckboxListTile(
-      title: const Text(
-        'Mitglied',
-        style: TextStyle(fontSize: 20),
-      ),
-      value: true,
-      controlAffinity: ListTileControlAffinity.leading,
-      onChanged: (bool? value) {},
-    );
+  }
+
+  getSpeedDialList() {
+    if (intToBool(_team.leader)) {
+      return [
+        SpeedDialChild(
+            child: const Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+            label: "Mitglied hinzufügen",
+            backgroundColor: Settings.blue,
+            onTap: () => {_goToTeamInvite(), isDialOpen.value = false}),
+        SpeedDialChild(
+            child: const Icon(
+              Icons.delete,
+              color: Colors.white,
+            ),
+            label: "Team löschen",
+            backgroundColor: Settings.blue,
+            onTap: () => {_deleteTeam(_team), isDialOpen.value = false}),
+      ];
+    } else {
+      return [
+        SpeedDialChild(
+            child: const Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+            label: "Mitglied hinzufügen",
+            backgroundColor: Settings.blue,
+            onTap: () => {_goToTeamInvite(), isDialOpen.value = false}),
+        SpeedDialChild(
+          child: const Icon(
+            Icons.delete,
+            color: Colors.white,
+          ),
+          label: "Team löschen",
+          backgroundColor: Colors.grey,
+        ),
+      ];
+    }
   }
 }

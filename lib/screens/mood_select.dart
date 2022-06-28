@@ -93,7 +93,7 @@ class _MoodSelectState extends State<MoodSelect> {
   }
 
   void _goToProfile() {
-    Navigator.pushNamed(context, RouteGenerator.profileOverview);
+    Navigator.popAndPushNamed(context, RouteGenerator.profileOverview);
   }
 
   //button with a circularbtn animation for sending the mood to our backend

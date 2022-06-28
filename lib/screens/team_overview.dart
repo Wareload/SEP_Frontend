@@ -54,11 +54,6 @@ class _TeamOverviewState extends State<TeamOverview> {
 
   @override
   Widget build(BuildContext context) {
-    if (invitations.isNotEmpty) {
-      _invitations = invitations.length.toString();
-    } else {
-      _invitations = "";
-    }
     return isLoading
         ? Container(
             color: Colors.white,
@@ -99,13 +94,13 @@ class _TeamOverviewState extends State<TeamOverview> {
               );
             })),
             floatingActionButton: FloatingActionButton(
-                elevation: 8,
-                onPressed: _onCreateTeam,
-                child: const Text(
-                  '+',
-                  style: TextStyle(fontSize: 40),
-                )),
-          );
+              elevation: 8,
+              onPressed: _onCreateTeam,
+              child: const Icon(
+                Icons.add,
+                size: 35,
+              ),
+            ));
   }
 
   Widget getTeams(BoxConstraints constraints) {
@@ -138,6 +133,7 @@ class _TeamOverviewState extends State<TeamOverview> {
   }
 
   void _onCreateTeam() {
+    isLoading = true;
     Navigator.pushNamed(context, RouteGenerator.teamCreate, arguments: {"invitations": invitations}).then((value) => {apiCalls()});
   }
 
@@ -146,37 +142,5 @@ class _TeamOverviewState extends State<TeamOverview> {
     setState(() {
       isLoading = false;
     });
-  }
-
-  Widget getInvitations() {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-          primary: Settings.whiteAccent, //background color of button
-          elevation: 0, //elevation of button
-          shape: RoundedRectangleBorder(
-              //to set border radius to button
-              borderRadius: BorderRadius.circular(10)),
-          padding: const EdgeInsets.all(0) //content padding inside button
-          ),
-      onPressed: _goToInvitations,
-      child: Center(
-        child: Stack(
-          children: <Widget>[
-            const Icon(
-              Icons.email_outlined,
-              size: 40,
-              color: Colors.black,
-            ),
-            Container(
-                alignment: Alignment.bottomRight,
-                padding: const EdgeInsets.only(left: 45, top: 10),
-                child: Text(
-                  "${_invitations}",
-                  style: const TextStyle(color: Colors.pink, fontWeight: FontWeight.bold, fontSize: 22.0),
-                )),
-          ],
-        ), //Icon(I
-      ),
-    ); // cons.person_add_alt_1, size: 34),
   }
 }
