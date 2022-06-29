@@ -203,6 +203,9 @@ class Widgets {
                 obscureText: hidden,
                 controller: ctr,
                 keyboardType: type,
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(35),
+                ],
                 decoration: new InputDecoration.collapsed(
                   hintText: hint,
                 ),
@@ -858,8 +861,15 @@ class Widgets {
                   size: 40,
                 )),
           ),
-          Center(
-            child: Widgets.getNavHeaderText(title, constraints),
+           Flexible(child: Center(
+               child: Padding(
+                 padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                 child: FittedBox(
+                   fit: BoxFit.fitWidth,
+                   child: Widgets.getNavHeaderText(title, constraints),),
+               ),
+           ),
+
           ),
           Widgets.getProfilePictureNavBar(currentProfile, constraints, callbackProfile),
         ],
