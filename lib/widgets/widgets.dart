@@ -334,14 +334,15 @@ fontWeight: FontWeight.bold,
     );
   }
 
-  static Widget getButtonStyle2WithShadows(
-      String display, VoidCallback func, BoxConstraints constraints) {
+  static Widget getTeamButton(
+      String display, String teamImagePath, VoidCallback func, BoxConstraints constraints) {
     return Container(
       width: constraints.maxWidth * 0.9,
-      height: 50,
+      height: Settings.teamBannerHeight + Settings.teamLogoHeight,
       margin: EdgeInsets.only(bottom: constraints.maxWidth * 0.03),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(40),
+        color: Settings.blue,
+        borderRadius: BorderRadius.circular(Settings.teamCornerRadius),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(1),
@@ -349,27 +350,59 @@ fontWeight: FontWeight.bold,
             offset: const Offset(0, 2), // changes position of shadow
           ),
         ],),
-      child: Material(
-        color: Settings.blue,
-        borderRadius: BorderRadius.circular(50),
-        child: InkWell(
-          onTap: func,
-          borderRadius: BorderRadius.circular(50),
-          child: Container(
-            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-            alignment: Alignment.center,
-            child: Text(
-              display,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                  fontSize: 20.0,
-
-                  fontWeight: FontWeight.bold,
-                  color: Settings.white),
-            ),
+      child: Stack(
+        children: <Widget>[
+          Column(
+            children: [
+              Container(
+                height: Settings.teamBannerHeight,
+                padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                alignment: Alignment.center,
+                child: Text(
+                  display,
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      fontSize: Settings.mainFontSize,
+                      fontWeight: FontWeight.bold,
+                      color: Settings.white),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.vertical(
+                      bottom: Radius.circular(Settings.teamCornerRadius),
+                    ),
+                    image: DecorationImage(
+                      image: AssetImage(teamImagePath),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              )
+            ],
           ),
-        ),
+          Positioned.fill(
+            child: Material(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(Settings.teamCornerRadius),
+              clipBehavior: Clip.hardEdge,
+              child: InkWell(
+                onTap: func,
+                customBorder: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(Settings.teamCornerRadius),
+                ),
+                // borderRadius: BorderRadius.circular(50),
+                child: Column(
+                  children: [
+                  ],
+                ),
+              ),
+            ),
+          )
+        ],
       ),
     );
   }

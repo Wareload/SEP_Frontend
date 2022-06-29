@@ -8,6 +8,10 @@ class Settings {
   static const mainFont = "Chivo";
   static const mainFontSize = 18.0;
 
+  static const teamBannerHeight = 48.0;
+  static const teamLogoHeight = 91.0;
+  static const teamCornerRadius = 34.0;
+
   //colors
   static const red = Colors.red;
   static const redAccent = Colors.redAccent;
