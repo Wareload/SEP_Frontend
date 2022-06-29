@@ -109,7 +109,7 @@ fontWeight: FontWeight.bold, color: Colors.black),
     return Container(
       padding: EdgeInsets.only(left: 25, right: 25),
       child: Material(
-        color: Colors.blue,
+        color: Settings.blue,
         borderRadius: BorderRadius.circular(50),
         child: InkWell(
           onTap: () {
@@ -146,7 +146,7 @@ fontWeight: FontWeight.bold, color: Colors.black),
                 width: 190.0,
                 height: 190.0,
                 decoration: const BoxDecoration(
-                    color: Colors.blue,
+                    color: Settings.blue,
                     shape: BoxShape.circle,
                     image: DecorationImage(
                         fit: BoxFit.fitHeight,

@@ -54,7 +54,7 @@ class ApiBackend implements ApiInterface {
   final String pathGetTeamMood = "/mood/getTeamMood"; //TODO need to implement
 
   //http data
-  final int timeout = 3; //in seconds
+  final int timeout = 10; //in seconds
 
   //only for testing purpose if needed
   final bool allowBadCertificate = false;
@@ -141,7 +141,8 @@ class ApiBackend implements ApiInterface {
     } catch (e) {
       throw UserFeedbackException("Server Error");
     }
-    switch (response.statusCode) {
+    var statuscode = response.statusCode;
+    switch (statuscode) {
       case 200:
         updateCookie(response);
         return;
@@ -150,7 +151,7 @@ class ApiBackend implements ApiInterface {
       case 409:
         throw UserFeedbackException("E-Mail exestiert bereits");
     }
-    throw UserFeedbackException("Server Fehler");
+    throw UserFeedbackException(statuscode.toString() + ": Server Fehler");
   }
 
   @override

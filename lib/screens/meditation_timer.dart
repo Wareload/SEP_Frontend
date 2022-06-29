@@ -179,7 +179,7 @@ class _MeditationTimerState extends State<MeditationTimer> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              halfBtnOrange(isRunning ? 'Stop' : 'Weiter', () {
+              halfBtnOrange(isRunning ? 'Pause' : 'Weiter', () {
                 if (isRunning) {
                   stopTimer(resets: false);
                 } else {

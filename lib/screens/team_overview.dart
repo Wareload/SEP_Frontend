@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:moody/api/api.dart';
 import 'package:moody/route/route_generator.dart';
@@ -13,7 +16,30 @@ import '../structs/team.dart';
 
 class TeamOverview extends StatefulWidget {
   final Map data;
-  const TeamOverview(this.data, {Key? key}) : super(key: key);
+  final List teamImagesPaths = <String> [
+    "assets/team_images/0.jpg",
+    "assets/team_images/1.jpg",
+    "assets/team_images/2.jpg",
+    "assets/team_images/3.jpg",
+    "assets/team_images/4.jpg",
+    "assets/team_images/5.jpg",
+    "assets/team_images/6.jpg",
+    "assets/team_images/7.jpg",
+    "assets/team_images/8.jpg",
+    "assets/team_images/9.jpg",
+    "assets/team_images/10.jpg",
+    "assets/team_images/11.jpg",
+    "assets/team_images/12.jpg",
+    "assets/team_images/13.jpg",
+    "assets/team_images/14.jpg",
+    "assets/team_images/15.jpg",
+    "assets/team_images/16.jpg",
+    "assets/team_images/17.jpg",
+    "assets/team_images/18.jpg",
+    "assets/team_images/19.jpg",
+    "assets/team_images/20.jpg",
+  ];
+  TeamOverview(this.data, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _TeamOverviewState();
@@ -24,6 +50,7 @@ List<Team> teams = [];
 Profile _profile = Profile.empty();
 String _invitations = "";
 List<Invitation> invitations = [];
+int teamImageToShow = Random(DateTime.now().millisecond).nextInt(21);
 
 class _TeamOverviewState extends State<TeamOverview> {
   void initData(Profile loadedProfile, List loadedInvitations, List loadedTeams) {
@@ -106,7 +133,10 @@ class _TeamOverviewState extends State<TeamOverview> {
   Widget getTeams(BoxConstraints constraints) {
     List<Widget> displayedTeams = [];
     for (var element in teams) {
-      displayedTeams.add(Widgets.getButtonStyle2(element.name, () => _goToTeam(element), constraints));
+      displayedTeams.add(Widgets.getTeamButton(
+          element.name, "assets/team_images/" + teamImageToShow.toString() + ".jpg", () => _goToTeam(element), constraints));
+      teamImageToShow++;
+      teamImageToShow %= 21;
     }
     return Column(
       children: displayedTeams,

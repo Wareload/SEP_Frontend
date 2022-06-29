@@ -177,7 +177,7 @@ class Widgets {
             Container(
               padding: EdgeInsets.all(10),
               decoration: const BoxDecoration(
-                  color: Colors.blue,
+                  color: Settings.blue,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.elliptical(20.0, 20),
                     topRight: Radius.elliptical(20.0, 20),
@@ -290,6 +290,79 @@ class Widgets {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  static Widget getTeamButton(
+      String display, String teamImagePath, VoidCallback func, BoxConstraints constraints) {
+    return Container(
+      width: constraints.maxWidth * 0.9,
+      height: Settings.teamBannerHeight + Settings.teamLogoHeight,
+      margin: EdgeInsets.only(bottom: constraints.maxWidth * 0.03),
+      decoration: BoxDecoration(
+        color: Settings.blue,
+        borderRadius: BorderRadius.circular(Settings.teamCornerRadius),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(1),
+            blurRadius: 5,
+            offset: const Offset(0, 2), // changes position of shadow
+          ),
+        ],),
+      child: Stack(
+        children: <Widget>[
+          Column(
+            children: [
+              Container(
+                height: Settings.teamBannerHeight,
+                padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                alignment: Alignment.center,
+                child: Text(
+                  display,
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      fontSize: Settings.mainFontSize,
+                      fontWeight: FontWeight.bold,
+                      color: Settings.white),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.vertical(
+                      bottom: Radius.circular(Settings.teamCornerRadius),
+                    ),
+                    image: DecorationImage(
+                      image: AssetImage(teamImagePath),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+          Positioned.fill(
+            child: Material(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(Settings.teamCornerRadius),
+              clipBehavior: Clip.hardEdge,
+              child: InkWell(
+                onTap: func,
+                customBorder: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(Settings.teamCornerRadius),
+                ),
+                // borderRadius: BorderRadius.circular(50),
+                child: Column(
+                  children: [
+                  ],
+                ),
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
@@ -516,7 +589,7 @@ class Widgets {
                     Container(
                       padding: const EdgeInsets.all(5),
                       decoration: const BoxDecoration(
-                          color: Colors.blue,
+                          color: Settings.blue,
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.elliptical(20.0, 20),
                             topRight: Radius.elliptical(20.0, 20),
@@ -578,7 +651,7 @@ class Widgets {
                     Container(
                       padding: const EdgeInsets.all(5),
                       decoration: const BoxDecoration(
-                          color: Colors.blue,
+                          color: Settings.blue,
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.elliptical(20.0, 20),
                             topRight: Radius.elliptical(20.0, 20),
@@ -736,7 +809,7 @@ class Widgets {
             Container(
               padding: EdgeInsets.all(5),
               decoration: const BoxDecoration(
-                  color: Colors.blue,
+                  color: Settings.blue,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.elliptical(20.0, 20),
                     topRight: Radius.elliptical(20.0, 20),
@@ -928,7 +1001,7 @@ static Widget getMoodEmojisOld(display, VoidCallback click, VoidCallback select1
                   Container(
                     padding: const EdgeInsets.all(5),
                     decoration: const BoxDecoration(
-                        color: Colors.blue,
+                        color: Settings.blue,
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.elliptical(20.0, 20),
                           topRight: Radius.elliptical(20.0, 20),
@@ -952,7 +1025,7 @@ static Widget getMoodEmojisOld(display, VoidCallback click, VoidCallback select1
                           children: [
                             displayEmoji("assets/smile.png", Colors.green, select1, feelingStatus, 0),
                             displayEmoji("assets/happy.png", Colors.orange, select1, feelingStatus, 1),
-                            displayEmoji("assets/steam.png", Colors.blue, select1, feelingStatus, 2),
+                            displayEmoji("assets/steam.png", Settings.blue, select1, feelingStatus, 2),
                             displayEmoji("assets/neutral.png", Colors.grey, select1, feelingStatus, 3),
                           ],
                         ),
@@ -987,7 +1060,7 @@ static displayEmojiLegendeOld() {
             children: [
               displaySingeMood("glücklich", Colors.lightGreen),
               displaySingeMood("motiviert", Colors.orange),
-              displaySingeMood("frustriert", Colors.blue),
+              displaySingeMood("frustriert", Settings.blue),
               displaySingeMood("neutral", Colors.grey),
             ],
           ),

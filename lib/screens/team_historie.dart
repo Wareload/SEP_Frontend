@@ -240,7 +240,7 @@ class _TeamHistorieState extends State<TeamHistorie> {
           margin: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
           padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
-              border: Border.all(color: Colors.blue),
+              border: Border.all(color: Settings.blue),
               color: Settings.blueAccent,
               borderRadius: BorderRadius.circular(20) // use instead of BorderRadius.all(Radius.circular(20))
               ),
@@ -301,7 +301,7 @@ class _TeamHistorieState extends State<TeamHistorie> {
                   shadows: [Shadow(color: Colors.black, offset: Offset(0, -5))],
                   fontWeight: FontWeight.normal,
                   decoration: getUnderlineByBool(active),
-                  decorationColor: Colors.blue,
+                  decorationColor: Settings.blue,
                   decorationThickness: 4,
                   fontSize: 20),
             ),
