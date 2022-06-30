@@ -20,6 +20,7 @@ import 'package:moody/screens/team_manage.dart';
 import 'package:moody/screens/team_overview.dart';
 import 'package:moody/screens/team_teamcare.dart';
 
+import '../screens/notificationSelect.dart';
 import '../screens/team_invite.dart';
 
 class RouteGenerator {
@@ -44,6 +45,7 @@ class RouteGenerator {
   static const String meditationEnd = "/meditationEnd";
   static const String atemUebung = "/atemUebung";
   static const String personalStatistic = "/personalStatistic";
+  static const String personalNotificationSetting = "/personalNotificationSetting";
 
   static const String showInvitations = "/getInvitations";
 
@@ -139,6 +141,8 @@ class RouteGenerator {
         return MaterialPageRoute(settings: settings, builder: (_) => const Splash());
       case showInvitations:
         return MaterialPageRoute(settings: settings, builder: (_) => const ProfileInvitations());
+      case personalNotificationSetting:
+        return MaterialPageRoute(settings: settings, builder: (_) => const NotificationSelect());
       default:
         return MaterialPageRoute(settings: settings, builder: (_) => const Splash());
     }

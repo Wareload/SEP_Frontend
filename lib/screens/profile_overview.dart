@@ -7,6 +7,7 @@ import '../api/api.dart';
 import '../api/exception/invalid_permission_exception.dart';
 import '../api/exception/user_feedback_exception.dart';
 import '../route/route_generator.dart';
+import '../structs/invitation.dart';
 import '../structs/profile.dart';
 import '../structs/team.dart';
 
@@ -19,6 +20,7 @@ class ProfileOverview extends StatefulWidget {
 bool isLoading = true;
 
 List<Team> teams = [];
+List<Invitation> invitations = [];
 Profile _profile = Profile.empty();
 
 class _ProfileOverviewState extends State<ProfileOverview> {
@@ -26,13 +28,23 @@ class _ProfileOverviewState extends State<ProfileOverview> {
     try {
       _profile = await Api.api.getProfile();
       teams = await Api.api.getTeams();
-
+      invitations = await Api.api.getInvitations();
       setState(() {
         isLoading = false;
       });
     } catch (e) {
       //no need to handle
     }
+  }
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void _openEndDrawer() {
+    _scaffoldKey.currentState!.openEndDrawer();
+  }
+
+  void _closeEndDrawer() {
+    Navigator.of(context).pop();
   }
 
   @override
@@ -47,72 +59,64 @@ class _ProfileOverviewState extends State<ProfileOverview> {
               width: 50,
               height: 50,
             ))
-        : Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
-            _getTeams(constraints);
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      alignment: Alignment.topLeft,
-                      margin: EdgeInsets.only(right: 10, top: 10),
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                      ),
-                      //color: Settings.blueAccent,
-                      height: 60,
-                      width: 120,
-                      child: IconButton(
-                          onPressed: _back,
-                          icon: const Icon(
-                            Icons.arrow_back,
-                            color: Colors.black,
-                            size: 40,
-                          )),
-                    ),
-                    Center(
-                      child: Widgets.getNavHeaderText("Dein Profil", constraints),
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(right: 10, top: 10),
-                          decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.blueAccent),
-                          //color: Settings.blueAccent,
-                          height: 60,
-                          width: 60,
-                          child: IconButton(onPressed: _openSettingsMenu, icon: Icon(Icons.settings, color: Colors.white, size: 40)),
+        : Scaffold(
+            key: _scaffoldKey,
+            body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+              _getTeams(constraints);
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        alignment: Alignment.topLeft,
+                        margin: EdgeInsets.only(right: 10, top: 10),
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
                         ),
-                        Container(
-                          margin: EdgeInsets.only(right: 10, top: 10),
-                          decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.redAccent),
-                          //color: Settings.blueAccent,
-                          height: 60,
-                          width: 60,
-                          child: IconButton(onPressed: _logout, icon: Icon(Icons.logout, color: Colors.white, size: 40)),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-                Widgets.getProfilePictureInitials(_profile.getFullName(), true, constraints),
-                Widgets.getTextFieldH2(_profile.getFullName(), constraints),
-                Widgets.getTextFieldH3(_profile.email, constraints),
-                displayTags(constraints),
-                Container(
-                    margin: EdgeInsets.only(left: constraints.maxWidth * 0.05),
-                    child: Align(child: Widgets.getTextFieldH3("Deine Teams:", constraints), alignment: Alignment.centerLeft)),
-                Expanded(
-                    child: SingleChildScrollView(
-                  child: _getTeams(constraints),
-                ))
-              ],
-            );
-          })));
+                        //color: Settings.blueAccent,
+                        height: 60,
+                        width: 120,
+                        child: IconButton(
+                            onPressed: _back,
+                            icon: const Icon(
+                              Icons.arrow_back,
+                              color: Colors.black,
+                              size: 40,
+                            )),
+                      ),
+                      Center(
+                        child: Widgets.getNavHeaderText("Dein Profil", constraints),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(right: 10, top: 10),
+                        decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.blueAccent),
+                        //color: Settings.blueAccent,
+                        height: 60,
+                        width: 60,
+                        child: IconButton(onPressed: _openEndDrawer, icon: Icon(Icons.settings, color: Colors.white, size: 40)),
+                      ),
+                    ],
+                  ),
+                  Widgets.getProfilePictureInitials(_profile.getFullName(), true, constraints),
+                  Widgets.getTextFieldH2(_profile.getFullName(), constraints),
+                  Widgets.getTextFieldH3(_profile.email, constraints),
+                  displayTags(constraints),
+                  Container(
+                      margin: EdgeInsets.only(left: constraints.maxWidth * 0.05),
+                      child: Align(child: Widgets.getTextFieldH3("Deine Teams:", constraints), alignment: Alignment.centerLeft)),
+                  Expanded(
+                      child: SingleChildScrollView(
+                    child: _getTeams(constraints),
+                  ))
+                ],
+              );
+            })),
+            endDrawer: getDrawMenu(),
+          );
   }
 
   //Teams
@@ -149,17 +153,11 @@ class _ProfileOverviewState extends State<ProfileOverview> {
 
   void _back() {
     Navigator.pop(context);
-    //Navigator.popAndPushNamed(context, RouteGenerator.teamOverview);
-  }
-
-  void _openSettingsMenu() {
-    print("Opensettings todo");
-    //TODO: Create a openSetting Menu
   }
 
   Future<void> _logout() async {
     await Api.api.logout();
-    Navigator.pushReplacementNamed(context, RouteGenerator.login);
+    Navigator.pushNamedAndRemoveUntil(context, RouteGenerator.login, (r) => false);
   }
 
   void _leaveTeam(Team team) async {
@@ -181,5 +179,83 @@ class _ProfileOverviewState extends State<ProfileOverview> {
   void initState() {
     apiCalls();
     super.initState();
+  }
+
+  Widget getDrawMenu() {
+    return Drawer(
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 35, 0, 0),
+            child: ListTile(
+                leading: const Icon(
+                  Icons.people,
+                  size: 35,
+                ),
+                title: const Text(
+                  'zur Teamübersicht',
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.black,
+                  ),
+                ),
+                onTap: () => {
+                      Navigator.pushNamedAndRemoveUntil(context, RouteGenerator.teamOverview, (route) => false,
+                          arguments: {"teams": teams, "profile": _profile, "invitations": invitations}),
+                    }),
+          ),
+          Divider(color: Colors.grey),
+          ListTile(
+              leading: const Icon(
+                Icons.check,
+                size: 35,
+              ),
+              title: const Text(
+                'Tags bearbeiten',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.black,
+                ),
+              ),
+              onTap: () => {}),
+          Divider(color: Colors.grey),
+          ListTile(
+              leading: const Icon(
+                Icons.doorbell_outlined,
+                size: 35,
+              ),
+              title: const Text(
+                'Benachrichtigungen',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.black,
+                ),
+              ),
+              onTap: () => {Navigator.pushReplacementNamed(context, RouteGenerator.personalNotificationSetting)}),
+          Divider(color: Colors.grey),
+          Expanded(
+            child: Align(
+              alignment: FractionalOffset.bottomCenter,
+              child: GestureDetector(
+                onTap: _logout,
+                child: const ListTile(
+                  leading: Icon(
+                    Icons.logout,
+                    size: 35,
+                  ),
+                  title: Text(
+                    'Ausloggen',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

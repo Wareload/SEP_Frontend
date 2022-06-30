@@ -103,8 +103,13 @@ class _SplashState extends State<Splash> {
     } else {
       print("Got everything!!!");
       if (await Api.api.isLoggedIn()) {
-        Navigator.pushReplacementNamed(context, RouteGenerator.teamOverview,
-            arguments: {"teams": teams, "profile": _profile, "invitations": invitations});
+        print("länge: " + teams.length.toString());
+        if (teams.length == 1) {
+          Navigator.pushNamed(context, RouteGenerator.teamDetails, arguments: {"team": teams[0], "leader": teams[0].leader});
+        } else {
+          Navigator.pushReplacementNamed(context, RouteGenerator.teamOverview,
+              arguments: {"teams": teams, "profile": _profile, "invitations": invitations});
+        }
       } else {
         Navigator.pushReplacementNamed(context, RouteGenerator.login);
       }

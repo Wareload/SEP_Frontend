@@ -144,11 +144,7 @@ class _TeamManageState extends State<TeamManage> {
   }
 
   void _goToHome() {
-    Navigator.pushNamed(context, RouteGenerator.teamOverview);
-  }
-
-  void _goToTeamCare(Team team) {
-    Navigator.pushNamed(context, RouteGenerator.teamCare, arguments: {"team": team});
+    Navigator.pushNamedAndRemoveUntil(context, RouteGenerator.teamOverview, (r) => false);
   }
 
   void _goToProfile() {

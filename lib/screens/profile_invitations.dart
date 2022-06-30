@@ -34,14 +34,12 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
               width: 50,
               height: 50,
             ))
-        : Scaffold(body:
-            SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+        : Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
             return RefreshIndicator(
               key: refreshKey,
               onRefresh: refreshInvitations,
               child: Column(children: <Widget>[
-                Widgets.getNavBarWithoutProfile(
-                    constraints, _onBack, "Deine Einladungen"),
+                Widgets.getNavBarWithoutProfile(constraints, _onBack, "Deine Einladungen"),
                 Expanded(
                   flex: 1,
                   child: ListView(
@@ -111,8 +109,7 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.blue),
                     color: Settings.blueAccent,
-                    borderRadius: BorderRadius.circular(
-                        20) // use instead of BorderRadius.all(Radius.circular(20))
+                    borderRadius: BorderRadius.circular(20) // use instead of BorderRadius.all(Radius.circular(20))
                     ),
                 child: Container(
                   color: Settings.blueAccent,
@@ -156,8 +153,7 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
     return BoxDecoration(
         border: Border.all(color: Colors.grey),
         color: Settings.white,
-        borderRadius: BorderRadius.circular(
-            20) // use instead of BorderRadius.all(Radius.circular(20))
+        borderRadius: BorderRadius.circular(20) // use instead of BorderRadius.all(Radius.circular(20))
         );
   }
 
@@ -182,10 +178,8 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            getButtonStyleOrangeMini(
-                () => {acceptInvitation(invite)}, "Annehmen", constraints),
-            getButtonStyleOrangeMini(
-                () => {denyInvitation(invite)}, "Ablehnen", constraints),
+            getButtonStyleOrangeMini(() => {acceptInvitation(invite)}, "Annehmen", constraints),
+            getButtonStyleOrangeMini(() => {denyInvitation(invite)}, "Ablehnen", constraints),
           ],
         ),
         SizedBox(
@@ -200,7 +194,7 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
     for (var element in invitations) {
       invitationWidgets.add(getInvitationWidget(element, constraints));
     }
-    if (invitations.length == 0) {
+    if (invitations.isEmpty) {
       return Column(
         children: [
           Text("Du hast aktuell keine Einladungen"),
@@ -215,8 +209,7 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
   Widget textWhiteH3(String teamname) {
     return Text(
       teamname,
-      style: TextStyle(
-          fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
+      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
     );
   }
 
@@ -253,8 +246,7 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
         });
   }
 
-  static Widget getButtonStyleOrangeMini(
-      VoidCallback func, String btnText, BoxConstraints constraints) {
+  static Widget getButtonStyleOrangeMini(VoidCallback func, String btnText, BoxConstraints constraints) {
     return Container(
       padding: EdgeInsets.all(10),
       //margin: EdgeInsets.only(left: 10, right: 10),
@@ -273,10 +265,7 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
             alignment: Alignment.center,
             child: Text(
               btnText,
-              style: const TextStyle(
-                  fontSize: Settings.mainFontSize,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
+              style: const TextStyle(fontSize: Settings.mainFontSize, fontWeight: FontWeight.bold, color: Colors.white),
             ),
           ),
         ),
@@ -289,7 +278,7 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
       invitations.remove(invite);
       _renderNew();
       await Api.api.acceptInvitation(invite.teamid);
-      Navigator.pushNamed(context, RouteGenerator.teamOverview);
+      Navigator.pop(context);
     } catch (e) {
       //TODO handle errors
     }

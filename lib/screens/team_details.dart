@@ -4,6 +4,7 @@ import 'package:moody/api/api.dart';
 import 'package:moody/route/route_generator.dart';
 import 'package:moody/widgets/widgets.dart';
 
+import '../structs/invitation.dart';
 import '../structs/profile.dart';
 import '../structs/team.dart';
 
@@ -19,6 +20,8 @@ class TeamDetails extends StatefulWidget {
 bool isLoading = true;
 Team _team = Team.empty();
 Profile _profile = Profile.empty();
+List<Team> teams = [];
+List<Invitation> invitations = [];
 
 bool canSelect = false;
 String _timemessage = "Du hast heute schon abgestimmt";
@@ -35,6 +38,8 @@ class _TeamDetailsState extends State<TeamDetails> {
       _team = team;
       _team.leader = leaderstate;
       _profile = await Api.api.getProfile();
+      invitations = await Api.api.getInvitations();
+      teams = await Api.api.getTeams();
       setState(() {
         isLoading = false;
       });
@@ -99,9 +104,8 @@ class _TeamDetailsState extends State<TeamDetails> {
 
   void _back() {
     isLoading = true;
-    Navigator.of(context).popUntil(
-      (route) => route.isFirst,
-    );
+    Navigator.pushNamedAndRemoveUntil(context, RouteGenerator.teamOverview, (route) => false,
+        arguments: {"teams": teams, "profile": _profile, "invitations": invitations});
   }
 
   void _goToProfile() {
