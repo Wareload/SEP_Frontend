@@ -187,22 +187,12 @@ class ApiBackend implements ApiInterface {
     print(profile.lastname);
     print(profile.firstname);
     print(profile.tags);
-    /*String tags = '[';
-    for (var element in profile.tags) {
-      print("element:" + element);
-    }
-    tags += "]";*/
-
-    List<String> list = ["1a", "2b", "3c"];
-    String jsonList = jsonEncode(list);
-    // or even better: var items = ['1','2','3'];
-
     http.Response response;
     try {
       response = await http
           .post(Uri.parse(pathUrl + pathProfileAdjustProfile),
               body: {
-                "tags": '["test"]',
+                "tags": json.encode(profile.tags),
                 "firstname": profile.firstname,
                 "lastname": profile.lastname,
               },

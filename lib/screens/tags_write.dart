@@ -118,13 +118,16 @@ class _TagsWriteState extends State<TagsWrite> {
     Profile newProfile = _profile;
     newProfile.firstname = firstNameController.text;
     newProfile.lastname = lastNameController.text;
+    List<String> tags = tagsController.text.split(",");
+    print(newProfile.tags);
+    newProfile.tags = tags;
     //newProfile
     try {
       var response = await Api.api.adjustProfile(newProfile);
     } catch (e) {
       print(e);
     }
-    Navigator.pop(context);
+    Navigator.pushReplacementNamed(context, RouteGenerator.profileOverview);
   }
 
   void _renderNew() {

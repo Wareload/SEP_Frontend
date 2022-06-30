@@ -318,7 +318,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                 size: 35,
               ),
               title: const Text(
-                'Tags bearbeiten',
+                'Profil bearbeiten',
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.black,
