@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
@@ -10,6 +12,7 @@ import '../route/route_generator.dart';
 import '../structs/invitation.dart';
 import '../structs/profile.dart';
 import '../structs/team.dart';
+import '../widgets/settings.dart';
 
 class ProfileOverview extends StatefulWidget {
   const ProfileOverview({Key? key}) : super(key: key);
@@ -22,6 +25,32 @@ bool isLoading = true;
 List<Team> teams = [];
 List<Invitation> invitations = [];
 Profile _profile = Profile.empty();
+
+final List teamImagesPaths = <String>[
+  "assets/team_images/0.jpg",
+  "assets/team_images/1.jpg",
+  "assets/team_images/2.jpg",
+  "assets/team_images/3.jpg",
+  "assets/team_images/4.jpg",
+  "assets/team_images/5.jpg",
+  "assets/team_images/6.jpg",
+  "assets/team_images/7.jpg",
+  "assets/team_images/8.jpg",
+  "assets/team_images/9.jpg",
+  "assets/team_images/10.jpg",
+  "assets/team_images/11.jpg",
+  "assets/team_images/12.jpg",
+  "assets/team_images/13.jpg",
+  "assets/team_images/14.jpg",
+  "assets/team_images/15.jpg",
+  "assets/team_images/16.jpg",
+  "assets/team_images/17.jpg",
+  "assets/team_images/18.jpg",
+  "assets/team_images/19.jpg",
+  "assets/team_images/20.jpg",
+];
+
+int teamImageToShow = Random(DateTime.now().millisecond).nextInt(21);
 
 class _ProfileOverviewState extends State<ProfileOverview> {
   void apiCalls() async {
@@ -61,7 +90,8 @@ class _ProfileOverviewState extends State<ProfileOverview> {
             ))
         : Scaffold(
             key: _scaffoldKey,
-            body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+            body:
+                SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
               _getTeams(constraints);
               return Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -79,7 +109,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                         ),
                         //color: Settings.blueAccent,
                         height: 60,
-                        width: 120,
+                        width: 60,
                         child: IconButton(
                             onPressed: _back,
                             icon: const Icon(
@@ -89,25 +119,35 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                             )),
                       ),
                       Center(
-                        child: Widgets.getNavHeaderText("Dein Profil", constraints),
+                        child: Widgets.getNavHeaderText(
+                            "Dein Profil", constraints),
                       ),
                       Container(
                         margin: EdgeInsets.only(right: 10, top: 10),
-                        decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.blueAccent),
+                        decoration: const BoxDecoration(
+                            shape: BoxShape.circle, color: Colors.blueAccent),
                         //color: Settings.blueAccent,
                         height: 60,
                         width: 60,
-                        child: IconButton(onPressed: _openEndDrawer, icon: Icon(Icons.settings, color: Colors.white, size: 40)),
+                        child: IconButton(
+                            onPressed: _openEndDrawer,
+                            icon: Icon(Icons.settings,
+                                color: Colors.white, size: 40)),
                       ),
                     ],
                   ),
-                  Widgets.getProfilePictureInitials(_profile.getFullName(), true, constraints),
+                  Widgets.getProfilePictureInitials(
+                      _profile.getFullName(), true, constraints),
                   Widgets.getTextFieldH2(_profile.getFullName(), constraints),
                   Widgets.getTextFieldH3(_profile.email, constraints),
                   displayTags(constraints),
                   Container(
-                      margin: EdgeInsets.only(left: constraints.maxWidth * 0.05),
-                      child: Align(child: Widgets.getTextFieldH3("Deine Teams:", constraints), alignment: Alignment.centerLeft)),
+                      margin:
+                          EdgeInsets.only(left: constraints.maxWidth * 0.05),
+                      child: Align(
+                          child: Widgets.getTextFieldH3(
+                              "Deine Teams:", constraints),
+                          alignment: Alignment.centerLeft)),
                   Expanded(
                       child: SingleChildScrollView(
                     child: _getTeams(constraints),
@@ -128,7 +168,12 @@ class _ProfileOverviewState extends State<ProfileOverview> {
         _goToTeam(element);
       }, () {
         _leaveTeam(element);
-      }, constraints, element));
+      }, () {
+        _deleteTeam(element);
+      }, constraints, element,
+          "assets/team_images/" + teamImageToShow.toString() + ".jpg"));
+      teamImageToShow++;
+      teamImageToShow %= 21;
     }
     return Column(
       children: widgets,
@@ -142,7 +187,8 @@ class _ProfileOverviewState extends State<ProfileOverview> {
       child: ListView.separated(
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
-          separatorBuilder: (BuildContext context, int index) => const Divider(),
+          separatorBuilder: (BuildContext context, int index) =>
+              const Divider(),
           itemCount: _profile.tags.length,
           itemBuilder: (context, int index) {
             print(_profile.tags[index]);
@@ -157,22 +203,78 @@ class _ProfileOverviewState extends State<ProfileOverview> {
 
   Future<void> _logout() async {
     await Api.api.logout();
-    Navigator.pushNamedAndRemoveUntil(context, RouteGenerator.login, (r) => false);
+    Navigator.pushNamedAndRemoveUntil(
+        context, RouteGenerator.login, (r) => false);
   }
 
   void _leaveTeam(Team team) async {
     try {
-      //TODO change delete team to leave team
       await Api.api.leaveTeam(team.id);
       teams.remove(team);
       setState(() {});
-    } catch (e) {
-      //TODO handle errors
-    }
+    } catch (e) {}
+  }
+
+  createAlertDialog(BuildContext context, String response, Team team) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(response),
+            actions: [
+              getButtonStyleOrange("", () => {_deleteTeamApi(team)}, "Ja"),
+              getButtonStyleOrange("", () => {Navigator.pop(context)}, "Nein"),
+            ],
+          );
+        });
+  }
+
+  static Widget getButtonStyleOrange(
+      String display, VoidCallback func, String btnText) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.only(left: 10, right: 10),
+      child: Material(
+        color: Colors.orange,
+        borderRadius: BorderRadius.circular(50),
+        child: InkWell(
+          onTap: func,
+          borderRadius: BorderRadius.circular(50),
+          child: Container(
+            height: 60,
+            alignment: Alignment.center,
+            child: Text(
+              btnText,
+              style: const TextStyle(
+                  fontSize: Settings.mainFontSize,
+                  fontWeight: FontWeight.bold,
+                  color: Settings.white),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _deleteTeam(Team team) async {
+    createAlertDialog(
+        context,
+        "Möchtest du das Team " + team.name.toString() + " wirklich löschen?",
+        team);
+  }
+
+  void _deleteTeamApi(Team team) async {
+    String response = "Lädt...";
+    try {
+      response = await Api.api.deleteTeam(team.id);
+    } catch (e) {}
+    Navigator.pop(context);
+    apiCalls();
   }
 
   void _goToTeam(Team team) {
-    Navigator.popAndPushNamed(context, RouteGenerator.teamDetails, arguments: {"team": team, "leader": team.leader});
+    Navigator.popAndPushNamed(context, RouteGenerator.teamDetails,
+        arguments: {"team": team, "leader": team.leader});
   }
 
   @override
@@ -200,8 +302,13 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                   ),
                 ),
                 onTap: () => {
-                      Navigator.pushNamedAndRemoveUntil(context, RouteGenerator.teamOverview, (route) => false,
-                          arguments: {"teams": teams, "profile": _profile, "invitations": invitations}),
+                      Navigator.pushNamedAndRemoveUntil(context,
+                          RouteGenerator.teamOverview, (route) => false,
+                          arguments: {
+                            "teams": teams,
+                            "profile": _profile,
+                            "invitations": invitations
+                          }),
                     }),
           ),
           Divider(color: Colors.grey),
@@ -217,7 +324,13 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                   color: Colors.black,
                 ),
               ),
-              onTap: () => {}),
+              onTap: () => {
+                    Navigator.pushReplacementNamed(
+                        context, RouteGenerator.setTags,
+                        arguments: {
+                          "profile": _profile,
+                        })
+                  }),
           Divider(color: Colors.grey),
           ListTile(
               leading: const Icon(
@@ -231,7 +344,10 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                   color: Colors.black,
                 ),
               ),
-              onTap: () => {Navigator.pushReplacementNamed(context, RouteGenerator.personalNotificationSetting)}),
+              onTap: () => {
+                    Navigator.pushReplacementNamed(
+                        context, RouteGenerator.personalNotificationSetting)
+                  }),
           Divider(color: Colors.grey),
           Expanded(
             child: Align(
