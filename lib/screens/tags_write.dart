@@ -102,7 +102,7 @@ class _TagsWriteState extends State<TagsWrite> {
                           ],
                         ),
                         Widgets.getButtonStyleOrange(() => {updateProfile()},
-                            constraints, "Zeit setzen"),
+                            constraints, "Profil abspeichern"),
                         SizedBox(),
                       ],
                     ),
