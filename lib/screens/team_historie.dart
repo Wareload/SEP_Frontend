@@ -27,7 +27,7 @@ Profile _profile = Profile.empty();
 List<MoodObject> moods = [];
 
 class _TeamHistorieState extends State<TeamHistorie> {
-  int _daysToShow = 0;
+  int _daysToShow = 6;
   Map<String, List<MoodObject>> moodDates = {};
 
   void loadData(Team team, Profile profile) async {
@@ -51,10 +51,14 @@ class _TeamHistorieState extends State<TeamHistorie> {
               width: 50,
               height: 50,
             ))
-        : Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+        : Scaffold(body:
+            SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
             return Column(children: <Widget>[
-              Widgets.getNavBar(constraints, _back, "Team-Historie", _goToProfile, _profile),
-              Expanded(
+              Widgets.getNavBar(
+                  constraints, _back, "Team-Historie", _goToProfile, _profile),
+              getTopBar(_goToPersonalStatistic, () {}),
+              getTimeButtons(),
+              Flexible(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -63,13 +67,11 @@ class _TeamHistorieState extends State<TeamHistorie> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       //crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        getTimeButtons(),
-                        Text("Letzte ${_daysToShow + 1} Tage werden angezeigt"),
+                        // Text("Letzte ${_daysToShow + 1} Tage werden angezeigt"),
                         const SizedBox(height: 10),
                         SingleChildScrollView(child: getHistoryMoodWidgets()),
                       ],
                     ),
-                    getBottomBar(_goToPersonalStatistic, () {}),
                   ],
                 ),
               ),
@@ -78,7 +80,8 @@ class _TeamHistorieState extends State<TeamHistorie> {
   }
 
   void _goToPersonalStatistic() {
-    Navigator.pushReplacementNamed(context, RouteGenerator.personalStatistic, arguments: {"team": _team, "profile": _profile});
+    Navigator.pushReplacementNamed(context, RouteGenerator.personalStatistic,
+        arguments: {"team": _team, "profile": _profile});
   }
 
   void _goToProfile() {
@@ -86,7 +89,8 @@ class _TeamHistorieState extends State<TeamHistorie> {
   }
 
   void _goToTeamHistorieSingleDate(List<MoodObject> moodList) {
-    Navigator.of(context).pushNamed(RouteGenerator.teamHistorieSingleDate, arguments: {"team": _team, "moodList": moodList, "profile": _profile});
+    Navigator.of(context).pushNamed(RouteGenerator.teamHistorieSingleDate,
+        arguments: {"team": _team, "moodList": moodList, "profile": _profile});
   }
 
   void _back() {
@@ -102,10 +106,12 @@ class _TeamHistorieState extends State<TeamHistorie> {
   Future<void> _getTeamMoods() async {
     String twoDigits(int n) => n.toString().padLeft(2, '0'); //9 would get to 09
     DateTime now = new DateTime.now();
-    String endDate = "${now.year}-${twoDigits(now.month)}-${twoDigits(now.day)}";
+    String endDate =
+        "${now.year}-${twoDigits(now.month)}-${twoDigits(now.day)}";
     DateTime startDateTime = new DateTime.now();
     startDateTime = startDateTime.subtract(Duration(days: _daysToShow));
-    String startDate = "${startDateTime.year}-${twoDigits(startDateTime.month)}-${twoDigits(startDateTime.day)}";
+    String startDate =
+        "${startDateTime.year}-${twoDigits(startDateTime.month)}-${twoDigits(startDateTime.day)}";
     try {
       moods = await Api.api.getTeamMood(_team.id, startDate, endDate);
       moodDates = {};
@@ -129,24 +135,48 @@ class _TeamHistorieState extends State<TeamHistorie> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        timeButton("1Tag", () => {setTime(0)}),
-        timeButton("3Tage", () => {setTime(2)}),
-        timeButton("7Tage", () => {setTime(6)}),
-        timeButton("14Tage", () => {setTime(13)}),
+        timeButton("Heute", 0, () => {setTime(0)}),
+        timeButton("Letzte Woche", 6, () => {setTime(6)}),
+        timeButton("Letzter Monat", 31, () => {setTime(31)}),
+        //timeButton("14Tage", () => {setTime(13)}),
       ],
     );
   }
 
-  timeButton(String display, VoidCallback func) {
+  timeButton(String display, int id, VoidCallback func) {
     return Container(
       padding: EdgeInsets.only(left: 5),
       child: ElevatedButton(
           onPressed: func,
-          child: Text(display),
+          child: Text(
+            display,
+            style: TextStyle(
+                fontWeight: FontWeight.bold, color: Colors.black, fontSize: 18),
+          ),
           style: ButtonStyle(
+              backgroundColor: checkIfActive(id)
+                  ? MaterialStateProperty.all<Color>(Colors.blueAccent)
+                  : MaterialStateProperty.all<Color>(Colors.white54),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0), side: const BorderSide(color: Settings.blueAccent))))),
+                  RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                      side: BorderSide(color: getDisabledColor(id)))))),
     );
+  }
+
+  bool checkIfActive(int id) {
+    if (id == _daysToShow) {
+      return true;
+    }
+    return false;
+  }
+
+  Color getDisabledColor(int id) {
+    if (id == _daysToShow) {
+      return Colors.blueAccent;
+    } else {
+      return Colors.grey;
+    }
   }
 
   setTime(int days) {
@@ -155,36 +185,32 @@ class _TeamHistorieState extends State<TeamHistorie> {
     setState(() {});
   }
 
-  Widget textWhiteH3(String teamname) {
+  Widget textBlackH3(String teamname) {
     return Text(
       teamname,
-      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
+      style: const TextStyle(
+          fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black),
     );
   }
 
   Widget textWhiteH2(String teamname) {
     return Text(
       teamname,
-      style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 18, color: Colors.white),
-    );
-  }
-
-  Widget getTeamAverage(double average) {
-    return Text(
-      (4 - (average + 1)).toString(),
-      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: getColorByMood(average)),
+      style: const TextStyle(
+          fontWeight: FontWeight.normal, fontSize: 18, color: Colors.white),
     );
   }
 
   getSubmitCounter(int submits) {
     return Text(
       "Abstimmungen: $submits",
-      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Settings.white),
+      style: TextStyle(
+          fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black),
     );
   }
 
-  static displayEmoji(String s, MaterialColor color, VoidCallback callback, MoodObject selectedMood) {
-    List moodnames = <String>["Sehr gut", "Gut", "alles gut", "naja", "Schlecht", "Sehr schlecht"];
+  static displayEmoji(String s, MaterialColor color, VoidCallback callback,
+      MoodObject selectedMood) {
     List moodPaths = <String>[
       "assets/verygood.png",
       "assets/good.png",
@@ -203,13 +229,12 @@ class _TeamHistorieState extends State<TeamHistorie> {
             child: CircleAvatar(
               radius: 29, //getRadiusByState(states, id),
               backgroundImage: AssetImage(moodPaths[selectedMood.activeMood]),
-              backgroundColor: Colors.black,
+              backgroundColor: color,
             ),
           ),
           const SizedBox(
             height: 2.0,
           ),
-          Text(moodnames[selectedMood.activeMood]),
         ],
       ),
     );
@@ -217,89 +242,184 @@ class _TeamHistorieState extends State<TeamHistorie> {
 
   Widget getHistoryMoodWidgets() {
     List<Widget> widgets = [];
+    widgets.add(getTitleOfContainer());
+    bool switcher = true;
+    int counter = 0;
+    bool last = false;
     moodDates.forEach((date, moodList) {
+      counter++;
+      if (moodDates.length == counter) last = true;
       double averageMood = 0;
       for (var element in moodList) {
         averageMood += element.activeMood;
       }
       averageMood = averageMood / moodList.length;
-      widgets.add(getTeamMoodWidget(date, averageMood, moodList));
+      widgets
+          .add(getTeamMoodWidget(date, averageMood, moodList, switcher, last));
+      switcher = !switcher;
     });
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: widgets,
+    return Container(
+      height: MediaQuery.of(context).size.height / 1.6,
+      child: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.only(left: 15, right: 15),
+          decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.grey,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(20))),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: widgets,
+          ),
+        ),
+      ),
     );
   }
 
-  Widget getTeamMoodWidget(String date, double averageMood, List<MoodObject> moodList) {
+  Widget getTitleOfContainer() {
+    return Container(
+      padding: EdgeInsets.only(top: 7, bottom: 3),
+      decoration: const BoxDecoration(
+        color: Colors.blueAccent,
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(18.0),
+          topLeft: Radius.circular(18.0),
+        ),
+      ),
+      //height: 10,
+      //color: Colors.blueAccent,
+      child: Center(child: getTextByDayWidget()),
+    );
+  }
+
+  Widget getTextByDayWidget() {
+    return Text(
+      getTextByDay(),
+      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+    );
+  }
+
+  String getTextByDay() {
+    if (_daysToShow == 6) {
+      return "Letzte Woche";
+    } else if (_daysToShow == 0) {
+      return "Heute";
+    } else {
+      return "Letzter Monat";
+    }
+  }
+
+  Widget getTeamMoodWidget(String date, double averageMood,
+      List<MoodObject> moodList, bool switcher, bool last) {
+    const blue1 = const Color(0xff89abe3);
+    const blue2 = const Color(0xff2271D8);
+    const blue3 = const Color(0xff0063b2);
+
     return InkWell(
       onTap: () {
         _goToTeamHistorieSingleDate(moodList);
       },
       child: Container(
-          margin: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
-          padding: const EdgeInsets.all(15),
-          decoration: BoxDecoration(
-              border: Border.all(color: Settings.blue),
-              color: Settings.blueAccent,
-              borderRadius: BorderRadius.circular(20) // use instead of BorderRadius.all(Radius.circular(20))
-              ),
           child: Container(
-            color: Settings.blueAccent,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    textWhiteH3(date),
-                    getSubmitCounter(moodList.length),
-                  ],
-                ),
-                displayEmoji("", Colors.green, () => {}, MoodObject(averageMood.toInt(), date, "test")),
-              ],
+        decoration: BoxDecoration(
+          color: switcher ? blue2.withOpacity(0.6) : blue2.withOpacity(0.9),
+          borderRadius: last
+              ? BorderRadius.only(
+                  bottomRight: Radius.circular(18.0),
+                  bottomLeft: Radius.circular(18.0))
+              : BorderRadius.only(),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              padding: EdgeInsets.only(left: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  textBlackH3(getDateWithDay(date)),
+                  getSubmitCounter(moodList.length),
+                ],
+              ),
             ),
-          )),
+            Container(
+              padding: EdgeInsets.only(right: 20),
+              child: displayEmoji("", getColorByMood(averageMood), () => {},
+                  MoodObject(averageMood.toInt(), date, "test")),
+            ),
+          ],
+        ),
+      )),
     );
   }
 
+  String getDateWithDay(String date) {
+    var dateLocal = DateTime.parse(date);
+    return getWeekdayByInt(dateLocal.weekday) + ", " + date;
+  }
+
+  String getWeekdayByInt(int day) {
+    if (day == 1) {
+      return "Montag";
+    } else if (day == 2) {
+      return "Dienstag";
+    } else if (day == 3) {
+      return "Mittwoch";
+    } else if (day == 4) {
+      return "Donnerstag";
+    } else if (day == 5) {
+      return "Freitag";
+    } else if (day == 6) {
+      return "Samstag";
+    } else {
+      return "Sonntag";
+    }
+  }
+
   getColorByMood(double average) {
-    if (average > 2) {
-      return Colors.red;
-    } else if (average > 1) {
-      return Colors.orange;
-    } else if (average > 0) {
+    if (average == 5) {
+      return Colors.blue;
+    } else if (average >= 4) {
       return Colors.yellow;
+    } else if (average >= 3) {
+      return Colors.red;
+    } else if (average >= 2) {
+      return Colors.grey;
+    } else if (average >= 1) {
+      return Colors.green;
+    } else if (average >= 0) {
+      return Colors.orange;
     } else {
       return Colors.green;
     }
   }
 
-  getBottomBar(VoidCallback ownFunc, VoidCallback teamFunc) {
+  getTopBar(VoidCallback ownFunc, VoidCallback teamFunc) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         btnSelector("Eigene Ansicht", false, ownFunc),
-        btnSelector(_team.name, true, teamFunc),
+        btnSelector("Team", true, teamFunc),
       ],
     );
   }
 
   btnSelector(String text, bool active, VoidCallback func) {
     return Container(
-      padding: EdgeInsets.only(bottom: 20),
+      padding: EdgeInsets.only(bottom: 10),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FlatButton(
-            padding: EdgeInsets.all(5),
+            padding: EdgeInsets.only(left: 5, right: 5),
             child: Text(
               text,
               style: TextStyle(
                   color: Colors.transparent,
                   shadows: [Shadow(color: Colors.black, offset: Offset(0, -5))],
-                  fontWeight: FontWeight.normal,
+                  fontWeight: FontWeight.bold,
                   decoration: getUnderlineByBool(active),
                   decorationColor: Settings.blue,
                   decorationThickness: 4,
