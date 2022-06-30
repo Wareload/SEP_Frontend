@@ -219,6 +219,20 @@ class _ProfileOverviewState extends State<ProfileOverview> {
               ),
               onTap: () => {}),
           Divider(color: Colors.grey),
+          ListTile(
+              leading: const Icon(
+                Icons.doorbell_outlined,
+                size: 35,
+              ),
+              title: const Text(
+                'Benachrichtigungen',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.black,
+                ),
+              ),
+              onTap: () => {Navigator.pushReplacementNamed(context, RouteGenerator.personalNotificationSetting)}),
+          Divider(color: Colors.grey),
           Expanded(
             child: Align(
               alignment: FractionalOffset.bottomCenter,
