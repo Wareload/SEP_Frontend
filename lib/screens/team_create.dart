@@ -23,34 +23,23 @@ class _TeamCreateState extends State<TeamCreate> {
 
   @override
   Widget build(BuildContext context) {
-    var args = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
+    var args = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
     _setInvites(args["invitations"]);
-    return Scaffold(
-        body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+    return Scaffold(body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
       return Column(
         children: [
-          Widgets.getNavBarWithoutProfile(
-              constraints, _onBack, "Team erstellen"),
+          Widgets.getNavBarWithoutProfile(constraints, _onBack, "Team erstellen"),
           SizedBox(
             height: 30,
           ),
-          getButtonStyle2WithNotification(
-              "Einladungen", _goToInvites, constraints),
+          getButtonStyle2WithNotification("Einladungen", _goToInvites, constraints),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Widgets.getInputFieldWithTitle(
-                    teamNameController,
-                    TextInputType.text,
-                    false,
-                    constraints,
-                    "Teamname",
-                    "Teamname hier eintragen"),
-                getButtonStyleOrangeWithAnimation(
-                    _onTeamCreate, constraints, "Fertig", isSending),
+                Widgets.getInputFieldWithTitle(teamNameController, TextInputType.text, false, constraints, "Teamname", "Teamname hier eintragen"),
+                getButtonStyleOrangeWithAnimation(_onTeamCreate, constraints, "Fertig", isSending),
               ],
             ),
           ),
@@ -71,7 +60,7 @@ class _TeamCreateState extends State<TeamCreate> {
   }
 
   void _goToInvites() {
-    Navigator.pushNamed(context, RouteGenerator.showInvitations);
+    Navigator.pushReplacementNamed(context, RouteGenerator.showInvitations);
   }
 
   void _onTeamCreate() async {
@@ -101,8 +90,7 @@ class _TeamCreateState extends State<TeamCreate> {
   }
 
   //button with a circularbtn animation for sending the mood to our backend
-  static Widget getButtonStyleOrangeWithAnimation(VoidCallback func,
-      BoxConstraints constraints, String btnText, bool isLoading) {
+  static Widget getButtonStyleOrangeWithAnimation(VoidCallback func, BoxConstraints constraints, String btnText, bool isLoading) {
     return Container(
       padding: EdgeInsets.all(10),
       margin: EdgeInsets.only(left: 10, right: 10),
@@ -133,10 +121,7 @@ class _TeamCreateState extends State<TeamCreate> {
                   alignment: Alignment.center,
                   child: Text(
                     btnText,
-                    style: const TextStyle(
-                        fontSize: Settings.mainFontSize,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                    style: const TextStyle(fontSize: Settings.mainFontSize, fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                 ),
         ),
@@ -144,8 +129,7 @@ class _TeamCreateState extends State<TeamCreate> {
     );
   }
 
-  createAlertDialog(
-      BuildContext context, String response, VoidCallback callback) {
+  createAlertDialog(BuildContext context, String response, VoidCallback callback) {
     return showDialog(
         context: context,
         builder: (context) {
@@ -158,8 +142,7 @@ class _TeamCreateState extends State<TeamCreate> {
         });
   }
 
-  static Widget getButtonStyleOrange(
-      String display, VoidCallback func, String btnText) {
+  static Widget getButtonStyleOrange(String display, VoidCallback func, String btnText) {
     return Container(
       padding: EdgeInsets.all(10),
       margin: EdgeInsets.only(left: 10, right: 10),
@@ -174,10 +157,7 @@ class _TeamCreateState extends State<TeamCreate> {
             alignment: Alignment.center,
             child: Text(
               btnText,
-              style: const TextStyle(
-                  fontSize: Settings.mainFontSize,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
+              style: const TextStyle(fontSize: Settings.mainFontSize, fontWeight: FontWeight.bold, color: Colors.white),
             ),
           ),
         ),
@@ -185,14 +165,12 @@ class _TeamCreateState extends State<TeamCreate> {
     );
   }
 
-  Widget getButtonStyle2WithNotification(
-      String display, VoidCallback func, BoxConstraints constraints) {
+  Widget getButtonStyle2WithNotification(String display, VoidCallback func, BoxConstraints constraints) {
     return Stack(
       children: [
         Container(
           height: 60,
-          margin: EdgeInsets.only(
-              bottom: constraints.maxWidth * 0.04, left: 10, right: 10),
+          margin: EdgeInsets.only(bottom: constraints.maxWidth * 0.04, left: 10, right: 10),
           child: Material(
             color: Settings.blue,
             borderRadius: BorderRadius.circular(50),
@@ -206,10 +184,7 @@ class _TeamCreateState extends State<TeamCreate> {
                   display,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                      color: Settings.white),
+                  style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Settings.white),
                 ),
               ),
             ),

@@ -149,7 +149,6 @@ class _ProfileOverviewState extends State<ProfileOverview> {
 
   void _back() {
     Navigator.pop(context);
-    //Navigator.popAndPushNamed(context, RouteGenerator.teamOverview);
   }
 
   void _openSettingsMenu() {
@@ -159,7 +158,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
 
   Future<void> _logout() async {
     await Api.api.logout();
-    Navigator.pushReplacementNamed(context, RouteGenerator.login);
+    Navigator.pushNamedAndRemoveUntil(context, RouteGenerator.login, (r) => false);
   }
 
   void _leaveTeam(Team team) async {
