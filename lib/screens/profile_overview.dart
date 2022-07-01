@@ -90,8 +90,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
             ))
         : Scaffold(
             key: _scaffoldKey,
-            body:
-                SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
+            body: SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
               _getTeams(constraints);
               return Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -119,35 +118,25 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                             )),
                       ),
                       Center(
-                        child: Widgets.getNavHeaderText(
-                            "Dein Profil", constraints),
+                        child: Widgets.getNavHeaderText("Dein Profil", constraints),
                       ),
                       Container(
                         margin: EdgeInsets.only(right: 10, top: 10),
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.blueAccent),
+                        decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.blueAccent),
                         //color: Settings.blueAccent,
                         height: 60,
                         width: 60,
-                        child: IconButton(
-                            onPressed: _openEndDrawer,
-                            icon: Icon(Icons.settings,
-                                color: Colors.white, size: 40)),
+                        child: IconButton(onPressed: _openEndDrawer, icon: Icon(Icons.settings, color: Colors.white, size: 40)),
                       ),
                     ],
                   ),
-                  Widgets.getProfilePictureInitials(
-                      _profile.getFullName(), true, constraints),
+                  Widgets.getProfilePictureInitials(_profile.getFullName(), true, constraints),
                   Widgets.getTextFieldH2(_profile.getFullName(), constraints),
                   Widgets.getTextFieldH3(_profile.email, constraints),
                   displayTags(constraints),
                   Container(
-                      margin:
-                          EdgeInsets.only(left: constraints.maxWidth * 0.05),
-                      child: Align(
-                          child: Widgets.getTextFieldH3(
-                              "Deine Teams:", constraints),
-                          alignment: Alignment.centerLeft)),
+                      margin: EdgeInsets.only(left: constraints.maxWidth * 0.05),
+                      child: Align(child: Widgets.getTextFieldH3("Deine Teams:", constraints), alignment: Alignment.centerLeft)),
                   Expanded(
                       child: SingleChildScrollView(
                     child: _getTeams(constraints),
@@ -170,8 +159,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
         _leaveTeam(element);
       }, () {
         _deleteTeam(element);
-      }, constraints, element,
-          "assets/team_images/" + teamImageToShow.toString() + ".jpg"));
+      }, constraints, element, "assets/team_images/" + teamImageToShow.toString() + ".jpg"));
       teamImageToShow++;
       teamImageToShow %= 21;
     }
@@ -187,8 +175,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
       child: ListView.separated(
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
-          separatorBuilder: (BuildContext context, int index) =>
-              const Divider(),
+          separatorBuilder: (BuildContext context, int index) => const Divider(),
           itemCount: _profile.tags.length,
           itemBuilder: (context, int index) {
             print(_profile.tags[index]);
@@ -203,8 +190,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
 
   Future<void> _logout() async {
     await Api.api.logout();
-    Navigator.pushNamedAndRemoveUntil(
-        context, RouteGenerator.login, (r) => false);
+    Navigator.pushNamedAndRemoveUntil(context, RouteGenerator.login, (r) => false);
   }
 
   void _leaveTeam(Team team) async {
@@ -229,8 +215,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
         });
   }
 
-  static Widget getButtonStyleOrange(
-      String display, VoidCallback func, String btnText) {
+  static Widget getButtonStyleOrange(String display, VoidCallback func, String btnText) {
     return Container(
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.only(left: 10, right: 10),
@@ -245,10 +230,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
             alignment: Alignment.center,
             child: Text(
               btnText,
-              style: const TextStyle(
-                  fontSize: Settings.mainFontSize,
-                  fontWeight: FontWeight.bold,
-                  color: Settings.white),
+              style: const TextStyle(fontSize: Settings.mainFontSize, fontWeight: FontWeight.bold, color: Settings.white),
             ),
           ),
         ),
@@ -257,10 +239,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
   }
 
   void _deleteTeam(Team team) async {
-    createAlertDialog(
-        context,
-        "Möchtest du das Team " + team.name.toString() + " wirklich löschen?",
-        team);
+    createAlertDialog(context, "Möchtest du das Team " + team.name.toString() + " wirklich löschen?", team);
   }
 
   void _deleteTeamApi(Team team) async {
@@ -268,13 +247,11 @@ class _ProfileOverviewState extends State<ProfileOverview> {
     try {
       response = await Api.api.deleteTeam(team.id);
     } catch (e) {}
-    Navigator.pop(context);
-    apiCalls();
+    Navigator.pushNamedAndRemoveUntil(context, RouteGenerator.teamOverview, (r) => false);
   }
 
   void _goToTeam(Team team) {
-    Navigator.popAndPushNamed(context, RouteGenerator.teamDetails,
-        arguments: {"team": team, "leader": team.leader});
+    Navigator.popAndPushNamed(context, RouteGenerator.teamDetails, arguments: {"team": team, "leader": team.leader});
   }
 
   @override
@@ -302,13 +279,8 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                   ),
                 ),
                 onTap: () => {
-                      Navigator.pushNamedAndRemoveUntil(context,
-                          RouteGenerator.teamOverview, (route) => false,
-                          arguments: {
-                            "teams": teams,
-                            "profile": _profile,
-                            "invitations": invitations
-                          }),
+                      Navigator.pushNamedAndRemoveUntil(context, RouteGenerator.teamOverview, (route) => false,
+                          arguments: {"teams": teams, "profile": _profile, "invitations": invitations}),
                     }),
           ),
           Divider(color: Colors.grey),
@@ -325,11 +297,12 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                 ),
               ),
               onTap: () => {
-                    Navigator.pushReplacementNamed(
-                        context, RouteGenerator.setTags,
-                        arguments: {
-                          "profile": _profile,
-                        })
+                    isLoading = true,
+                    Navigator.pushReplacementNamed(context, RouteGenerator.setTags, arguments: {
+                      "profile": _profile,
+                    }).then((value) => {
+                          apiCalls(),
+                        }),
                   }),
           Divider(color: Colors.grey),
           ListTile(
@@ -344,10 +317,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                   color: Colors.black,
                 ),
               ),
-              onTap: () => {
-                    Navigator.pushReplacementNamed(
-                        context, RouteGenerator.personalNotificationSetting)
-                  }),
+              onTap: () => {Navigator.pushReplacementNamed(context, RouteGenerator.personalNotificationSetting)}),
           Divider(color: Colors.grey),
           Expanded(
             child: Align(
