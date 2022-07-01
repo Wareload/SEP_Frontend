@@ -149,6 +149,7 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
 
   @override
   void initState() {
+    isLoading = true;
     loadData(
         widget.data["team"], widget.data["moodList"], widget.data["profile"]);
     super.initState();

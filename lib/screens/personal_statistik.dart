@@ -82,6 +82,12 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
     bool switcher = true;
     int counter = 0;
     bool last = false;
+    if (moods.isEmpty) {
+      return Center(
+          child: Container(
+        child: Text("Keine Daten vorhanden"),
+      ));
+    }
     for (var element in moods) {
       counter++;
       if (moods.length == counter) last = true;
@@ -142,6 +148,7 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
 
   @override
   void initState() {
+    isLoading = true;
     loadData(widget.data["team"], widget.data["profile"]);
     super.initState();
   }

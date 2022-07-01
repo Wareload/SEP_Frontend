@@ -246,6 +246,12 @@ class _TeamHistorieState extends State<TeamHistorie> {
     bool switcher = true;
     int counter = 0;
     bool last = false;
+    if (moodDates.isEmpty) {
+      return Center(
+          child: Container(
+        child: Text("Keine Daten vorhanden"),
+      ));
+    }
     moodDates.forEach((date, moodList) {
       counter++;
       if (moodDates.length == counter) last = true;
