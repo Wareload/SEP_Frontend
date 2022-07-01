@@ -32,7 +32,7 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
     _profile = profile;
     _getPersonalMoods();
     setState(() {
-      isLoading = false;
+      // isLoading = false;
     });
   }
 
@@ -164,11 +164,14 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
         "${startDateTime.year}-${twoDigits(startDateTime.month)}-${twoDigits(startDateTime.day)}";
     try {
       moods = await Api.api.getPersonalMood(_team.id, startDate, endDate);
-      setState(() {});
+      setState(() {
+        isLoading = false;
+      });
     } catch (e) {}
   }
 
   void _back() {
+    isLoading = true;
     Navigator.pop(context);
   }
 
@@ -177,6 +180,7 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
   }
 
   void _goToHistory() {
+    isLoading = true;
     Navigator.pushReplacementNamed(context, RouteGenerator.teamHistorie,
         arguments: {"team": _team, "profile": _profile});
   }

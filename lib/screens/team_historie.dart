@@ -34,9 +34,7 @@ class _TeamHistorieState extends State<TeamHistorie> {
     _team = team;
     _profile = profile;
     await _getTeamMoods();
-    setState(() {
-      isLoading = false;
-    });
+    setState(() {});
   }
 
   @override
@@ -89,6 +87,7 @@ class _TeamHistorieState extends State<TeamHistorie> {
   }
 
   void _goToTeamHistorieSingleDate(List<MoodObject> moodList) {
+    isLoading = true;
     Navigator.of(context).pushNamed(RouteGenerator.teamHistorieSingleDate,
         arguments: {"team": _team, "moodList": moodList, "profile": _profile});
   }
@@ -99,6 +98,7 @@ class _TeamHistorieState extends State<TeamHistorie> {
 
   @override
   void initState() {
+    isLoading = true;
     loadData(widget.data["team"], widget.data["profile"]);
     super.initState();
   }
@@ -127,7 +127,9 @@ class _TeamHistorieState extends State<TeamHistorie> {
           moodDates[element.date] = moodList!;
         }
       }
-      setState(() {});
+      setState(() {
+        isLoading = false;
+      });
     } catch (e) {}
   }
 
