@@ -1184,31 +1184,30 @@ class Widgets {
   static Widget getInputField(TextEditingController noteController,
       TextInputType text, BoxConstraints constraints) {
     return Container(
-      height: 150,
-      padding: EdgeInsets.all(5),
-      child: Center(
-        child: Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                  width: 1, color: Colors.white, style: BorderStyle.solid)),
-          child: TextField(
-            controller: noteController,
-            textAlign: TextAlign.center,
-            minLines: 10,
-            maxLines: 20,
-            inputFormatters: [
-              LengthLimitingTextInputFormatter(200),
-            ],
-            decoration: const InputDecoration(
-                hintText: "Anmerkungen",
-                contentPadding: EdgeInsets.all(15),
-                border: InputBorder.none),
-            onChanged: (value) {},
-          ),
-        ),
-      ),
+       height: 150,
+       width: constraints.maxWidth * 0.95,
+       margin: EdgeInsets.only(bottom: constraints.maxWidth * 0.02),
+       decoration: BoxDecoration(
+         color: Colors.white,
+         borderRadius: BorderRadius.circular(20),
+         border: Border.all(color: Colors.black12),),
+       child: Center(
+         child: TextField(
+           controller: noteController,
+           textAlign: TextAlign.center,
+           textAlignVertical: TextAlignVertical.center,
+           minLines: 10,
+           maxLines: 20,
+           inputFormatters: [
+             LengthLimitingTextInputFormatter(200),
+           ],
+           decoration: const InputDecoration(
+               hintText: "Anmerkungen",
+               contentPadding: EdgeInsets.all(15),
+               border: InputBorder.none),
+           onChanged: (value) {},
+         ),
+       ),
     );
   }
 
