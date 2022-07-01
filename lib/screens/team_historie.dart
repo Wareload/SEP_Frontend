@@ -34,9 +34,7 @@ class _TeamHistorieState extends State<TeamHistorie> {
     _team = team;
     _profile = profile;
     await _getTeamMoods();
-    setState(() {
-      isLoading = false;
-    });
+    setState(() {});
   }
 
   @override
@@ -89,6 +87,7 @@ class _TeamHistorieState extends State<TeamHistorie> {
   }
 
   void _goToTeamHistorieSingleDate(List<MoodObject> moodList) {
+    isLoading = true;
     Navigator.of(context).pushNamed(RouteGenerator.teamHistorieSingleDate,
         arguments: {"team": _team, "moodList": moodList, "profile": _profile});
   }
@@ -99,6 +98,7 @@ class _TeamHistorieState extends State<TeamHistorie> {
 
   @override
   void initState() {
+    isLoading = true;
     loadData(widget.data["team"], widget.data["profile"]);
     super.initState();
   }
@@ -127,7 +127,9 @@ class _TeamHistorieState extends State<TeamHistorie> {
           moodDates[element.date] = moodList!;
         }
       }
-      setState(() {});
+      setState(() {
+        isLoading = false;
+      });
     } catch (e) {}
   }
 
@@ -151,7 +153,7 @@ class _TeamHistorieState extends State<TeamHistorie> {
           child: Text(
             display,
             style: TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.black, fontSize: 18),
+                fontWeight: FontWeight.bold, color: Colors.black, fontSize: 15),
           ),
           style: ButtonStyle(
               backgroundColor: checkIfActive(id)
@@ -246,6 +248,12 @@ class _TeamHistorieState extends State<TeamHistorie> {
     bool switcher = true;
     int counter = 0;
     bool last = false;
+    if (moodDates.isEmpty) {
+      return Center(
+          child: Container(
+        child: Text("Keine Daten vorhanden"),
+      ));
+    }
     moodDates.forEach((date, moodList) {
       counter++;
       if (moodDates.length == counter) last = true;

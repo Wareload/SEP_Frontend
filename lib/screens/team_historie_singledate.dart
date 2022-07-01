@@ -64,7 +64,8 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const SizedBox(height: 10),
-                            SingleChildScrollView(child: getMoodWidgets()),
+                            SingleChildScrollView(
+                                child: getMoodWidgets(constraints)),
                           ],
                         ),
                       ],
@@ -76,7 +77,7 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
           })));
   }
 
-  Widget getMoodWidgets() {
+  Widget getMoodWidgets(BoxConstraints constraints) {
     List<Widget> widgets = [];
     widgets.add(getTitleOfContainer());
     bool switcher = true;
@@ -86,7 +87,7 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
       counter++;
       if (moods.length == counter) last = true;
       dateString = element.date;
-      widgets.add(getMoodWidget(element, switcher, last));
+      widgets.add(getMoodWidget(constraints, element, switcher, last));
       switcher = !switcher;
     }
     return SingleChildScrollView(
@@ -98,7 +99,7 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
             ),
             borderRadius: BorderRadius.all(Radius.circular(20))),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          //crossAxisAlignment: CrossAxisAlignment.stretch,
           children: widgets,
         ),
       ),
@@ -148,6 +149,7 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
 
   @override
   void initState() {
+    isLoading = true;
     loadData(
         widget.data["team"], widget.data["moodList"], widget.data["profile"]);
     super.initState();
@@ -176,7 +178,8 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
     );
   }
 
-  Widget getMoodWidget(MoodObject element, bool lightState, bool last) {
+  Widget getMoodWidget(BoxConstraints constraints, MoodObject element,
+      bool lightState, bool last) {
     return Container(
         decoration: BoxDecoration(
           color: lightState
@@ -197,7 +200,9 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
             children: [
               displayEmoji("", getColorByMood(element.activeMood.toDouble()),
                   () => {}, element, 0),
-              textWhiteH2(element.note),
+              Container(
+                  width: constraints.maxWidth * 0.6,
+                  child: textWhiteH2(element.note)),
             ],
           ),
         ));
@@ -207,7 +212,7 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
     return Text(
       teamname,
       style: const TextStyle(
-          fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
+          fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black),
     );
   }
 
