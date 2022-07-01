@@ -40,6 +40,8 @@ class ApiBackend implements ApiInterface {
       "/team/acceptInvitation"; //TODO need to implement
   final String pathTeamDenyInvitationTeamMember =
       "/team/declineInvitation"; //TODO need to implement
+  final String pathGetNotificationTeamMoods =
+      "/notification/getAlert"; //TODO need to implement
 
   //profile routes
   final String pathProfileGetProfile =
@@ -485,6 +487,39 @@ class ApiBackend implements ApiInterface {
 
   //Mood
 
+  //get Notifications for teammoods
+  @override
+  Future<List<TeamMoods>> getTeamMoods() async {
+    http.Response response;
+    try {
+      response = await http
+          .post(Uri.parse(pathUrl + pathGetNotificationTeamMoods),
+              body: {}, headers: _headers)
+          .timeout(Duration(seconds: timeout));
+      print(response.body);
+    } catch (e) {
+      print(e);
+      throw UserFeedbackException("Server Error");
+    }
+    switch (response.statusCode) {
+      case 200:
+        List<TeamMoods> teamMoods = [];
+        var body = json.decode(response.body);
+        teamMoods = TeamMoods.getSimpleMoodObjects(body["moods"]);
+        await updateCookie(response);
+        return teamMoods;
+      case 400:
+        print(response.request);
+        print(response.body);
+        print(response.statusCode);
+        throw UserFeedbackException("Ungültige Eingaben");
+      case 401:
+        throw InvalidPermissionException("Keine Berechtigung");
+    }
+    throw UserFeedbackException("Server Fehler");
+    throw UnimplementedError();
+  }
+
   //submit Mood
   @override
   Future<void> setMood(int teamId, int mood, String note) async {
@@ -595,33 +630,6 @@ class ApiBackend implements ApiInterface {
     throw UserFeedbackException("Server Fehler");
   }
 
-  /*
-    @override
-  Future<List<Team>> getTeams() async {
-    http.Response response;
-    try {
-      response = await http.post(Uri.parse(pathUrl + pathTeamGetTeams),
-          headers: _headers, body: {}).timeout(Duration(seconds: timeout));
-    } catch (e) {
-      throw UserFeedbackException("Server error");
-    }
-    switch (response.statusCode) {
-      case 200:
-        var teams = <Team>[];
-        var body = json.decode(response.body);
-        teams = Team.getSimpleTeams(body["teams"]);
-        await updateCookie(response);
-        teams.sort(
-            (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
-        return teams;
-      case 401:
-        throw InvalidPermissionException("Unauthorized");
-      default:
-        throw UserFeedbackException("Server Fehler");
-    }
-  }
-   */
-
   ///returns your moodstatus if you can submit a mood or if you have to wait
   @override
   Future<bool> getMoodTimer(int teamid) async {
@@ -680,5 +688,38 @@ class Mood {
     this.teamid = teamid;
     this.mood = mood;
     this.date = date;
+  }
+}
+
+class TeamMoods {
+  late int teamid;
+  late double avg;
+  late int min;
+  late String teamname;
+
+  TeamMoods(int teamid, double avg, int min, String teamname) {
+    this.teamid = teamid;
+    this.avg = avg;
+    this.min = min;
+    this.teamname = teamname;
+  }
+
+  static List<TeamMoods> getSimpleMoodObjects(List moods) {
+    var toReturn = <TeamMoods>[];
+    for (var element in moods) {
+      double avg;
+      if (element['avg'].toString().contains(".")) {
+        avg = double.parse(element['avg'].toString());
+      } else {
+        int avgInt = int.parse(element['avg'].toString());
+        avg = avgInt.toDouble();
+      }
+      toReturn.add(TeamMoods(
+          int.parse(element['teamid'].toString()),
+          avg,
+          int.parse(element['min'].toString()),
+          element['teamname'].toString()));
+    }
+    return toReturn;
   }
 }
