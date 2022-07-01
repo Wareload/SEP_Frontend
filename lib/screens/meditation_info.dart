@@ -20,7 +20,8 @@ class _MeditationInfoState extends State<MeditationInfo> {
 
   @override
   Widget build(BuildContext context) {
-    var args = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
+    var args = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
     minutes = args['minutes'];
 
     return Scaffold(
@@ -36,7 +37,8 @@ class _MeditationInfoState extends State<MeditationInfo> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Widgets.getNavBarWithoutProfile(constraints, _back, "Meditation"),
+                        Widgets.getNavBarWithoutProfile(
+                            constraints, _back, "Meditation"),
                         const SizedBox(
                           height: 100,
                         ),
@@ -47,9 +49,8 @@ class _MeditationInfoState extends State<MeditationInfo> {
                         textWidgetCentered("Gedanken abschweifen."),
                         textWidgetCentered("Sei nicht zu hart zu dir."),
                         textWidgetCentered("Konzentriere dich einfach wieder."),
-                        textWidgetCentered("Wenn der Timer abläuft ertönt"),
-                        textWidgetCentered("ein Signalton."),
-                        Widgets.getButtonStyleOrange(_goToMeditationStart, constraints, "Los geht's"),
+                        Widgets.getButtonStyleOrange(
+                            _goToMeditationStart, constraints, "Los geht's"),
                         const SizedBox(
                           height: 100,
                         ),
@@ -77,7 +78,8 @@ class _MeditationInfoState extends State<MeditationInfo> {
   }
 
   void _goToMeditationStart() {
-    Navigator.of(context).pushReplacementNamed(RouteGenerator.meditationStart, arguments: {"minutes": minutes});
+    Navigator.of(context).pushReplacementNamed(RouteGenerator.meditationStart,
+        arguments: {"minutes": minutes});
   }
 
   textWidgetCentered(String text) {

@@ -21,7 +21,8 @@ class _MeditationStartState extends State<MeditationStart> {
 
   @override
   Widget build(BuildContext context) {
-    var args = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
+    var args = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
 
     minutes = args['minutes'];
 
@@ -38,7 +39,8 @@ class _MeditationStartState extends State<MeditationStart> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Widgets.getNavBarWithoutProfile(constraints, _back, "Meditation"),
+                        Widgets.getNavBarWithoutProfile(
+                            constraints, _back, "Meditation"),
                         Center(
                           child: textWidgetCentered("Schließe deine Augen."),
                         ),
@@ -58,7 +60,11 @@ class _MeditationStartState extends State<MeditationStart> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 4), () => Navigator.of(context).pushReplacementNamed(RouteGenerator.meditationTimer, arguments: {"minutes": minutes}));
+    Timer(
+        Duration(seconds: 2),
+        () => Navigator.of(context).pushReplacementNamed(
+            RouteGenerator.meditationTimer,
+            arguments: {"minutes": minutes}));
   }
 
   void _back() {

@@ -109,6 +109,7 @@ class _TeamDetailsState extends State<TeamDetails> {
   }
 
   void _goToProfile() {
+    isLoading = true;
     Navigator.pushNamed(context, RouteGenerator.profileOverview);
   }
 

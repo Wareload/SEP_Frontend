@@ -183,9 +183,36 @@ class ApiBackend implements ApiInterface {
   //Profile
 
   @override
-  Future<Profile> adjustProfile(Profile profile) {
-    // TODO: implement adjustProfile
-    throw UnimplementedError();
+  Future<Profile> adjustProfile(Profile profile) async {
+    print(profile.lastname);
+    print(profile.firstname);
+    print(profile.tags);
+    http.Response response;
+    try {
+      response = await http
+          .post(Uri.parse(pathUrl + pathProfileAdjustProfile),
+              body: {
+                "tags": json.encode(profile.tags),
+                "firstname": profile.firstname,
+                "lastname": profile.lastname,
+              },
+              headers: _headers)
+          .timeout(Duration(seconds: timeout));
+      print(response);
+    } catch (e) {
+      print(e);
+      throw UserFeedbackException("Server Error");
+    }
+    switch (response.statusCode) {
+      case 200:
+        updateCookie(response);
+        return profile;
+      case 400:
+        throw UserFeedbackException("Ungültige Eingaben");
+      case 401:
+        throw InvalidPermissionException("Keine Berechtigung");
+    }
+    throw UserFeedbackException("Server Fehler");
   }
 
   @override

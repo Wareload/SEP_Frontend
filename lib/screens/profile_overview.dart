@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
@@ -10,6 +12,7 @@ import '../route/route_generator.dart';
 import '../structs/invitation.dart';
 import '../structs/profile.dart';
 import '../structs/team.dart';
+import '../widgets/settings.dart';
 
 class ProfileOverview extends StatefulWidget {
   const ProfileOverview({Key? key}) : super(key: key);
@@ -22,6 +25,32 @@ bool isLoading = true;
 List<Team> teams = [];
 List<Invitation> invitations = [];
 Profile _profile = Profile.empty();
+
+final List teamImagesPaths = <String>[
+  "assets/team_images/0.jpg",
+  "assets/team_images/1.jpg",
+  "assets/team_images/2.jpg",
+  "assets/team_images/3.jpg",
+  "assets/team_images/4.jpg",
+  "assets/team_images/5.jpg",
+  "assets/team_images/6.jpg",
+  "assets/team_images/7.jpg",
+  "assets/team_images/8.jpg",
+  "assets/team_images/9.jpg",
+  "assets/team_images/10.jpg",
+  "assets/team_images/11.jpg",
+  "assets/team_images/12.jpg",
+  "assets/team_images/13.jpg",
+  "assets/team_images/14.jpg",
+  "assets/team_images/15.jpg",
+  "assets/team_images/16.jpg",
+  "assets/team_images/17.jpg",
+  "assets/team_images/18.jpg",
+  "assets/team_images/19.jpg",
+  "assets/team_images/20.jpg",
+];
+
+int teamImageToShow = Random(DateTime.now().millisecond).nextInt(21);
 
 class _ProfileOverviewState extends State<ProfileOverview> {
   void apiCalls() async {
@@ -79,7 +108,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                         ),
                         //color: Settings.blueAccent,
                         height: 60,
-                        width: 120,
+                        width: 60,
                         child: IconButton(
                             onPressed: _back,
                             icon: const Icon(
@@ -128,7 +157,11 @@ class _ProfileOverviewState extends State<ProfileOverview> {
         _goToTeam(element);
       }, () {
         _leaveTeam(element);
-      }, constraints, element));
+      }, () {
+        _deleteTeam(element);
+      }, constraints, element, "assets/team_images/" + teamImageToShow.toString() + ".jpg"));
+      teamImageToShow++;
+      teamImageToShow %= 21;
     }
     return Column(
       children: widgets,
@@ -162,13 +195,59 @@ class _ProfileOverviewState extends State<ProfileOverview> {
 
   void _leaveTeam(Team team) async {
     try {
-      //TODO change delete team to leave team
       await Api.api.leaveTeam(team.id);
       teams.remove(team);
       setState(() {});
-    } catch (e) {
-      //TODO handle errors
-    }
+    } catch (e) {}
+  }
+
+  createAlertDialog(BuildContext context, String response, Team team) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(response),
+            actions: [
+              getButtonStyleOrange("", () => {_deleteTeamApi(team)}, "Ja"),
+              getButtonStyleOrange("", () => {Navigator.pop(context)}, "Nein"),
+            ],
+          );
+        });
+  }
+
+  static Widget getButtonStyleOrange(String display, VoidCallback func, String btnText) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.only(left: 10, right: 10),
+      child: Material(
+        color: Colors.orange,
+        borderRadius: BorderRadius.circular(50),
+        child: InkWell(
+          onTap: func,
+          borderRadius: BorderRadius.circular(50),
+          child: Container(
+            height: 60,
+            alignment: Alignment.center,
+            child: Text(
+              btnText,
+              style: const TextStyle(fontSize: Settings.mainFontSize, fontWeight: FontWeight.bold, color: Settings.white),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _deleteTeam(Team team) async {
+    createAlertDialog(context, "Möchtest du das Team " + team.name.toString() + " wirklich löschen?", team);
+  }
+
+  void _deleteTeamApi(Team team) async {
+    String response = "Lädt...";
+    try {
+      response = await Api.api.deleteTeam(team.id);
+    } catch (e) {}
+    Navigator.pushNamedAndRemoveUntil(context, RouteGenerator.teamOverview, (r) => false);
   }
 
   void _goToTeam(Team team) {
@@ -211,13 +290,20 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                 size: 35,
               ),
               title: const Text(
-                'Tags bearbeiten',
+                'Profil bearbeiten',
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.black,
                 ),
               ),
-              onTap: () => {}),
+              onTap: () => {
+                    isLoading = true,
+                    Navigator.pushReplacementNamed(context, RouteGenerator.setTags, arguments: {
+                      "profile": _profile,
+                    }).then((value) => {
+                          apiCalls(),
+                        }),
+                  }),
           Divider(color: Colors.grey),
           ListTile(
               leading: const Icon(
