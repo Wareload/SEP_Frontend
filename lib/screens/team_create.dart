@@ -172,7 +172,7 @@ class _TeamCreateState extends State<TeamCreate> {
           height: 60,
           margin: EdgeInsets.only(bottom: constraints.maxWidth * 0.04, left: 10, right: 10),
           child: Material(
-            color: Settings.blue,
+            color: Settings.mainAccentColor,
             borderRadius: BorderRadius.circular(50),
             child: InkWell(
               onTap: func,

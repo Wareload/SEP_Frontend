@@ -34,7 +34,7 @@ class Widgets {
       padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
       child: Text(
         display,
-        style: const TextStyle(color: Settings.blue, fontSize: 20),
+        style: const TextStyle(color: Settings.mainAccentColor, fontSize: 20),
       ),
     );
   }
@@ -66,7 +66,7 @@ class Widgets {
       padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
       child: Text(
         display,
-        style: const TextStyle(color: Settings.blue),
+        style: const TextStyle(color: Settings.mainAccentColor),
       ),
     );
   }
@@ -193,7 +193,7 @@ class Widgets {
             Container(
               padding: EdgeInsets.all(10),
               decoration: const BoxDecoration(
-                  color: Settings.blue,
+                  color: Settings.mainAccentColor,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.elliptical(20.0, 20),
                     topRight: Radius.elliptical(20.0, 20),
@@ -276,7 +276,7 @@ class Widgets {
       height: 50,
       margin: EdgeInsets.only(bottom: constraints.maxWidth * 0.03),
       child: Material(
-        color: Settings.blue,
+        color: Settings.mainAccentColor,
         borderRadius: BorderRadius.circular(50),
         child: InkWell(
           onTap: func,
@@ -336,7 +336,7 @@ class Widgets {
       height: Settings.teamBannerHeight + Settings.teamLogoHeight,
       margin: EdgeInsets.only(bottom: constraints.maxWidth * 0.03),
       decoration: BoxDecoration(
-        color: Settings.blue,
+        color: Settings.mainAccentColor,
         borderRadius: BorderRadius.circular(Settings.teamCornerRadius),
         boxShadow: [
           BoxShadow(
@@ -420,7 +420,7 @@ class Widgets {
         ],
       ),
       child: Material(
-        color: Settings.blue,
+        color: Settings.mainAccentColor,
         borderRadius: BorderRadius.circular(40),
         child: InkWell(
           onTap: func,
@@ -501,7 +501,7 @@ class Widgets {
               style: const TextStyle(
                   fontSize: 50.0,
                   fontWeight: FontWeight.bold,
-                  color: Settings.blue),
+                  color: Settings.mainAccentColor),
             ),
           ),
         ),
@@ -515,7 +515,7 @@ class Widgets {
       width: constraints.maxWidth * 0.5,
       height: constraints.maxWidth * 0.5,
       decoration: BoxDecoration(
-          color: Settings.blue,
+          color: Settings.mainAccentColor,
           shape: BoxShape.circle,
           image: DecorationImage(
               fit: BoxFit.fitHeight,
@@ -586,7 +586,7 @@ class Widgets {
             height: Settings.teamBannerHeight + Settings.teamLogoHeight - 30,
             margin: EdgeInsets.only(bottom: constraints.maxWidth * 0.03),
             decoration: BoxDecoration(
-              color: Settings.blue,
+              color: Settings.mainAccentColor,
               borderRadius: BorderRadius.circular(Settings.teamCornerRadius),
               boxShadow: [
                 BoxShadow(
@@ -778,7 +778,7 @@ class Widgets {
                     Container(
                       padding: const EdgeInsets.all(5),
                       decoration: const BoxDecoration(
-                          color: Settings.blue,
+                          color: Settings.mainAccentColor,
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.elliptical(20.0, 20),
                             topRight: Radius.elliptical(20.0, 20),
@@ -802,11 +802,11 @@ class Widgets {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              displayEmoji("assets/verygood.png", Colors.green,
+                              displayEmoji("assets/verygood.png", getMaterialColorFor(Settings.moodVeryGood),
                                   select1, selectedMood, 0),
-                              displayEmoji("assets/good.png", Colors.lightGreen,
+                              displayEmoji("assets/good.png", getMaterialColorFor(Settings.moodGood),
                                   select1, selectedMood, 1),
-                              displayEmoji("assets/smile.png", Colors.orange,
+                              displayEmoji("assets/smile.png", getMaterialColorFor(Settings.moodOkay),
                                   select1, selectedMood, 2),
                             ],
                           ),
@@ -817,10 +817,10 @@ class Widgets {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               displayEmoji("assets/unamused.png",
-                                  Colors.lightGreen, select1, selectedMood, 3),
-                              displayEmoji("assets/bad.png", Colors.orange,
+                                  getMaterialColorFor(Settings.moodMeh), select1, selectedMood, 3),
+                              displayEmoji("assets/bad.png", getMaterialColorFor(Settings.moodBad),
                                   select1, selectedMood, 4),
-                              displayEmoji("assets/verybad.png", Colors.red,
+                              displayEmoji("assets/verybad.png", getMaterialColorFor(Settings.moodVeryBad),
                                   select1, selectedMood, 5),
                             ],
                           ),
@@ -852,7 +852,7 @@ class Widgets {
                     Container(
                       padding: const EdgeInsets.all(5),
                       decoration: const BoxDecoration(
-                          color: Settings.blue,
+                          color: Settings.mainAccentColor,
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.elliptical(20.0, 20),
                             topRight: Radius.elliptical(20.0, 20),
@@ -906,6 +906,22 @@ class Widgets {
     );
   }
 
+  static MaterialColor getMaterialColorFor(var colorCode) {
+    Map <int, Color> materialLuminance = {
+      50:Color(colorCode).withOpacity(0.1),
+      100:Color(colorCode).withOpacity(0.2),
+      200:Color(colorCode).withOpacity(0.3),
+      300:Color(colorCode).withOpacity(0.4),
+      400:Color(colorCode).withOpacity(0.5),
+      500:Color(colorCode).withOpacity(0.6),
+      600:Color(colorCode).withOpacity(0.7),
+      700:Color(colorCode).withOpacity(0.8),
+      800:Color(colorCode).withOpacity(0.9),
+      900:Color(colorCode).withOpacity(1),
+    };
+    return MaterialColor(colorCode, materialLuminance);
+  }
+
   //Displays a single emoji icon in the mood selection view
   static displayEmoji(String s, MaterialColor color, VoidCallback callback,
       Mood selectedMood, int id) {
@@ -942,7 +958,10 @@ class Widgets {
           const SizedBox(
             height: 2.0,
           ),
-          Text(moodnames[id]),
+          Text(
+            moodnames[id],
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );
@@ -1036,7 +1055,7 @@ class Widgets {
             Container(
               padding: EdgeInsets.all(5),
               decoration: const BoxDecoration(
-                  color: Settings.blue,
+                  color: Settings.mainAccentColor,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.elliptical(20.0, 20),
                     topRight: Radius.elliptical(20.0, 20),

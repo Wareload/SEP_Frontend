@@ -404,7 +404,7 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
                   shadows: [Shadow(color: Colors.black, offset: Offset(0, -5))],
                   fontWeight: FontWeight.bold,
                   decoration: getUnderlineByBool(active),
-                  decorationColor: Settings.blue,
+                  decorationColor: Settings.mainAccentColor,
                   decorationThickness: 4,
                   fontSize: 20),
             ),
