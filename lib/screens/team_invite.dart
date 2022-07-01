@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:moody/api/api.dart';
 import 'package:moody/route/route_generator.dart';
 import 'package:moody/widgets/widgets.dart';
@@ -72,7 +73,7 @@ class _TeamInviteState extends State<TeamInvite> {
           onTap: func,
           borderRadius: BorderRadius.circular(50),
           child: Container(
-            height: 60,
+            height: 60.h,
             alignment: Alignment.center,
             child: Text(
               btnText,

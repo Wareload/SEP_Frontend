@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:moody/widgets/widgets.dart';
 
 import '../api/api.dart';
@@ -39,12 +40,12 @@ class _ProfileOverviewState extends State<ProfileOverview> {
     return isLoading
         ? Container(
             color: Colors.white,
-            child: const SizedBox(
+            child: SizedBox(
               child: Align(
                 child: CircularProgressIndicator(),
               ),
-              width: 50,
-              height: 50,
+              width: 50.w,
+              height: 50.h,
             ))
         : Scaffold(body:
             SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
@@ -64,8 +65,8 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                         shape: BoxShape.circle,
                       ),
                       //color: Settings.blueAccent,
-                      height: 60,
-                      width: 120,
+                      height: 60.h,
+                      width: 120.w,
                       child: IconButton(
                           onPressed: _back,
                           icon: const Icon(
@@ -85,8 +86,8 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                           decoration: const BoxDecoration(
                               shape: BoxShape.circle, color: Colors.blueAccent),
                           //color: Settings.blueAccent,
-                          height: 60,
-                          width: 60,
+                          height: 60.h,
+                          width: 60.w,
                           child: IconButton(
                               onPressed: _openSettingsMenu,
                               icon: Icon(Icons.settings,
@@ -97,8 +98,8 @@ class _ProfileOverviewState extends State<ProfileOverview> {
                           decoration: BoxDecoration(
                               shape: BoxShape.circle, color: Colors.redAccent),
                           //color: Settings.blueAccent,
-                          height: 60,
-                          width: 60,
+                          height: 60.h,
+                          width: 60.w,
                           child: IconButton(
                               onPressed: _logout,
                               icon: Icon(Icons.logout,
@@ -147,7 +148,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
   Widget displayTags(BoxConstraints constraints) {
     return Container(
       margin: const EdgeInsets.all(10),
-      height: 40,
+      height: 40.h,
       child: ListView.separated(
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:moody/api/api.dart';
 import 'package:moody/route/route_generator.dart';
 import 'package:moody/widgets/settings.dart';
@@ -92,12 +93,12 @@ class _TeamOverviewState extends State<TeamOverview> {
     return isLoading
         ? Container(
         color: Colors.white,
-        child: const SizedBox(
+        child: SizedBox(
           child: Align(
             child: CircularProgressIndicator(),
           ),
-          width: 50,
-          height: 50,
+          width: 50.w,
+          height: 50.h,
         ))
         : Scaffold(
             body:
@@ -130,7 +131,7 @@ class _TeamOverviewState extends State<TeamOverview> {
                       child:
                           SingleChildScrollView(child: getTeams(constraints))),
                   Container(
-                    height: 10,
+                    height: 10.h,
                   )
                 ],
               );

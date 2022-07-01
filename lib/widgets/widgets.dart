@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:moody/structs/team.dart';
 import 'package:moody/widgets/settings.dart';
 
@@ -24,8 +25,8 @@ fontWeight: FontWeight.bold, fontSize: 40),
       padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
       child: Text(
         display,
-        style: const TextStyle( 
-fontWeight: FontWeight.bold, fontSize: 30),
+        style: TextStyle(
+fontWeight: FontWeight.bold, fontSize: 20.sp),
       ),
     );
   }
@@ -256,7 +257,7 @@ fontWeight: FontWeight.bold,
           onTap: func,
           borderRadius: BorderRadius.circular(50),
           child: Container(
-            height: 60,
+            height: 60.h,
             alignment: Alignment.center,
             child: Text(
               btnText,
@@ -276,7 +277,7 @@ fontWeight: FontWeight.bold,
       String display, VoidCallback func, BoxConstraints constraints) {
     return Container(
       width: constraints.maxWidth * 0.9,
-      height: 50,
+      height: 50.h,
       margin: EdgeInsets.only(bottom: constraints.maxWidth * 0.03),
       child: Material(
         color: Settings.blue,
@@ -307,7 +308,7 @@ fontWeight: FontWeight.bold,
       String display, VoidCallback func, BoxConstraints constraints) {
     return Container(
       width: constraints.maxWidth * 0.9,
-      height: 50,
+      height: 50.h,
       margin: EdgeInsets.only(bottom: constraints.maxWidth * 0.03),
       child: Material(
         color: Settings.grey,
@@ -411,7 +412,7 @@ fontWeight: FontWeight.bold,
       String display, String path, VoidCallback func, BoxConstraints constraints) {
     return Container(
       width: constraints.maxWidth * 0.40,
-      height: 150,
+      height: 150.h,
       margin: EdgeInsets.only(bottom: constraints.maxWidth * 0.03),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(40),
@@ -491,7 +492,7 @@ fontWeight: FontWeight.bold,
       String display, VoidCallback func, BoxConstraints constraints) {
     return Container(
       width: constraints.maxWidth * 0.9,
-      height: 50,
+      height: 50.h,
       margin: EdgeInsets.only(bottom: constraints.maxWidth * 0.03),
       child: Material(
         color: Settings.grey,
@@ -670,7 +671,7 @@ fontWeight: FontWeight.bold,
                             ],
                           ),
                           SizedBox(
-                            height: 10,
+                            height: 10.h,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -743,7 +744,7 @@ fontWeight: FontWeight.bold,
                             ],
                           ),
                           SizedBox(
-                            height: 10,
+                            height: 10.h,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -778,7 +779,7 @@ fontWeight: FontWeight.bold,
     ];
     return Container(
       padding: const EdgeInsets.only(left: 5, right: 5),
-      width: 95,
+      width: 95.w,
       child: Column(
         children: <Widget>[
           GestureDetector(
@@ -819,7 +820,7 @@ fontWeight: FontWeight.bold,
     ];
     return Container(
       padding: const EdgeInsets.only(left: 5, right: 5),
-      width: 95,
+      width: 95.w,
       child: Column(
         children: <Widget>[
           GestureDetector(
@@ -922,7 +923,7 @@ fontWeight: FontWeight.bold,
       VoidCallback callbackProfile) {
     return Column(children: [
       Container(
-        height: 10,
+        height: 10.h,
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -935,8 +936,8 @@ fontWeight: FontWeight.bold,
               shape: BoxShape.circle,
             ),
             //color: Settings.blueAccent,
-            height: 60,
-            width: 60,
+            height: 60.h,
+            width: 60.w,
             child: IconButton(
                 onPressed: callbackBack,
                 icon: const Icon(
@@ -952,7 +953,7 @@ fontWeight: FontWeight.bold,
         ],
       ),
       Container(
-        height: 10,
+        height: 10.h,
       ),
     ]);
   }
@@ -961,7 +962,7 @@ fontWeight: FontWeight.bold,
       constraints, VoidCallback callbackBack, String title) {
     return Column(children: [
       Container(
-        height: 10,
+        height: 10.h,
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -969,12 +970,12 @@ fontWeight: FontWeight.bold,
           Widgets.getTextButtonStyle1White("Back", callbackBack, constraints),
           Widgets.getTextFieldH3CWhite(title, constraints),
           SizedBox(
-            width: 70,
+            width: 70.w,
           )
         ],
       ),
       Container(
-        height: 10,
+        height: 10.h,
       ),
     ]);
   }*/
@@ -983,7 +984,7 @@ fontWeight: FontWeight.bold,
       constraints, VoidCallback callbackBack, String title) {
     return Column(children: [
       Container(
-        height: 10,
+        height: 10.h,
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -995,8 +996,8 @@ fontWeight: FontWeight.bold,
               shape: BoxShape.circle,
             ),
             //color: Settings.blueAccent,
-            height: 60,
-            width: 60,
+            height: 60.h,
+            width: 60.w,
             child: IconButton(
                 onPressed: callbackBack,
                 icon: const Icon(
@@ -1007,12 +1008,12 @@ fontWeight: FontWeight.bold,
           ),
           Widgets.getNavHeaderText(title, constraints),
           SizedBox(
-            width: 70,
+            width: 70.w,
           )
         ],
       ),
       Container(
-        height: 10,
+        height: 10.h,
       ),
     ]);
   }
@@ -1035,7 +1036,7 @@ fontWeight: FontWeight.bold,
   static Widget getInputField(TextEditingController noteController,
       TextInputType text, BoxConstraints constraints) {
     return Container(
-      height: 150,
+      height: 150.h,
       padding: EdgeInsets.all(5),
       child: Center(
         child: Container(
@@ -1043,7 +1044,7 @@ fontWeight: FontWeight.bold,
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                  width: 1, color: Colors.white, style: BorderStyle.solid)),
+                  width: 1.w, color: Colors.white, style: BorderStyle.solid)),
           child: TextField(
             controller: noteController,
             textAlign: TextAlign.center,

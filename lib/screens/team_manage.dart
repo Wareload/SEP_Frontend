@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:moody/api/api.dart';
 import 'package:moody/route/route_generator.dart';
 import 'package:moody/screens/team_invite.dart';
@@ -219,7 +220,7 @@ class _TeamManageState extends State<TeamManage> {
           onTap: func,
           borderRadius: BorderRadius.circular(50),
           child: Container(
-            height: 60,
+            height: 60.h,
             alignment: Alignment.center,
             child: Text(
               btnText,
@@ -357,8 +358,8 @@ fontWeight: FontWeight.normal,
           },
           borderRadius: BorderRadius.circular(50),
           child: Container(
-            width: 200,
-            height: 50,
+            width: 200.w,
+            height: 50.h,
             alignment: Alignment.center,
             child: textOnRedirectBtn(btnText),
           ),
@@ -373,8 +374,8 @@ fontWeight: FontWeight.normal,
         children: [
           Container(
             margin: EdgeInsets.only(left: 10, right: 5),
-            height: 70,
-            width: 70,
+            height: 70.h,
+            width: 70.w,
             //color: Colors.red,
             child: Stack(children: <Widget>[
               CircleAvatar(
@@ -395,8 +396,8 @@ fontWeight: FontWeight.normal,
                 ),
               ),
               /* Container(
-                height: 70,
-                width: 70,
+                height: 70.h,
+                width: 70.w,
                 child: IconButton(
                     alignment: Alignment.bottomRight,
                     onPressed: _back,
@@ -416,8 +417,8 @@ fontWeight: FontWeight.normal,
       children: [
         Container(
           margin: EdgeInsets.only(left: 10, right: 5),
-          height: 70,
-          width: 70,
+          height: 70.h,
+          width: 70.w,
           //color: Colors.red,
           child: CircleAvatar(
             radius: 16.0,

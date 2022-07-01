@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:moody/api/api.dart';
 import 'package:moody/api/exception/invalid_permission_exception.dart';
 import 'package:moody/route/route_generator.dart';
@@ -34,7 +35,7 @@ class _TeamCreateState extends State<TeamCreate> {
             ],
           ),
           SizedBox(
-            height: 30,
+            height: 30.h,
           ),
           Expanded(
             child: Column(
@@ -54,7 +55,7 @@ class _TeamCreateState extends State<TeamCreate> {
             ),
           ),
           SizedBox(
-            height: 30,
+            height: 30.h,
           ),
         ],
       );
@@ -108,7 +109,7 @@ class _TeamCreateState extends State<TeamCreate> {
           //borderRadius: BorderRadius.circular(50),
           child: isLoading
               ? Container(
-                  height: 50,
+                  height: 50.h,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -120,7 +121,7 @@ class _TeamCreateState extends State<TeamCreate> {
                   ),
                 )
               : Container(
-                  height: 50,
+                  height: 50.h,
                   alignment: Alignment.center,
                   child: Text(
                     btnText,
@@ -162,7 +163,7 @@ fontWeight: FontWeight.bold,
           onTap: func,
           borderRadius: BorderRadius.circular(50),
           child: Container(
-            height: 60,
+            height: 60.h,
             alignment: Alignment.center,
             child: Text(
               btnText,

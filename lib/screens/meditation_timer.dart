@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:moody/api/api.dart';
 import 'package:moody/route/route_generator.dart';
 import 'package:moody/widgets/settings.dart';
@@ -59,7 +60,7 @@ class _MeditationTimerState extends State<MeditationTimer> {
                           children: [
                             buildTime(),
                             SizedBox(
-                              height: 30,
+                              height: 30.h,
                             ),
                             timerControlBtn(),
                           ],
@@ -156,7 +157,7 @@ fontWeight: FontWeight.bold,
 
   Widget halfBtnOrange(String btnText, VoidCallback func) {
     return Container(
-      width: 150,
+      width: 150.w,
       padding: EdgeInsets.all(10),
       margin: EdgeInsets.only(left: 10, right: 10),
       child: Material(
@@ -166,7 +167,7 @@ fontWeight: FontWeight.bold,
           onTap: func,
           borderRadius: BorderRadius.circular(50),
           child: Container(
-            height: 60,
+            height: 60.h,
             alignment: Alignment.center,
             child: Text(
               btnText,

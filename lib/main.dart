@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:moody/widgets/settings.dart';
 
 import 'route/route_generator.dart';
@@ -17,16 +18,23 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        fontFamily: 'Chivo',
-        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Settings.blue),
-        primaryColor: Colors.white,
-      ),
-      debugShowCheckedModeBanner: false,
-      title: "Moody",
-      onGenerateRoute: RouteGenerator.generateRoute,
-      initialRoute: RouteGenerator.splash,
+    return ScreenUtilInit(
+      designSize: const Size(414, 896),
+      builder: (context, child) {
+        return MaterialApp(
+          theme: ThemeData(
+            fontFamily: 'Chivo',
+            colorScheme: ColorScheme.fromSwatch().copyWith(
+                secondary: Settings.blue),
+            primaryColor: Colors.white,
+          ),
+          debugShowCheckedModeBanner: false,
+          title: "Moody",
+          onGenerateRoute: RouteGenerator.generateRoute,
+          initialRoute: RouteGenerator.splash,
+          home: child,
+        );
+      }
     );
   }
 }

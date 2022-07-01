@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:moody/api/api.dart';
 import 'package:moody/route/route_generator.dart';
 import 'package:moody/widgets/settings.dart';
@@ -96,8 +97,8 @@ fontWeight: FontWeight.bold,
 
   Widget bubbleForSeconds(int second) {
     return SizedBox(
-      height: 400,
-      width: 400,
+      height: 400.h,
+      width: 400.w,
       child: Center(
         child: Container(
             height: heightBySecond(second),

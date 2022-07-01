@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:moody/api/api.dart';
 import 'package:moody/api/exception/invalid_permission_exception.dart';
 import 'package:moody/route/route_generator.dart';
@@ -27,12 +28,12 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
     return isLoading
         ? Container(
         color: Colors.white,
-        child: const SizedBox(
+        child: SizedBox(
           child: Align(
             child: CircularProgressIndicator(),
           ),
-          width: 50,
-          height: 50,
+          width: 50.w,
+          height: 50.h,
         ))
         : Scaffold(
 

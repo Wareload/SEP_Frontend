@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:moody/api/exception/user_feedback_exception.dart';
 import 'package:moody/route/route_generator.dart';
 import 'package:moody/widgets/settings.dart';
@@ -41,20 +42,20 @@ class _RegisterState extends State<Register> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    /*  const SizedBox(
-                      height: 20,
+                    /*  SizedBox(
+                      height: 20.h,
                     ),*/
                     Widgets.getInputFieldLoginStyle("Vorname *", firstnameController, TextInputType.emailAddress),
-                    const SizedBox(
-                      height: 5,
+                    SizedBox(
+                      height: 5.h,
                     ),
                     Widgets.getInputFieldLoginStyle("Nachname *", lastnameController, TextInputType.emailAddress),
-                    const SizedBox(
-                      height: 5,
+                    SizedBox(
+                      height: 5.h,
                     ),
                     Widgets.getInputFieldLoginStyle("E-Mail *", emailController, TextInputType.emailAddress),
-                    const SizedBox(
-                      height: 5,
+                    SizedBox(
+                      height: 5.h,
                     ),
                     Container(
                       margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
@@ -85,8 +86,8 @@ class _RegisterState extends State<Register> {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 5,
+                    SizedBox(
+                      height: 5.h,
                     ),
                     Container(
                       margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
@@ -115,8 +116,8 @@ class _RegisterState extends State<Register> {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
+                    SizedBox(
+                      height: 10.h,
                     ),
                     Row(
                       //padding: EdgeInsets.only(left: 30, top: 10),
@@ -138,16 +139,16 @@ class _RegisterState extends State<Register> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Widgets.getButtonStyleOrange("", _register, constraints, "Registrieren"),
-                          const SizedBox(
-                            height: 5,
+                          SizedBox(
+                            height: 5.h,
                           ),
                           const Text("Bereits einen Account?"),
-                          const SizedBox(
-                            height: 5,
+                          SizedBox(
+                            height: 5.h,
                           ),
                           btnWithoutBackground("Jetzt Einloggen", _toLogin),
-                          const SizedBox(
-                            height: 5,
+                          SizedBox(
+                            height: 5.h,
                           ),
                         ],
                       ),

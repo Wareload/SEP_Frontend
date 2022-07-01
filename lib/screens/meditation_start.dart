@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:moody/api/api.dart';
 import 'package:moody/route/route_generator.dart';
 import 'package:moody/widgets/settings.dart';
@@ -48,7 +49,7 @@ class _MeditationStartState extends State<MeditationStart> {
                           child: textWidgetCentered("Schließe deine Augen."),
                         ),
                         SizedBox(
-                          height: 100,
+                          height: 100.h,
                         )
                       ],
                     ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:moody/api/api.dart';
 import 'package:moody/route/route_generator.dart';
 import 'package:moody/screens/team_invite.dart';
@@ -120,8 +121,8 @@ fontWeight: FontWeight.bold, color: Colors.black),
           },
           borderRadius: BorderRadius.circular(50),
           child: Container(
-            width: 200,
-            height: 50,
+            width: 200.w,
+            height: 50.h,
             alignment: Alignment.center,
             child: textOnRedirectBtn(btnText),
           ),
@@ -135,9 +136,8 @@ fontWeight: FontWeight.bold, color: Colors.black),
       children: [
         Container(
           margin: EdgeInsets.only(left: 10, right: 5),
-          height: 70,
-          width: 70,
-          //color: Colors.red,
+          height: 70.h,
+          width: 70.w,
           child: CircleAvatar(
             radius: 16.0,
             child: ClipRRect(

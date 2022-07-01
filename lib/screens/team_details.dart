@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:moody/api/api.dart';
 import 'package:moody/route/route_generator.dart';
 import 'package:moody/widgets/widgets.dart';
@@ -47,12 +48,12 @@ class _TeamDetailsState extends State<TeamDetails> {
     return isLoading
         ? Container(
             color: Colors.white,
-            child: const SizedBox(
+            child: SizedBox(
               child: Align(
                 child: CircularProgressIndicator(),
               ),
-              width: 50,
-              height: 50,
+              width: 50.w,
+              height: 50.h,
             ))
         : Scaffold(body:
             SafeArea(child: LayoutBuilder(builder: (builder, constraints) {
@@ -61,7 +62,7 @@ class _TeamDetailsState extends State<TeamDetails> {
                 Widgets.getNavBar(constraints, _back, _team.name, _goToProfile),
                 getMoodEmojisByState(constraints),
                 Container(
-                  height: 30,
+                  height: 30.h,
                 ),
                 Expanded(
                     child: SingleChildScrollView(

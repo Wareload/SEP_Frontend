@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:moody/api/api.dart';
 import 'package:moody/route/route_generator.dart';
 import 'package:moody/widgets/settings.dart';
@@ -41,7 +42,7 @@ class _MeditationInfoState extends State<MeditationInfo> {
                         Widgets.getNavBarWithoutProfile(
                             constraints, _back, "Meditation"),
                         SizedBox(
-                          height: 100,
+                          height: 100.h,
                         ),
                         textWidgetCentered("Setz dich gemütlich hin."),
                         textWidgetCentered("Nimm deinen Körper wahr."),
@@ -55,7 +56,7 @@ class _MeditationInfoState extends State<MeditationInfo> {
                         Widgets.getButtonStyleOrange("Los geht's",
                             _goToMeditationStart, constraints, "Los geht's"),
                         SizedBox(
-                          height: 100,
+                          height: 100.h,
                         ),
                       ],
                     ),
