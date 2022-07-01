@@ -65,7 +65,8 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
                       //crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         const SizedBox(height: 10),
-                        SingleChildScrollView(child: getMoodWidgets()),
+                        SingleChildScrollView(
+                            child: getMoodWidgets(constraints)),
                       ],
                     ),
                   ],
@@ -75,7 +76,7 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
           })));
   }
 
-  Widget getMoodWidgets() {
+  Widget getMoodWidgets(BoxConstraints constraints) {
     List<Widget> widgets = [];
     widgets.add(getTitleOfContainer());
     bool switcher = true;
@@ -84,7 +85,7 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
     for (var element in moods) {
       counter++;
       if (moods.length == counter) last = true;
-      widgets.add(getMoodWidget(element, switcher, last));
+      widgets.add(getMoodWidget(constraints, element, switcher, last));
       switcher = !switcher;
     }
     return Container(
@@ -192,7 +193,7 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
           child: Text(
             display,
             style: TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.black, fontSize: 18),
+                fontWeight: FontWeight.bold, color: Colors.black, fontSize: 15),
           ),
           style: ButtonStyle(
               backgroundColor: checkIfActive(id)
@@ -226,7 +227,8 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
     setState(() {});
   }
 
-  Widget getMoodWidget(MoodObject element, bool lightState, bool last) {
+  Widget getMoodWidget(BoxConstraints constraints, MoodObject element,
+      bool lightState, bool last) {
     return Container(
         decoration: BoxDecoration(
           color: lightState
@@ -246,12 +248,15 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  textWhiteH3(getDateWithDay(element.date)),
-                  textNotes(element.note),
-                ],
+              Container(
+                width: constraints.maxWidth * 0.6,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    textWhiteH3(getDateWithDay(element.date)),
+                    textNotes(element.note),
+                  ],
+                ),
               ),
               displayEmoji("", getColorByMood(element.activeMood.toDouble()),
                   () => {}, element, 0),

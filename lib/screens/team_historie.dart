@@ -151,7 +151,7 @@ class _TeamHistorieState extends State<TeamHistorie> {
           child: Text(
             display,
             style: TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.black, fontSize: 18),
+                fontWeight: FontWeight.bold, color: Colors.black, fontSize: 15),
           ),
           style: ButtonStyle(
               backgroundColor: checkIfActive(id)
