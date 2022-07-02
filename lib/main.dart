@@ -19,6 +19,13 @@ Profile profile = Profile("email", "firstname", "lastname", []);
 
 TimeOfDay? time = const TimeOfDay(hour: 18, minute: 0);
 
+IOSOptions _getIOSOptions() => IOSOptions(
+  accountName: "",
+);
+
+final _storage = const FlutterSecureStorage();
+
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
@@ -28,12 +35,13 @@ void main() {
       isInDebugMode:
           true // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
       );
-  Workmanager().registerPeriodicTask(
+  Workmanager().registerOneOffTask("1", simplePeriodicTask,initialDelay: Duration(seconds: 5));
+  /*Workmanager().registerPeriodicTask(
     "66",
     simplePeriodicTask,
     initialDelay: Duration(seconds: 3),
     frequency: Duration(minutes: 15),
-  );
+  );*/
 
   runApp(const MyApp());
 }
@@ -53,8 +61,7 @@ void callbackDispatcher() {
     //Reminder to vote
     await setTimeFromStorage();
     DateTime _now = DateTime.now();
-    print(
-        'timestamp: ${_now.hour}:${_now.minute}:${_now.second}.${_now.millisecond}');
+
     int? settingHour = time?.hour.toInt();
     int settingHour2 = settingHour! + 0;
 
@@ -65,83 +72,88 @@ void callbackDispatcher() {
     if (settingHour2 <= _now.hour ||
         (settingHour2 == _now.hour && settingMinute2 <= _now.minute)) {
       if (!isAlredySend) {
-        NotificationsApi.showNotification(
-            body: "Du hast heute noch nicht deine Stimmung eingetragen!",
-            title: "Trage deine Stimmung ein!");
+        showNotification([
+          "Abstimmen nicht vergessen!",
+          "Bitte trage deine Stimmung ein ;)",
+        ], flp);
       } else {
         await setNotification();
       }
+    }else{
+      print("Zeit für notification noch nicht erreicht");
     }
 
     //
+    print("------------------------------------------------------");
+    print("MOODStuff");
+    print("------------------------------------------------------");
+
 
     List<TeamMoods> teamMoods = await _getNotiificationList();
     List<String> notificationsSent = [];
     int counter = 0;
+
+    //GetTeamids already in there
+    List<String> teamIDs = [""];
+    String splitSpa = "";
+    await storage.read(key: "teamnotify").then((value) => {
+      {
+        splitSpa = value.toString(),
+      }
+    });
+    teamIDs = splitSpa.split(",");
+
+    print(
+        "+++++++++++++++++++++++++++++++++++++++++++++++++++++++" + splitSpa);
+    print("-------------------------------------------------------" +
+        teamIDs.toString());
+
     teamMoods.forEach((item) async {
       counter++;
-      List<String> teamIDs = [""];
-      String splitSpa = "";
-      await storage.read(key: "notificationstoday").then((value) => {
-            {
-              splitSpa = value.toString(),
-              teamIDs = splitSpa.split(","),
-              print("------------------" + value.toString())
-            }
-          });
-      print(
-          "+++++++++++++++++++++++++++++++++++++++++++++++++++++++" + splitSpa);
-      print("-------------------------------------------------------" +
-          teamIDs.toString());
+
       if (teamIDs.toString().contains(item.teamid.toString())) {
         print("Schon drinnen " + item.teamid.toString());
-        return;
-      }
+        print("######################################################################");
 
-      print("Teamid " + item.teamid.toString());
-      print("Teamavg " + item.avg.toString());
-      Random r = Random();
-      if (item.avg > 3) {
-        print("avg under 3 notifi");
-        showNotification([
-          "Achtung - Teamstimmung unter 3!",
-          "Die Teamstimmung in Team ${item.teamname} ist unter 3 gesunken!",
-        ], flp);
-      }
-      print("Teamid " + item.teamid.toString());
-      print("Teammin " + item.min.toString());
-      if (item.min >= 5) {
-        print("avg under 5 notifi");
-        showNotification([
-          "Achtung - Ein Teammitglied hat eine schlechte Stimmung!",
-          "Einer im Team ${item.teamname} hat eine Stimmung von 2 oder drunter!",
-          item.teamid
-        ], flp);
+      }else {
+        print("Teamid " + item.teamid.toString());
+        print("Teamavg " + item.avg.toString());
+        Random r = Random();
+        if (item.avg > 3) {
+          print("avg under 3 notifi");
+          showNotification([
+            "Achtung - Teamstimmung unter 3!",
+            "Der Teamdurchschnitt im Team ${item.teamname} ist unter 3!",
+          ], flp);
+          print("notified");
+        }
+        print("Teamid " + item.teamid.toString());
+        print("Teammin " + item.min.toString());
+        if (item.min >= 5) {
+          print("avg under 5 notifi");
+          showNotification([
+            "Achtung - Ein Teammitglied hat eine schlechte Stimmung!",
+            "Einer im Team ${item
+                .teamname} hat eine Stimmung von 2 oder drunter!",
+            item.teamid
+          ], flp);
+        }
       }
       DateTime dateToday = new DateTime.now();
       String date = dateToday.toString().substring(0, 10);
-      print("Date:" + date);
-      print("Date2:" + date);
 
-      /*await storage.read(key: "notificationstoday").then((value) => {
-            {
-              print("4_______________________" + value!),
-              print("4------------------" + value.toString())
-            }
-          });*/
-      print("Date3:" + date);
 
       notificationsSent.add(item.teamid.toString());
-      print("Date31:" + date);
 
-      if (teamMoods.length.toString() == counter.toString()) {
+      if (teamMoods.length == counter) {
+        print("Letzte iteration!!!!");
         if ((teamIDs.isEmpty || teamIDs[0] != date) &&
             notificationsSent.isEmpty) {
           print("Setting up because its empty");
           await storage.write(key: "notificationstoday", value: date);
+          print("999999999999999999999999999999999999");
         }
-        print("Teammoodss" + teamMoods.length.toString());
-        print("Counters: " + counter.toString());
+
         String writeSecret = date;
         for (String item1 in teamIDs) {
           writeSecret += "," + item1;
@@ -150,7 +162,9 @@ void callbackDispatcher() {
           writeSecret += "," + item2;
         }
         print("try to write");
-        setDate();
+        //setDate();
+        print("Writing: "+writeSecret);
+        await writeToNotificationToday(writeSecret);
         print("WROTE EVERYTHING");
       } else {
         print("nTeammoodss" + teamMoods.length.toString());
@@ -160,6 +174,13 @@ void callbackDispatcher() {
 
     return Future.value(true);
   });
+}
+
+Future<void> writeToNotificationToday(String valueString) async {
+  const storage = FlutterSecureStorage();
+
+  //await storage.delete(key: "teamnotify");
+  await storage.write(key: "teamnotify", value: valueString);
 }
 
 TimeOfDay? stringToTime(String timeString) {
@@ -201,7 +222,7 @@ Future<bool> getNotification() async {
         if (value != null) {responsedate = value.toString()}
       });
   if (responsedate == date) {
-    print("already notified");
+    print("already notified mit: "+responsedate);
     return true;
   } else {
     await storage.delete(key: "notification");
@@ -212,7 +233,7 @@ Future<bool> getNotification() async {
   return true;
 }
 
-setDate() async {
+setDateEmpty() async {
   print("Setting up because its empty");
   DateTime dateToday = new DateTime.now();
   String date = dateToday.toString().substring(0, 10);
@@ -240,17 +261,17 @@ void showNotification(v, flp) async {
   var rng = Random();
 
   var android = const AndroidNotificationDetails(
-      'channel id', 'your channel name',
-      channelDescription: 'your channel description',
-      importance: Importance.min,
-      priority: Priority.defaultPriority,
-      ticker: 'ticker');
+      'channel id', 'channel ID',
+      channelDescription: 'channel description',
+      importance: Importance.max,
+      priority: Priority.max//,
+      /*ticker: 'ticker'*/);
   var iOS = IOSNotificationDetails();
   var platform = NotificationDetails(android: android, iOS: iOS);
   await flp.show(
-    rng.nextInt(222222),
-    v[0],
-    v[1],
+    rng.nextInt(99),
+    v[0].toString(),
+    v[1].toString(),
     platform,
     payload: 'item x',
   );
