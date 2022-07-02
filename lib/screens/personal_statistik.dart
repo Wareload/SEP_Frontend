@@ -182,7 +182,7 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
   void _goToHistory() {
     isLoading = true;
     Navigator.pushReplacementNamed(context, RouteGenerator.teamHistorie,
-        arguments: {"tam": _team, "profile": _profile});
+        arguments: {"team": _team, "profile": _profile});
   }
 
   Widget getTimeButtons() {
