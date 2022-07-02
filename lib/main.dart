@@ -33,7 +33,7 @@ void main() {
   Workmanager().initialize(
       callbackDispatcher, // The top level function, aka callbackDispatcher
       isInDebugMode:
-          true // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
+          false // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
       );
   Workmanager().registerOneOffTask("1", simplePeriodicTask,initialDelay: Duration(seconds: 5));
   /*Workmanager().registerPeriodicTask(
