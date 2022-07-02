@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         fontFamily: 'Chivo',
-        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Settings.blue),
+        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Settings.mainAccentColor),
         primaryColor: Colors.white,
       ),
       debugShowCheckedModeBanner: false,

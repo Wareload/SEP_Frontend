@@ -261,7 +261,7 @@ class _TeamManageState extends State<TeamManage> {
               color: Colors.white,
             ),
             label: "Mitglied hinzufügen",
-            backgroundColor: Settings.blue,
+            backgroundColor: Settings.mainAccentColor,
             onTap: () => {_goToTeamInvite(), isDialOpen.value = false}),
         SpeedDialChild(
             child: const Icon(
@@ -269,7 +269,7 @@ class _TeamManageState extends State<TeamManage> {
               color: Colors.white,
             ),
             label: "Team löschen",
-            backgroundColor: Settings.blue,
+            backgroundColor: Settings.mainAccentColor,
             onTap: () => {_deleteTeam(_team), isDialOpen.value = false}),
       ];
     } else {
@@ -280,7 +280,7 @@ class _TeamManageState extends State<TeamManage> {
               color: Colors.white,
             ),
             label: "Mitglied hinzufügen",
-            backgroundColor: Settings.blue,
+            backgroundColor: Settings.mainAccentColor,
             onTap: () => {_goToTeamInvite(), isDialOpen.value = false}),
         SpeedDialChild(
           child: const Icon(
