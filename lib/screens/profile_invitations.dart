@@ -278,7 +278,7 @@ class _ProfileInvitationsState extends State<ProfileInvitations> {
       invitations.remove(invite);
       _renderNew();
       await Api.api.acceptInvitation(invite.teamid);
-      Navigator.pop(context);
+      Navigator.pushNamedAndRemoveUntil(context, RouteGenerator.teamOverview, (r) => false);
     } catch (e) {
       //TODO handle errors
     }

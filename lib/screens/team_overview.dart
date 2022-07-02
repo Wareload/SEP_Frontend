@@ -16,7 +16,7 @@ import '../structs/team.dart';
 
 class TeamOverview extends StatefulWidget {
   final Map data;
-  final List teamImagesPaths = <String> [
+  final List teamImagesPaths = <String>[
     "assets/team_images/0.jpg",
     "assets/team_images/1.jpg",
     "assets/team_images/2.jpg",
@@ -133,8 +133,8 @@ class _TeamOverviewState extends State<TeamOverview> {
   Widget getTeams(BoxConstraints constraints) {
     List<Widget> displayedTeams = [];
     for (var element in teams) {
-      displayedTeams.add(Widgets.getTeamButton(
-          element.name, "assets/team_images/" + teamImageToShow.toString() + ".jpg", () => _goToTeam(element), constraints));
+      displayedTeams.add(
+          Widgets.getTeamButton(element.name, "assets/team_images/" + teamImageToShow.toString() + ".jpg", () => _goToTeam(element), constraints));
       teamImageToShow++;
       teamImageToShow %= 21;
     }
@@ -164,7 +164,7 @@ class _TeamOverviewState extends State<TeamOverview> {
 
   void _onCreateTeam() {
     isLoading = true;
-    Navigator.pushNamed(context, RouteGenerator.teamCreate, arguments: {"invitations": invitations}).then((value) => {apiCalls()});
+    Navigator.pushNamed(context, RouteGenerator.teamCreate, arguments: {"invitations": invitations}).then((value) => {setState(() {}), apiCalls()});
   }
 
   Future<void> initInvitations() async {
