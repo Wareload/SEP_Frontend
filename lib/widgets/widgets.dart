@@ -876,11 +876,11 @@ class Widgets {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               displaydisabledEmoji("assets/verygood.png",
-                                  Colors.green, select1, selectedMood, 0),
+                                  getMaterialColorFor(Settings.moodVeryGood), select1, selectedMood, 0),
                               displaydisabledEmoji("assets/good.png",
-                                  Colors.lightGreen, select1, selectedMood, 1),
+                                  getMaterialColorFor(Settings.moodGood), select1, selectedMood, 1),
                               displaydisabledEmoji("assets/smile.png",
-                                  Colors.orange, select1, selectedMood, 2),
+                                  getMaterialColorFor(Settings.moodOkay), select1, selectedMood, 2),
                             ],
                           ),
                           SizedBox(
@@ -890,11 +890,11 @@ class Widgets {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               displaydisabledEmoji("assets/unamused.png",
-                                  Colors.lightGreen, select1, selectedMood, 3),
+                                  getMaterialColorFor(Settings.moodMeh), select1, selectedMood, 3),
                               displaydisabledEmoji("assets/bad.png",
-                                  Colors.orange, select1, selectedMood, 4),
+                                  getMaterialColorFor(Settings.moodBad), select1, selectedMood, 4),
                               displaydisabledEmoji("assets/verybad.png",
-                                  Colors.red, select1, selectedMood, 5),
+                                  getMaterialColorFor(Settings.moodVeryBad), select1, selectedMood, 5),
                             ],
                           ),
                         ],
@@ -931,7 +931,7 @@ class Widgets {
       "Okay",
       "Naja",
       "Schlecht",
-      "Sehr schlecht"
+      "Miserabel"
     ];
     return Container(
       padding: const EdgeInsets.only(left: 5, right: 5),
@@ -975,7 +975,7 @@ class Widgets {
       "alles gut",
       "naja",
       "Schlecht",
-      "Sehr schlecht"
+      "Miserabel"
     ];
     return Container(
       padding: const EdgeInsets.only(left: 5, right: 5),
@@ -1006,7 +1006,10 @@ class Widgets {
           const SizedBox(
             height: 2.0,
           ),
-          Text(moodnames[id]),
+          Text(
+            moodnames[id],
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );
