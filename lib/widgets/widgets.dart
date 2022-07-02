@@ -109,6 +109,7 @@ class Widgets {
   static Widget getNormalTextH3(String text, BoxConstraints constraints) {
     return Text(
       text,
+      textAlign: TextAlign.center,
       style: const TextStyle(
           fontSize: 15.0, fontWeight: FontWeight.normal, color: Colors.black),
     );
