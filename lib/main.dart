@@ -73,8 +73,8 @@ void callbackDispatcher() {
         (settingHour2 == _now.hour && settingMinute2 <= _now.minute)) {
       if (!isAlredySend) {
         showNotification([
-          "Abstimmen nicht vergessen!",
-          "Bitte trage deine Stimmung ein ;)",
+          "Stimmung eintragen",
+          "nicht vergessen!",
         ], flp);
       } else {
         await setNotification();
@@ -122,8 +122,8 @@ void callbackDispatcher() {
         if (item.avg > 3) {
           print("avg under 3 notifi");
           showNotification([
-            "Achtung - Teamstimmung unter 3!",
-            "Der Teamdurchschnitt im Team ${item.teamname} ist unter 3!",
+            "Achtung - Durchschnitt ist schlecht!",
+            "Der Teamdurchschnitt im Team ${item.teamname} ist schlecht",
           ], flp);
           print("notified");
         }
@@ -132,9 +132,9 @@ void callbackDispatcher() {
         if (item.min >= 5) {
           print("avg under 5 notifi");
           showNotification([
-            "Achtung - Ein Teammitglied hat eine schlechte Stimmung!",
+            "Achtung! - schlechte Stimmung!",
             "Einer im Team ${item
-                .teamname} hat eine Stimmung von 2 oder drunter!",
+                .teamname} hat eine sehr schlechte Stimmung!",
             item.teamid
           ], flp);
         }
