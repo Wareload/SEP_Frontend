@@ -124,10 +124,12 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
 
   Widget getTextByDayWidget() {
     return Text(
-      dateString,
+      Widgets.convertToDisplayDateformat(dateString),
       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
     );
   }
+
+
 
   getColorByMood(double average) {
     if (average == 5) {
@@ -241,6 +243,15 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
       "assets/verybad.png"
     ];
 
+    List moodnames = <String>[
+      "Sehr gut",
+      "Gut",
+      "Okay",
+      "Naja",
+      "Schlecht",
+      "Miserabel"
+    ];
+
     return Container(
       padding: const EdgeInsets.only(left: 5, right: 5),
       child: Column(
@@ -256,6 +267,8 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
           const SizedBox(
             height: 2.0,
           ),
+          Text(moodnames[selectedMood.activeMood]),
+
         ],
       ),
     );

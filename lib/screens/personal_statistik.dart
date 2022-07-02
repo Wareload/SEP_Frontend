@@ -182,7 +182,7 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
   void _goToHistory() {
     isLoading = true;
     Navigator.pushReplacementNamed(context, RouteGenerator.teamHistorie,
-        arguments: {"team": _team, "profile": _profile});
+        arguments: {"tam": _team, "profile": _profile});
   }
 
   Widget getTimeButtons() {
@@ -310,7 +310,7 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
 
   String getDateWithDay(String date) {
     var dateLocal = DateTime.parse(date);
-    return getWeekdayByInt(dateLocal.weekday) + ", " + date;
+    return getWeekdayByInt(dateLocal.weekday) + ", " + Widgets.convertToDisplayDateformat(date);
   }
 
   String getWeekdayByInt(int day) {
@@ -357,6 +357,14 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
       "assets/bad.png",
       "assets/verybad.png"
     ];
+    List moodnames = <String>[
+      "Sehr gut",
+      "Gut",
+      "Okay",
+      "Naja",
+      "Schlecht",
+      "Miserabel"
+    ];
 
     return Container(
       padding: const EdgeInsets.only(left: 5, right: 5),
@@ -373,7 +381,7 @@ class _PersonalStatisticState extends State<PersonalStatistic> {
           const SizedBox(
             height: 2.0,
           ),
-          //Text(moodnames[selectedMood.activeMood]),
+          Text(moodnames[selectedMood.activeMood]),
         ],
       ),
     );
