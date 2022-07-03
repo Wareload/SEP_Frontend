@@ -30,6 +30,7 @@ class _HistorySingleDateState extends State<HistorySingleDate> {
     _profile = profile;
     moods = moodList;
     setState(() {
+      dateString = moods[0].date;
       isLoading = false;
     });
   }

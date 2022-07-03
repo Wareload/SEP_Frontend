@@ -31,7 +31,7 @@ class Widgets {
       int.parse(match.namedGroup('day')!),
     );
 
-    String output=parsedDate.day.toString()+"-"+parsedDate.month.toString()+"-"+parsedDate.year.toString();
+    String output=parsedDate.day.toString()+"."+parsedDate.month.toString()+"."+parsedDate.year.toString();
     return output;
 
   }
