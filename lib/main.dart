@@ -122,8 +122,8 @@ void callbackDispatcher() {
         if (item.avg > 3) {
           print("avg under 3 notifi");
           showNotification([
-            "Achtung - Durchschnitt ist schlecht!",
-            "Der Teamdurchschnitt im Team ${item.teamname} ist schlecht",
+            "Achtung!",
+            "Die Stimmung deines Teams könnte in Gefahr sein!",
           ], flp);
           print("notified");
         }
