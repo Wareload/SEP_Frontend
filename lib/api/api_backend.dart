@@ -14,7 +14,7 @@ import 'package:moody/widgets/widgets.dart';
 
 class ApiBackend implements ApiInterface {
   //api path
-  final String pathUrl = "https://api.bugsbunnies.de";
+  final String pathUrl = "https://moody-backend.bluetree-09e4af2d.germanywestcentral.azurecontainerapps.io";
 
   //account routes
   final String pathAccountLogin = "/account/login";
@@ -543,6 +543,7 @@ class ApiBackend implements ApiInterface {
         var body = json.decode(response.body);
         moodobjects = MoodObject.getSimpleMoodObjects(body["moods"]);
         await updateCookie(response);
+        moodobjects.sort((a, b) => b.date.compareTo(a.date));
         return moodobjects;
       case 400:
         print(response.request);
@@ -583,6 +584,7 @@ class ApiBackend implements ApiInterface {
         var body = json.decode(response.body);
         moodobjects = MoodObject.getSimpleMoodObjects(body["moods"]);
         await updateCookie(response);
+        moodobjects.sort((a, b) => b.date.compareTo(a.date));
         return moodobjects;
       case 400:
         print(response.request);
