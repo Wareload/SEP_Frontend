@@ -50,7 +50,6 @@ List<Team> teams = [];
 Profile _profile = Profile.empty();
 String _invitations = "";
 List<Invitation> invitations = [];
-int teamImageToShow = Random(DateTime.now().millisecond).nextInt(21);
 
 class _TeamOverviewState extends State<TeamOverview> {
   void initData(Profile loadedProfile, List loadedInvitations, List loadedTeams) {
@@ -132,6 +131,7 @@ class _TeamOverviewState extends State<TeamOverview> {
 
   Widget getTeams(BoxConstraints constraints) {
     List<Widget> displayedTeams = [];
+    int teamImageToShow = 0;
     for (var element in teams) {
       displayedTeams.add(
           Widgets.getTeamButton(element.name, "assets/team_images/" + teamImageToShow.toString() + ".jpg", () => _goToTeam(element), constraints));

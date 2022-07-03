@@ -50,8 +50,6 @@ final List teamImagesPaths = <String>[
   "assets/team_images/20.jpg",
 ];
 
-int teamImageToShow = Random(DateTime.now().millisecond).nextInt(21);
-
 class _ProfileOverviewState extends State<ProfileOverview> {
   void apiCalls() async {
     try {
@@ -152,6 +150,7 @@ class _ProfileOverviewState extends State<ProfileOverview> {
 
   Widget _getTeams(constraints) {
     List<Widget> widgets = [];
+    int teamImageToShow = 0;
     for (var element in teams) {
       widgets.add(Widgets.getProfileTeam(element.name, () {
         _goToTeam(element);
